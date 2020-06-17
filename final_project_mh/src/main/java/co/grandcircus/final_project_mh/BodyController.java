@@ -104,7 +104,7 @@ public class BodyController {
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("resultList", resultList);
 		
-		
+		System.out.println(food);
 
 		return "body-page";
 	}
