@@ -33,6 +33,4 @@ build/
 
 ###SRC MAIN IGNORE CONFIG###
 /src/main/resources/config/application.properties
-=======
-src/main/resources/config/application.properties
->>>>>>> Stashed changes
+
