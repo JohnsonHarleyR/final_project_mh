@@ -93,8 +93,17 @@ public class BodyController {
 
 		List<Foods> food = foodTracker.getFoods();
 
+		Integer category = (Integer) session.getAttribute("category");
+		if (category == null) {
+			category = 10;
+		}
+		
+		List<Results> resultList = workoutService.getWorkout(category);
 		model.addAttribute("food", food);
 		model.addAttribute("loggedin", loggedIn);
+		model.addAttribute("resultList", resultList);
+		
+		
 
 		return "body-page";
 	}
