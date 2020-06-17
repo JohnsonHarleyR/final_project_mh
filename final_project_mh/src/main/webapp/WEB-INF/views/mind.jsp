@@ -14,8 +14,10 @@
 </section>
 
 
+<h1>Mind</h1>
+
 <section id="important">
-	<h1><c:out value="${important.title }"></c:out></h1>
+	<h2><c:out value="${important.title }"></c:out></h2>
 <c:out value="${important.description }"></c:out>
 <br>
 <a href="${important.url}">Read Article</a>
@@ -35,7 +37,7 @@
 </section>
 
 <section id="mindfulness">
-	<h1><c:out value="${mindfulness.title }"></c:out></h1>
+	<h2><c:out value="${mindfulness.title }"></c:out></h2>
 <c:out value="${mindfulness.description }"></c:out>
 <br>
 <a href="${mindfulness.url}">Read Article</a>
@@ -57,7 +59,7 @@
 
 <section id="randomized">
 
-<h1><c:out value="${article.title }"></c:out></h1>
+<h2><c:out value="${article.title }"></c:out></h2>
 <c:out value="${article.description }"></c:out>
 <br>
 <a href="${article.url}">Read Article</a>
