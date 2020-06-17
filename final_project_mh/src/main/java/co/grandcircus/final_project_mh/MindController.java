@@ -78,6 +78,12 @@ public class MindController {
 		
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer keywordIndex = (Integer)session.getAttribute("keyword");
+		
+		//Set a default for when session is empty
+		if (keywordIndex == null) {
+			keywordIndex = 4;
+		}
+		
 		//Store article keyword - (currently grabs random)
 		//String keyword = keywords[Math.abs((int)(Math.random() * keywords.length))];
 		String keyword = questionAnswers[keywordIndex];
