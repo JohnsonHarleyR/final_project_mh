@@ -13,11 +13,11 @@
 <%@ include file="partials/header.jsp" %>
 </section>
 
-
+<main class="container">
 <h1>Mind</h1>
 
-<section>
-	<div id="game">
+<section id="game">
+	<div style="width:50%;height:50%;float:right;">
 		<script src="https://cdn.htmlgames.com/embed.js?game=Daily1to25&amp;&amp;bgcolor=white"></script>
 	</div>
 </section>
@@ -85,7 +85,7 @@
 </section>
 
 
-
+</main>
 
 </body>
 </html>
