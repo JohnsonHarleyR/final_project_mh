@@ -58,6 +58,7 @@ public class BodyController {
 
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer category = (Integer) session.getAttribute("category");
+		
 		if (category == null) {
 			category = 10;
 		}

@@ -753,7 +753,7 @@ public class HomeController {
 		dailyQuestion.setInterest(interest);
 		
 		dailyQuestionsRepo.save(dailyQuestion);
-		session.setAttribute("catagory", workoutFocus);
+		session.setAttribute("category", workoutFocus);
 		session.setAttribute("keyword", interest);
 		session.setAttribute("dailyQuestion", dailyQuestion);
 		return "redirect:/";

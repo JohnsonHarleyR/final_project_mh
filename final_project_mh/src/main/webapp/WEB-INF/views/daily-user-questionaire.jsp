@@ -59,6 +59,12 @@
   </label>
   </div>
   <div class="form-check">
+  <input class="form-check-input" type="radio" name="workoutFocus" id="radios5" value="10" >
+  <label class="form-check-label" for="radios5">
+   Abs
+  </label>
+  </div>
+  <div class="form-check">
   <input class="form-check-input" type="radio" name="workoutFocus" id="radios6" value="0" >
   <label class="form-check-label" for="radios6">
    Not Working Out Today
