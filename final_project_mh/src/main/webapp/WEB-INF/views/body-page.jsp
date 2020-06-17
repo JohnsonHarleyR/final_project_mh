@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Insert title here</title>
+<title>Body Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="/style.css" rel="stylesheet" />
 </head>
@@ -16,6 +16,10 @@
 <section class="header">
 <%@ include file="partials/header.jsp" %>
 </section>
+
+<main class="container">
+<h1>Body</h1>
+
 
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -38,10 +42,12 @@
 <div class="tab-content">
   <div class="tab-pane active" id="exercise" role="tabpanel" aria-labelledby="exercise-tab">
   
-  <h1>Enter and exercise: </h1>
+  <h2>Enter an exercise: </h2>
 	<form action = "/body" name = "exerciseForm" method = "post">
 	
-	          <textarea name = "userInput" rows = "3" cols = "80">Your text here</textarea>
+	          <textarea name = "userInput"
+	          placeholder="Your text here" rows = "3" cols = "80"></textarea>
+					<br>
 					<input type="submit" value="Submit">
 	
 	</form>
@@ -54,6 +60,7 @@
 	<input type="hidden" name ="nf_calories" value="${exercise.nf_calories}"/>
 	<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
 	<input type="hidden" name ="name" value="${exercise.name}"/>
+	<br>
 	<button type="submit">Save</button>
 </form>
 <form action="/complete/workout" method="post">	
@@ -70,7 +77,9 @@
   
   <form action = "/body" name = "foodForm" method = "post">
 	
-	          <textarea name = "userInput" rows = "3" cols = "80">Your text here</textarea>
+	          <textarea name = "userInput" placeholder="Your text here"
+	           rows = "3" cols = "80"></textarea>
+	          <br>
 					<input type="submit" value="Submit">
 	
 </form>
@@ -90,7 +99,7 @@
   
   </div>
 </div>
-
+</main>
 
 </body>
 </html>
