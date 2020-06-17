@@ -35,10 +35,29 @@ public class Methods {
 		
 	}
 	
+	//Search Article Description for KeyWords
+	
+	public static boolean isArticleOk(String description) {
+
+		description =  description.toLowerCase();
+
+		String[]words = {"sex", "drugs", "cannabis", "suicide", "death", "politics"
+				,"trump", "democrat", "republican"};
+
+
+		for (int i = 0; i < words.length; i ++)
+		{  if (description.contains(words[i])) {
+
+			return false;
+		}
+		}
+		return true; 
+	}
 	
 	
 	
 	
+
 	//Basic point methods
 	
 	//Save affirmation (or quote)
@@ -175,9 +194,5 @@ public static void addRecordPoints(User user, UserDao repo) {
 		
 	}
 	
-	
-	
-	
-	
-	
+
 }

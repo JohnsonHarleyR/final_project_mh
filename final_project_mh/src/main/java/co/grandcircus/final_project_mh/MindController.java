@@ -101,16 +101,32 @@ public class MindController {
 	    //NEWS API
 
 		
-		Article article1 = newsService.getAArticleByKeyword(keyword);
-	    model.addAttribute("article1", article1);
-	    
-	    Article article2 = article1;
+		Article article1 = null; 
+		
+		//filters description of article for specific keywords if keyword found it 
+		//selects a new article
+		do {
+		
+		article1 = newsService.getAArticleByKeyword(keyword);
+	    //if the article returns back as true the ! allows the do/While to break
+		}while (!Methods.isArticleOk(article1.getDescription()));
+		
+		model.addAttribute("article1", article1);
+		
+	
+		
+	    Article article2 = null;
 	    //to make sure 2 different articles come up
+	    //2nd it compares the article to a preset list of strings to filter for content
 	    do {
+	    do {
+	    	               
 	    	article2 = newsService.getAArticleByKeyword(keyword);
-		    model.addAttribute("article2", article2);
 	    } while (article1.getTitle().equals(article2.getTitle()));
-	    
+	    //if the article returns back as true the ! allows the do/While to break
+	    } while (!Methods.isArticleOk(article2.getDescription()));
+	        model.addAttribute("article2", article2);
+	
 	    
 		//System.out.println(article.toString());
 	    //Testing area - datetime stuff
