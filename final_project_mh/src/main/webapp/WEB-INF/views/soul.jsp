@@ -31,6 +31,8 @@
 <img style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
 <br>
 
+<h1>Soul</h1>
+
 <!-- If user is logged in, show option to save -->
 <c:choose>
 	<c:when test="${!loggedin}">
