@@ -16,6 +16,13 @@
 
 <h1>Mind</h1>
 
+<section>
+	<div id="game">
+		<script src="https://cdn.htmlgames.com/embed.js?game=Daily1to25&amp;&amp;bgcolor=white"></script>
+	</div>
+</section>
+
+
 <section id="important">
 	<h2><c:out value="${important.title }"></c:out></h2>
 <c:out value="${important.description }"></c:out>
