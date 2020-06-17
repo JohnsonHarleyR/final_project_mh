@@ -17,8 +17,8 @@
 <h1>Mind</h1>
 
 <section id="game">
-	<div style="width:50%;height:50%;float:right;">
-		<script src="https://cdn.htmlgames.com/embed.js?game=Daily1to25&amp;&amp;bgcolor=white"></script>
+	<div style="width:55%;height:5%;float:right;padding:10px;">
+		<script src="https://cdn.htmlgames.com/embed.js?game=DailyWordSearch&amp;&amp;bgcolor=white"></script>
 	</div>
 </section>
 
