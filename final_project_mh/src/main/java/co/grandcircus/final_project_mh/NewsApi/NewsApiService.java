@@ -3,6 +3,7 @@ package co.grandcircus.final_project_mh.NewsApi;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,7 +12,8 @@ import org.springframework.web.client.RestTemplate;
 public class NewsApiService {
 
 	private RestTemplate rest = new RestTemplate();
-	private String apiKey = "9f36072691b04780b857f211a9279dad";
+	@Value("${news.api.key}")
+	private String apiKey;
 	private String excludedDomains ="";
 	private String language = "en";
 	private List<Article> getTopNews() {

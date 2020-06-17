@@ -12,6 +12,7 @@
 </head>
 <body>
 
+<main>
 <form method="post">
 <input name= "userId" type="hidden" value="${user.id}" >
  <div class="form-group">
@@ -87,5 +88,7 @@
 
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+</main>
+
 </body>
 </html>
