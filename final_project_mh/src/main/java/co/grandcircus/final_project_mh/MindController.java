@@ -101,13 +101,22 @@ public class MindController {
 	    //NEWS API
 
 		
-		Article article = newsService.getAArticleByKeyword(keyword);
-	    model.addAttribute("article", article);
+		Article article1 = newsService.getAArticleByKeyword(keyword);
+	    model.addAttribute("article1", article1);
+	    
+	    Article article2 = article1;
+	    //to make sure 2 different articles come up
+	    do {
+	    	article2 = newsService.getAArticleByKeyword(keyword);
+		    model.addAttribute("article2", article2);
+	    } while (article1.getTitle().equals(article2.getTitle()));
+	    
+	    
 		//System.out.println(article.toString());
 	    //Testing area - datetime stuff
 	    
 	    //Format datetime
-	    SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy - h:mm a");
+	    //SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy - h:mm a");
 	    //SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 	    
 	    //Different ways to format:
@@ -115,13 +124,13 @@ public class MindController {
 	    //(Question: Is there a necessary format to store it in database?)
 	    
 	    //TimeStamp (NOTE: Import timestamp SQL, not security)
-	    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	    model.addAttribute("time", timestamp);
+	    //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	    //model.addAttribute("time", timestamp);
 	    
 	    //Format timestamp 
 	    //(Do I have to use separate ones, or is there a way to skip line in formatter?)
-        String formatted = sdf.format(timestamp);
-		model.addAttribute("ftime", formatted);
+        //String formatted = sdf.format(timestamp);
+		//model.addAttribute("ftime", formatted);
 		
 		
 		//Add picked articles to page
