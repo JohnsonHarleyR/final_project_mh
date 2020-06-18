@@ -22,6 +22,8 @@ import co.grandcircus.final_project_mh.QuoteApi.QuoteOfTheDayDao;
 import co.grandcircus.final_project_mh.QuoteApi.QuoteService;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
+import co.grandcircus.final_project_mh.YoutubeApi.YoutubeApiService;
 
 @Controller
 public class SoulController {
@@ -40,6 +42,9 @@ public class SoulController {
 	
 	@Autowired
 	private QuoteService quoteService;
+	
+	@Autowired
+	private YoutubeApiService youtubeService;
 	
 	@Autowired
 	private HttpSession session;
@@ -83,6 +88,31 @@ public class SoulController {
 			//Tell the jsp whether it exists or not so that it
 			//knows whether to show the save button
 			model.addAttribute("exists", exists);
+			
+			UserPreferences userPreferences = (UserPreferences) session.getAttribute("userPreferemces");
+			String genre = userPreferences.getMusicGenrePreferences();
+			String q = "";
+			String[] genreArray = genre.split(",");
+			
+			
+			for (int i = 0; i < genreArray.length; i++) {
+				if (i == genreArray.length - 1) {
+					q += genreArray[i];
+				}
+				else {
+					q += genreArray + "%7C";
+				}
+					
+			}
+			
+			
+			String videoId = youtubeService.getRandomVideoIdForVideoDisplay(q);
+			
+			model.addAttribute("videoId",videoId);
+			
+			
+			
+			
 			
 		}
 		//If the user isn't logged in, we don't need to worry about

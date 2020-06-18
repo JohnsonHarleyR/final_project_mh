@@ -14,7 +14,7 @@ public class NewsApiService {
 	private RestTemplate rest = new RestTemplate();
 	@Value("${news.api.key}")
 	private String apiKey;
-	private String excludedDomains ="";
+	private String excludedDomains ="abc.net.au/news,aljazeera.com,arstechnica.com,mashable.com";
 	private String language = "en";
 	private List<Article> getTopNews() {
 		String url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=9f36072691b04780b857f211a9279dad";
