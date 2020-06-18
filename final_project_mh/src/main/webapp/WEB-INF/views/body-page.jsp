@@ -25,6 +25,17 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+<script>
+$(document).ready(function(){
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
+</script>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
@@ -75,7 +86,7 @@
   
   <div class="tab-pane" id="food" role="tabpanel" aria-labelledby="food-tab">
   
-  <form action = "/body" name = "foodForm" method = "post">
+  <form action = "/bodyfood" name = "foodForm" method = "post">
 	
 	          <textarea name = "userInput" placeholder="Your text here"
 	           rows = "3" cols = "80"></textarea>
@@ -84,7 +95,192 @@
 	
 </form>
 <c:forEach var= "foods" items="${food}">
-<h2>Calories: ${foods.nf_calories}</h2>
+
+<section class="performance-facts">
+  <header class="performance-facts__header">
+    <h1 class="performance-facts__title">Nutrition Facts</h1>
+    <p class = "pnutrition"> ${foods.serving_qty} ${foods.serving_unit} ${foods.food_name} </p> 
+  </header>
+ 
+ <table class="performance-facts__table">
+    <thead class = "thnutrition">
+      <tr class = "trnutrition">
+        <th colspan="3" class="small-info">
+          Amount Per Serving
+        </th>
+      </tr>
+    </thead>
+    <tbody class = "bodynutrition">
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Calories</b>
+          ${foods.nf_calories}
+        </th>
+        <td class = "tdnutrition">
+          Calories from Fat
+          130
+        </td>
+      </tr>
+      <tr class="thick-row">
+        <td colspan="3" class="small-info">
+          <b class = "bodynutrition">% Daily Value*</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Total Fat</b>
+          ${foods.nf_total_fat}
+        </th>
+        <td class = "tdnutrition">
+          <b class = "bodynutrition">22%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell">
+        </td>
+        <th class = "thnutrition">
+          Saturated Fat
+          ${foods.nf_saturated_fat}
+        </th>
+        <td class = "tdnutrition">
+          <b>22%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell">
+        </td>
+        <th class = "thnutrition">
+          Trans Fat
+          0
+        </th>
+        <td class = "tdnutrition">
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Cholesterol</b>
+          ${foods.nf_cholesterol}
+        </th>
+        <td class = "tdnutrition">
+          <b class = "bodynutrition">18%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Sodium</b>
+          ${foods.nf_sodium}
+        </th>
+        <td class = "tdnutrition">
+          <b class = "bodynutrition">2%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Total Carbohydrate</b>
+          ${foods.nf_total_carbohydrate}
+        </th>
+        <td class = "tdnutrition">
+          <b class = "bodynutrition">6%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell">
+        </td>
+        <th class = "thnutrition">
+          Dietary Fiber
+          ${foods.nf_dietary_fiber}
+        </th>
+        <td class = "tdnutrition">
+          <b class = "bodynutrition">4%</b>
+        </td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell">
+        </td>
+        <th class = "thnutrition">
+          Sugars
+          ${foods.nf_sugars}
+        </th>
+        <td class = "tdnutrition">
+        </td>
+      </tr>
+      <tr class="thick-end">
+        <th colspan="2" class = "thnutrition">
+          <b class = "bodynutrition">Protein</b>
+          ${foods.nf_protein}
+        </th>
+        <td class = "tdnutrition">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+ 
+ 
+ 
+ 
+  <table class="performance-facts__table--small small-info">
+    <thead>
+      <tr class = "trnutrition">
+        <td colspan="2" class = "tdnutrition"></td>
+        <th class = "thnutrition">Calories:</th>
+        <th class = "thnutrition">2,000</th>
+        <th class = "thnutrition">2,500</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">Total Fat</th>
+        <td class = "tdnutrition">Less than</td>
+        <td class = "tdnutrition">65g</td>
+        <td class = "tdnutrition">80g</td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell"></td>
+        <th class = "tdnutrition">Saturated Fat</th>
+        <td class = "tdnutrition">Less than</td>
+        <td class = "tdnutrition">20g</td>
+        <td class = "tdnutrition">25g</td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">Cholesterol</th>
+        <td class = "tdnutrition">Less than</td>
+        <td class = "tdnutrition">300mg</td>
+        <td class = "tdnutrition">300 mg</td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="2" class = "thnutrition">Sodium</th>
+        <td class = "tdnutrition">Less than</td>
+        <td class = "tdnutrition">2,400mg</td>
+        <td class = "tdnutrition">2,400mg</td>
+      </tr>
+      <tr class = "trnutrition">
+        <th colspan="3" class = "thnutrition">Total Carbohydrate</th>
+        <td class = "tdnutrition">300g</td>
+        <td class = "tdnutrition">375g</td>
+      </tr>
+      <tr class = "trnutrition">
+        <td class="blank-cell"></td>
+        <th colspan="2" class = "thnutrition">Dietary Fiber</th>
+        <td class = "tdnutrition">25g</td>
+        <td class = "tdnutrition">30g</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="small-info">
+    Calories per gram:
+  </p>
+  <p class="small-info text-center">
+    Fat 9
+    &bull;
+    Carbohydrate 4
+    &bull;
+    Protein 4
+  </p>
+
+</section>
 </c:forEach>
   
  
