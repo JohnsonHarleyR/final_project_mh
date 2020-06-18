@@ -61,6 +61,7 @@
    Chest
   </label>
 </div>
+
 <div class="form-check">
   <input class="form-check-input" type="radio" name="workoutFocus" id="radios4" value="12" >
   <label class="form-check-label" for="radios4">
@@ -78,10 +79,15 @@
   <label class="form-check-label" for="radios5">
    Abs
   </label>
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="workoutFocus" id="radios6" value="8" >
+  <label class="form-check-label" for="radios6">Arms
+  </label>
+</div>
   </div>
   <div class="form-check">
-  <input class="form-check-input" type="radio" name="workoutFocus" id="radios6" value="0" >
-  <label class="form-check-label" for="radios6">
+  <input class="form-check-input" type="radio" name="workoutFocus" id="radios7" value="0" >
+  <label class="form-check-label" for="radios7">
    Not Working Out Today
   </label>
 </div>

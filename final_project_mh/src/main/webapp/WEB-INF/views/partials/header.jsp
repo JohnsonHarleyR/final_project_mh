@@ -18,7 +18,10 @@
 <body>
 
 
-<!-- MainBody -->
+
+
+
+
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-custom">
@@ -59,15 +62,38 @@
 		</li>
 		
 		<c:choose>
+		<c:when test='${!loggedin}'>
+			<li class="nav-item">
+			</li>
+		</c:when>
+		<c:when test='${user.requests != ""}'>
+			<li class="nav-item">
+				<a id="requestli" href='/requests' class='nav-link'>
+				Friend Requests</a>
+			</li>
+		</c:when>
+		<c:otherwise>
+			<li class="nav-item">
+			</li>
+		</c:otherwise>
+		</c:choose>
+		
+		<c:choose>
 			<c:when test="${loggedin == false}">
 			</c:when>
 			<c:when test="${loggedin == true}">
 				<li class="nav-item">
 				<a class="nav-link">${user.points} pts</a>
-					
 				</li>
 			</c:when>
 		</c:choose>
+		
+		
+		
+		
+		
+		
+		
 		
 		
 	</ul>

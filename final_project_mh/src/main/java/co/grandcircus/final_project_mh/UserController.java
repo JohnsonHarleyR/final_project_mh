@@ -62,9 +62,11 @@ public class UserController {
 	//Lists all users
 	@RequestMapping("/users")
 	public String userList(Model model) {
+		boolean loggedIn = Methods.checkLogin(session);
 		List<User> users = userRepo.findAll();
 		
 		model.addAttribute("list", users);
+		model.addAttribute("loggedin", loggedIn);
 		
 		return "user-list";
 	}
@@ -82,7 +84,10 @@ public class UserController {
 		
 		if (user != null) {
 			//Get list of request ids
-			List<String> userIds = UserMethods.idStringToList(user.getRequests());
+			List<String> userIds = new ArrayList<>();
+			if (!user.getRequests().equals("")) {
+				userIds = UserMethods.idStringToList(user.getRequests());
+			}
 			//Create list to store users
 			List<User> users = new ArrayList<>();
 			//turn it into a list of users
@@ -95,6 +100,9 @@ public class UserController {
 						User tempUser = optUser.get();
 						users.add(tempUser);
 						
+						System.out.println(user.getRequests());
+						System.out.println(tempUser.getUsername());
+						
 						//if list isn't empty, then there are requests
 						if (!users.isEmpty()) {
 							areRequests = true;
@@ -104,16 +112,22 @@ public class UserController {
 				}
 			}
 			
-			
-			
-			model.addAttribute("requests", areRequests);
-			if (!users.isEmpty() && users != null) {
-				model.addAttribute("list", users);
+			if (userIds.size() != 0) {
+				areRequests = true;
+			} else {
+				areRequests = false;
 			}
 			
 			
+			if (!users.isEmpty() && users != null) {
+				model.addAttribute("list", users);
+				
+			}
+			
+			model.addAttribute("request", areRequests);
 			return "request-list";
 		} else {
+			model.addAttribute("request", areRequests);
 			return "redirect:/";
 		}
 		
@@ -136,12 +150,14 @@ public class UserController {
 		
 		boolean isFriend = false;
 		boolean isRequested = false;
+		boolean acceptRequested = false;
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
 			model.addAttribute("user", loggedUser);
 			isFriend = UserMethods.checkIfFriends(profileUser, loggedUser);
 			isRequested = UserMethods.checkIfRequested(profileUser, loggedUser);
+			acceptRequested = UserMethods.checkIfRequested(loggedUser, profileUser);
 			System.out.println(isFriend);
 		}
 		
@@ -149,6 +165,7 @@ public class UserController {
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
 		model.addAttribute("isrequested", isRequested);
+		model.addAttribute("acceptrequest", acceptRequested);
 		
 		System.out.println(loggedIn);
 		System.out.println(isFriend);
@@ -174,6 +191,9 @@ public class UserController {
 		//Delete
 		UserMethods.deleteFriend(user, friend, userRepo);
 		
+		//Make sure session user is updated
+		session.setAttribute("user", user);
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
@@ -194,6 +214,9 @@ public class UserController {
 		
 		//Send friend request
 		UserMethods.sendRequest(user, friend, userRepo);
+		
+		//Make sure session user is updated
+		session.setAttribute("user", user);
 		
 		return "redirect:/profile?id=" + friendId;
 	}
@@ -216,6 +239,9 @@ public class UserController {
 		//Cancel friend request - order is kinda reversed with requests
 		UserMethods.deleteRequest(friend, user, userRepo);
 		
+		//Make sure session user is updated
+		session.setAttribute("user", user);
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
@@ -236,6 +262,9 @@ public class UserController {
 		
 		//Cancel friend request - order is kinda reversed with requests
 		UserMethods.acceptRequest(user, friend, userRepo);
+		
+		//Make sure session user is updated
+		session.setAttribute("user", user);
 		
 		return "redirect:/profile?id=" + friendId;
 	}
