@@ -68,10 +68,12 @@ public class HomeController {
 	public String displayUserQuestionaire(Model model) {
 		// getting and setting the user attribute to make the session last as long as possible 
 		// and allows the user Id to be passed to the model 
+		boolean loggedIn = Methods.checkLogin(session);
 		User user = (User) session.getAttribute("user");
 		session.setAttribute("user", user);
 		
 		model.addAttribute("user",user);
+		model.addAttribute("loggedin", loggedIn);
 		return "user-questionaire";
 		
 	}
@@ -79,7 +81,10 @@ public class HomeController {
 	@PostMapping("/questionaire")
 	public String saveAndDistributeQuestionaireValues(@RequestParam(value="userId") Long userId, @RequestParam(value="mentalHealth[]") String[] mentalHealth,
 			@RequestParam(value="musicPreferences[]") String[] musicGenres, @RequestParam(value="userWeight") Integer userWeight,
-			@RequestParam(value="userGoalWeight", required = false) Integer userGoalWeight) {
+			@RequestParam(value="userGoalWeight", required = false) Integer userGoalWeight, Model model) {
+		
+		//loggedIn session method for JSP Header
+		boolean loggedIn = Methods.checkLogin(session);
 		
 		// creating a string to store in the database, separated by ,
 		String allMentalIlnesses = "";
@@ -114,6 +119,9 @@ public class HomeController {
 		preferencesRepo.save(userPreferences);
 		
 		session.setAttribute("userPreferences", userPreferences);
+		//header logged in attribute
+		model.addAttribute("loggedin", loggedIn);
+		
 		return "redirect:/dailycheckin";
 		
 	}
@@ -123,13 +131,16 @@ public class HomeController {
 	
 	@RequestMapping("/dailycheckin")
 	public String displayDailyCheckInQuestionaire(Model model){
-	
+	    //loggedIn session method for JSP Header
+		boolean loggedIn = Methods.checkLogin(session);
+		
 		User user = (User) session.getAttribute("user");
 		session.setAttribute("user", user);
 		
 		model.addAttribute("user",user);
 		
-		
+		//header logged in attribute
+		model.addAttribute("loggedin", loggedIn);
 		
 		return "daily-user-questionaire";
 	}
