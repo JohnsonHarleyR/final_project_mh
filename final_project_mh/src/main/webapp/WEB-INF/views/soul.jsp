@@ -87,7 +87,7 @@
 <%--Start of YouTube Player  --%>
 <section >
 <input type="hidden" id="custId" name="custId" value="${videoId}">
-<input type="checkbox" name="vehicle" value="Bike" onclick="javascript:selectVideo();">
+<input type="hidden" name="vehicle" value="Bike" onclick="javascript:selectVideo();">
 <div id="player"></div>
 
     <script>
