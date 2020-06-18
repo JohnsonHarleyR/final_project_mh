@@ -22268,10 +22268,14 @@ nav {
 }
 
 .navbar-custom a:hover {
-	color: #D3D3D3;
+	color: #ffffff;
 }
 
 .navbar-custom a:visited {
+	color: #ffffff;
+}
+
+.navbar-custom a:disabled {
 	color: #ffffff;
 }
 

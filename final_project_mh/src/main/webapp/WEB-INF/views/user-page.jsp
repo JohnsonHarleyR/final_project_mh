@@ -46,7 +46,7 @@
 	
 	<br>
 	<input type="hidden" name="list" value="no"/>
-	<button type="submit">Add</button>
+	<button class="btn btn-info" type="submit">Add</button>
 	</form>
 	<br>
 	<h3>More Positives</h3>
@@ -63,7 +63,7 @@
 	
 	<!-- Form to pass list into "display more" page -->
 	<form action="/list/records" method="post">
-	<button type="submit">See More</button>
+	<button class="btn btn-info" type="submit">See More</button>
 	</form>
 	<br>
 </section>
@@ -85,7 +85,7 @@
 	
 	<!-- Form to pass list into "display more" page -->
 	<form action="/list/affirmations" method="post">
-	<button type="submit">See More</button>
+	<button class="btn btn-info" type="submit">See More</button>
 	</form>
 	<br>
 </section>
@@ -108,7 +108,7 @@
 	
 	<!-- Form to pass list into "display more" page -->
 	<form action="/list/exercises" method="post">
-	<button type="submit">See More</button>
+	<button class="btn btn-info" type="submit">See More</button>
 	</form>
 		<br>
 </section>
@@ -131,7 +131,7 @@
 	
 	<!-- Form to pass list into "display more" page -->
 	<form action="/list/articles" method="post">
-	<button type="submit">See More</button>
+	<button class="btn btn-info" type="submit">See More</button>
 	</form>
 		<br>
 </section>

@@ -83,7 +83,7 @@
 			</c:when>
 			<c:when test="${loggedin == true}">
 				<li class="nav-item">
-				<a class="nav-link">${user.points} pts</a>
+				<a class="nav-link" disabled>${user.points} pts</a>
 				</li>
 			</c:when>
 		</c:choose>

@@ -89,11 +89,29 @@ public class SoulController {
 			//knows whether to show the save button
 			model.addAttribute("exists", exists);
 			
-			UserPreferences userPreferences = (UserPreferences) session.getAttribute("userPreferences");
-			String genre = userPreferences.getMusicGenrePreferences();
+			UserPreferences userPreferences = null;
+			
+			if (session.getAttribute("userPreferences") != null) {
+				userPreferences = (UserPreferences) session.getAttribute("userPreferences");
+			}
+			
+			String genre = ""; 
+			
+			if (userPreferences == null) {
+				genre = "jazz";
+			} else {
+				genre = userPreferences.getMusicGenrePreferences();
+			}
+			
+			if (genre.equals("") || genre == null) {
+				genre = "jazz";
+			}
+			
 			String q = "";
 			String[] genreArray = genre.split(",");
 			System.out.println(genreArray);
+			
+			
 			
 			for (int i = 0; i < genreArray.length; i++) {
 				System.out.println(genreArray[i]);
