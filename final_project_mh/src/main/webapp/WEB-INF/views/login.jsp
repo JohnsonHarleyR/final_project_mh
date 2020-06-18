@@ -61,7 +61,7 @@
 					</tr>
 					<tr>
 					<td>
-					<button id="si" type="submit" class="btn btn-primary btn-lg">Sign In</button>
+					<button id="si" type="submit" class="btn btn-info btn-lg">Sign In</button>
 					
 					</td>
 					</tr>

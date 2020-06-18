@@ -48,11 +48,11 @@ a safe space for you to grow and we are glad you're here!</b>
 <br>
 
 <section>
-<p>
+
 <h2 style="color: #FF0000">Need Help?</h2>
 <a href="/emergency">These services are available 24/7 and free!</a>
-</p>
 
+</section>
 
 </main>
 

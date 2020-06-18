@@ -116,7 +116,7 @@
     <input type="text" name="userGoalWeight" class="form-control" id="FormControlInput3">
   </div>
  
- <button type="submit" class="btn btn-primary">Submit</button>
+ <button type="submit" class="btn btn-info">Submit</button>
 
 
 </form>

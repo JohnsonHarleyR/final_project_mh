@@ -82,7 +82,7 @@
 					
 					<tr>
 					<td>
-					<button id="su" style="float: left" type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+					<button id="su" style="float: left" type="submit" class="btn btn-info btn-lg">Sign Up</button>
 					
 					</td>
 					</tr>
