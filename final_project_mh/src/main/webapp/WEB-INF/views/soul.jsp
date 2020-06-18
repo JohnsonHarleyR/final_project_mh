@@ -78,7 +78,7 @@
 	</c:otherwise>
 </c:choose>
 <%--Start of YouTube Player  --%>
-<input type="hidden" id="custId" name="custId" value="${${videoId}">
+<input type="hidden" id="custId" name="custId" value="${videoId}">
 <input type="checkbox" name="vehicle" value="Bike" onclick="javascript:selectVideo();">
 <div id="player"></div>
 

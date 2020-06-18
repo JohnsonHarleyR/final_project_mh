@@ -36,17 +36,16 @@ public class BodyController {
 
 	@Autowired
 	private UserDao userRepo;
-	
+
 	@Autowired
 	private ExcerciseService excerciseService;
-	
+
 	@Autowired
 	private ExerciseDao exerciseRepo;
-	
+
 	@Autowired
 	private WorkoutService workoutService;
-	
-	
+
 	@Autowired
 	private FoodService foodService;
 
@@ -58,13 +57,13 @@ public class BodyController {
 
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer category = (Integer) session.getAttribute("category");
-		
+
 		if (category == null) {
 			category = 10;
 		}
-		
+
 		List<Results> resultList = workoutService.getWorkout(category);
-		
+
 		model.addAttribute("resultList", resultList);
 		model.addAttribute("loggedin", loggedIn);
 
@@ -80,11 +79,22 @@ public class BodyController {
 
 		List<Exercises> exercises = excerciseTracker.getExercises();
 
+		Integer category = (Integer) session.getAttribute("category");
+
+		if (category == null) {
+			category = 10;
+		}
+
+		List<Results> resultList = workoutService.getWorkout(category);
+
+		model.addAttribute("resultList", resultList);
+
 		model.addAttribute("exercises", exercises);
 		model.addAttribute("loggedin", loggedIn);
 
 		return "body-page";
 	}
+
 	@PostMapping("/bodyfood")
 	public String foodWithInput(Model model, @RequestParam(required = false) String userInput) {
 
@@ -98,7 +108,7 @@ public class BodyController {
 		if (category == null) {
 			category = 10;
 		}
-		
+
 		List<Results> resultList = workoutService.getWorkout(category);
 		model.addAttribute("food", food);
 		model.addAttribute("loggedin", loggedIn);
@@ -106,51 +116,41 @@ public class BodyController {
 
 		return "body-page";
 	}
-	
+
 	@PostMapping("/complete/workout")
-	public String completeWorkout(Model model){
-		User user = (User)session.getAttribute("user");
+	public String completeWorkout(Model model) {
+		User user = (User) session.getAttribute("user");
 		Methods.addWorkoutPoints(user, userRepo);
 		return "redirect:/body";
 	}
-	
+
 	@PostMapping("/save/exercises")
-	public String saveExercises(@RequestParam double nf_calories, double duration_min, String name,
-			Model model) {
-		
+	public String saveExercises(@RequestParam double nf_calories, double duration_min, String name, Model model) {
+
 		boolean loggedIn = Methods.checkLogin(session);
-		
-		
+
 		if (!loggedIn) {
 			model.addAttribute("loggedin", loggedIn);
 		} else {
-		
-			//Get user
-			User user = (User)session.getAttribute("user");
-			
-		
-				
-				//Create values for affirmation
-				//Date from timestamp
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				Date date=new Date(timestamp.getTime());
-				
-				
-				FavExercises favorite = 
-						new FavExercises(date, nf_calories, duration_min, name, user.getId());
-				//Save to favorite
-				System.out.println(favorite);
-				exerciseRepo.save(favorite);
-				Methods.addExercisePoints(user, userRepo);
-			}
-			
-		
-		//Find way to let user know if their save was successful
-		
+
+			// Get user
+			User user = (User) session.getAttribute("user");
+
+			// Create values for affirmation
+			// Date from timestamp
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			Date date = new Date(timestamp.getTime());
+
+			FavExercises favorite = new FavExercises(date, nf_calories, duration_min, name, user.getId());
+			// Save to favorite
+			System.out.println(favorite);
+			exerciseRepo.save(favorite);
+			Methods.addExercisePoints(user, userRepo);
+		}
+
+		// Find way to let user know if their save was successful
+
 		return "redirect:/body";
 	}
-	
-	
-	
 
 }
