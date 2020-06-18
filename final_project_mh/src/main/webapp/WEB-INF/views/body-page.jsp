@@ -268,11 +268,11 @@
 		    Calories per gram:
 		  </p>
 		  <p class="small-info text-center">
-		    Fat 9
+		    Fat ${foods.nf_total_fat}
 		    &bull;
-		    Carbohydrate 4
+		    Carbohydrate ${foods.nf_total_carbohydrate}
 		    &bull;
-		    Protein 4
+		    Protein ${foods.nf_total_fat}
 		  </p>
 		</section>
 		</c:forEach>
