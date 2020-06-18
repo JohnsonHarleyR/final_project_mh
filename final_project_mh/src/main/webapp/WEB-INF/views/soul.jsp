@@ -28,7 +28,8 @@
 <main class="container">
 
 <!-- Let's try kittens - kitten api -->
-<img style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
+<img id="kitten" style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
+
 <br>
 
 <h1>Soul</h1>
