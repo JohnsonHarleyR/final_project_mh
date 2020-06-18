@@ -28,12 +28,13 @@
 <h1>List of All Users</h1>
 
 <ul>
-	<li>
-		<c:forEach var="user" items="${list}">
-		${user.username} - <a href="/profile?id=${user.id}">See profile</a>
-		<br>
-		</c:forEach>
-	</li>
+	<c:forEach var="user" items="${list}">
+		<li>
+			${user.username} - <a href="/profile?id=${user.id}">See profile</a>
+			<br>
+		</li>
+	</c:forEach>
+	
 </ul>
 
 </main>

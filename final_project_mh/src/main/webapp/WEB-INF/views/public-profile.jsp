@@ -39,6 +39,9 @@
 						You are friends! 
 						(<a href="/delete/friend?user=${user.id}&friend=${profileuser.id}">Remove</a>)
 					</c:when>
+					<c:when test="${acceptrequest == true}">
+						<a href="/accept/request?user=${user.id}&friend=${profileuser.id}">Accept Request</a>
+					</c:when>
 					<c:when test="${isrequested == true}">
 						<a href="/cancel/request?user=${user.id}&friend=${profileuser.id}">Cancel Request</a>
 					</c:when>

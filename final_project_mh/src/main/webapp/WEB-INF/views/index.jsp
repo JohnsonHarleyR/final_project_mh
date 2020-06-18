@@ -39,6 +39,12 @@ also find social support from others who understand what you are going through. 
 a safe space for you to grow and we are glad you're here!</b>
 </p>
 
+<c:if test="${loggedin}">
+<p>
+<a href="/users">See Users</a>
+</p>
+</c:if>
+
 <br>
 
 <section>

@@ -28,7 +28,7 @@
 <h1>Friend Requests</h1>
 
 <c:choose>
-<c:when test="${requests == true}">
+<c:when test="${request}">
 These users want to be your friend!
 <br><br>
 <ul>
