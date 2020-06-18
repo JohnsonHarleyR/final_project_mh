@@ -35,6 +35,7 @@
 <h1>Soul</h1>
 
 <!-- If user is logged in, show option to save -->
+<section id="affirmation" style="font-size:larger" >
 <c:choose>
 	<c:when test="${!loggedin}">
 		${affirmation}
@@ -48,16 +49,18 @@
 			<br>
 			<input type="hidden" name="affirmation" 
 			value="${affirmation}"/>
-			<button type="submit">Save</button>
+			<button class="btn btn-info" type="submit">Save</button>
 		</form>
 	</c:otherwise>
 </c:choose>
+</section>
 
 <br>
 <br>
 
 <!-- Do it with the quote nows -->
 <!-- If user is logged in, show option to save -->
+<section id="quote" style="font-size:larger">
 <c:choose>
 	<c:when test="${loggedin == false}">
 		${quote.quote}
@@ -74,11 +77,15 @@
 			<br>
 			<input type="hidden" name="affirmation" 
 			value="${quotestring}"/>
-			<button type="submit">Save</button>
+			<button class="btn btn-info" type="submit">Save</button>
 		</form>
 	</c:otherwise>
 </c:choose>
+</section>
+
+
 <%--Start of YouTube Player  --%>
+<section >
 <input type="hidden" id="custId" name="custId" value="${videoId}">
 <input type="checkbox" name="vehicle" value="Bike" onclick="javascript:selectVideo();">
 <div id="player"></div>
@@ -127,6 +134,8 @@
       
       
     </script>
+    
+ </section>
 
 </main>
 
