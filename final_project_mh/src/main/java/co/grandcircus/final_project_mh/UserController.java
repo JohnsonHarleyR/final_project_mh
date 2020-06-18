@@ -2,8 +2,10 @@ package co.grandcircus.final_project_mh;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +27,7 @@ import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 
 @Controller
@@ -54,10 +57,174 @@ public class UserController {
 	private String editMessage = "Edit your user info here.";
 	
 	
+	// PROFILE AND FRIEND PAGES
+	
+	//Lists all users
+	@RequestMapping("/users")
+	public String userList(Model model) {
+		List<User> users = userRepo.findAll();
+		
+		model.addAttribute("list", users);
+		
+		return "user-list";
+	}
+	
+	//List all requests
+	@RequestMapping("/requests")
+	public String requestList(Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		model.addAttribute("loggedin", loggedIn);
+		
+		if (user != null) {
+			//Get list of request ids
+			List<String> userIds = UserMethods.idStringToList(user.getRequests());
+			//Create list to store users
+			List<User> users = new ArrayList<>();
+			//turn it into a list of users
+			for (String id: userIds) {
+				int iId = Integer.parseInt(id);
+				long lId = iId;
+				Optional<User> optUser = userRepo.findById(lId);
+				User tempUser = optUser.get();
+				users.add(tempUser);
+			}
+			
+			model.addAttribute("list", users);
+			
+			return "request-list";
+		} else {
+			return "redirect:/";
+		}
+		
+	}
+	
+	//User public profile
+	@RequestMapping("/profile")
+	public String profilePage(
+			@RequestParam("id") long id,
+			Model model) {
+		
+		Optional<User> optUser = userRepo.findById(id);
+		User profileUser = optUser.get();
+		
+		//test
+		System.out.println(profileUser.getUsername()); //so this part works
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User loggedUser = (User)session.getAttribute("user");
+		
+		boolean isFriend = false;
+		boolean isRequested = false;
+		
+		if (loggedUser != null) {
+			model.addAttribute("user", loggedUser);
+			isFriend = UserMethods.checkIfFriends(profileUser, loggedUser);
+			isRequested = UserMethods.checkIfRequested(profileUser, loggedUser);
+			System.out.println(isFriend);
+		}
+		
+		model.addAttribute("loggedin", loggedIn);
+		model.addAttribute("profileuser", profileUser);
+		model.addAttribute("isfriend", isFriend);	
+		model.addAttribute("isrequested", isRequested);
+		
+		System.out.println(loggedIn);
+		System.out.println(isFriend);
+		
+		return "public-profile";
+	}
+	
+	//Delete friend
+	@RequestMapping("/delete/friend")
+	public String deleteFriend(
+			@RequestParam("user") long userId,
+			@RequestParam("friend") long friendId,
+			Model model) {
+		
+		//Store user
+		Optional<User> optUser = userRepo.findById(userId);
+		User user = optUser.get();
+		
+		//Store friend
+		Optional<User> optFriend = userRepo.findById(friendId);
+		User friend = optFriend.get();
+		
+		//Delete
+		UserMethods.deleteFriend(user, friend, userRepo);
+		
+		return "redirect:/profile?id=" + friendId;
+	}
+	
+	//Request friendship
+	@RequestMapping("/add/friend")
+	public String requestFriendship(
+			@RequestParam("user") long userId,
+			@RequestParam("friend") long friendId,
+			Model model) {
+		
+		//Store user
+		Optional<User> optUser = userRepo.findById(userId);
+		User user = optUser.get();
+		
+		//Store friend
+		Optional<User> optFriend = userRepo.findById(friendId);
+		User friend = optFriend.get();
+		
+		//Send friend request
+		UserMethods.sendRequest(user, friend, userRepo);
+		
+		return "redirect:/profile?id=" + friendId;
+	}
+	
+	//Cancel friend request
+	@RequestMapping("/cancel/request")
+	public String cancelRequest(
+			@RequestParam("user") long userId,
+			@RequestParam("friend") long friendId,
+			Model model) {
+		
+		//Store user
+		Optional<User> optUser = userRepo.findById(userId);
+		User user = optUser.get();
+		
+		//Store friend
+		Optional<User> optFriend = userRepo.findById(friendId);
+		User friend = optFriend.get();
+		
+		//Cancel friend request - order is kinda reversed with requests
+		UserMethods.deleteRequest(friend, user, userRepo);
+		
+		return "redirect:/profile?id=" + friendId;
+	}
+	
+	//Cancel friend request
+	@RequestMapping("/accept/request")
+	public String acceptRequest(
+			@RequestParam("user") long userId,
+			@RequestParam("friend") long friendId,
+			Model model) {
+		
+		//Store user
+		Optional<User> optUser = userRepo.findById(userId);
+		User user = optUser.get();
+		
+		//Store friend
+		Optional<User> optFriend = userRepo.findById(friendId);
+		User friend = optFriend.get();
+		
+		//Cancel friend request - order is kinda reversed with requests
+		UserMethods.acceptRequest(user, friend, userRepo);
+		
+		return "redirect:/profile?id=" + friendId;
+	}
+	
+	
 	// USER PAGES
 	
-	
-	//User profile/favorites page
+	//Logged user profile/favorites page
 	@RequestMapping("/user")
 	public String userPage(Model model) {
 		

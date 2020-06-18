@@ -1,9 +1,5 @@
 package co.grandcircus.final_project_mh;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,21 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestions;
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestionsDao;
-import co.grandcircus.final_project_mh.Favorites.AffirmationDao;
-import co.grandcircus.final_project_mh.Favorites.ArticleDao;
-import co.grandcircus.final_project_mh.Favorites.ExerciseDao;
-import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
-import co.grandcircus.final_project_mh.Favorites.FavArticle;
-import co.grandcircus.final_project_mh.Favorites.FavExercises;
-import co.grandcircus.final_project_mh.Favorites.Record;
-import co.grandcircus.final_project_mh.Favorites.RecordDao;
-import co.grandcircus.final_project_mh.QuoteApi.QuoteService;
 import co.grandcircus.final_project_mh.User.User;
-import co.grandcircus.final_project_mh.User.UserDao;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferencesDao;
 
