@@ -46,7 +46,7 @@
 	    <a class="nav-link" id="food-tab" data-toggle="tab" href="#food" role="tab" aria-controls="food" aria-selected="false">Nutrition</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" id="workout-tab" data-toggle="tab" href="#workout" role="tab" aria-controls="workout" aria-selected="false">Curated Workouts</a>
+	    <a class="nav-link" id="workout-tab" data-toggle="tab" href="#workout" role="tab" aria-controls="workout" aria-selected="false">Daily Workouts</a>
 	  </li>
 	</ul>
 
@@ -60,7 +60,7 @@
 		          <textarea name = "userInput"
 		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
 						<br>
-						<input type="submit" value="Submit">
+						<input type="submit" value="Submit" class = "btn btn-info">
 		
 		</form>
 
@@ -75,7 +75,7 @@
 				<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
 				<input type="hidden" name ="name" value="${exercise.name}"/>
 				<br>
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-info">I did this!</button>
 				</form>
 				
 				</div>
@@ -91,7 +91,7 @@
 	          <textarea name = "userInput" placeholder="Your text here"
 	           rows = "3" cols = "80"></textarea>
 	          <br>
-					<input type="submit" value="Submit">
+					<input type="submit" value="Submit" class = "btn btn-info">
 	
   </form>
 		<c:forEach var= "foods" items="${food}">
@@ -122,8 +122,9 @@
 		        </td>
 		      </tr>
 		      <tr class="thick-row">
-		        <td colspan="3" class="small-info">
-		          <b class = "bodynutrition">% Daily Value*</b>
+		      
+		        <td colspan="2" class="small-info">
+		          <b class = "bodynutrition" >		% Daily Value*</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
@@ -264,9 +265,6 @@
 		    </tbody>
 		  </table>
 		
-		  <p class="small-info">
-		    Calories per gram:
-		  </p>
 		  <p class="small-info text-center">
 		    Fat ${foods.nf_total_fat}
 		    &bull;
