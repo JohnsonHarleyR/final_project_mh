@@ -7,85 +7,85 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Body Page</title>
+	<title>Body Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="/style.css" rel="stylesheet" />
 </head>
-<body>
+	
+	<body>
 
-<section class="header">
-<%@ include file="partials/header.jsp" %>
-</section>
+	<section class="header">
+	<%@ include file="partials/header.jsp" %>
+	</section>
 
 <main class="container">
-<h1>Body</h1>
+	<h1>Body</h1>
 
 
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-<script>
-$(document).ready(function(){
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
-    });
-    var activeTab = localStorage.getItem('activeTab');
-    if(activeTab){
-        $('#myTab a[href="' + activeTab + '"]').tab('show');
-    }
-});
-</script>
+	<script>
+	$(document).ready(function(){
+	    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+	        localStorage.setItem('activeTab', $(e.target).attr('href'));
+	    });
+	    var activeTab = localStorage.getItem('activeTab');
+	    if(activeTab){
+	        $('#myTab a[href="' + activeTab + '"]').tab('show');
+	    }
+	});
+	</script>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link" id="exercise-tab" data-toggle="tab" href="#exercise" role="tab" aria-controls="exercise" aria-selected="true">Exercise</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="food-tab" data-toggle="tab" href="#food" role="tab" aria-controls="food" aria-selected="false">Nutrition</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="workout-tab" data-toggle="tab" href="#workout" role="tab" aria-controls="workout" aria-selected="false">Curated Workouts</a>
-  </li>
-</ul>
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
+	  <li class="nav-item">
+	    <a class="nav-link" id="exercise-tab" data-toggle="tab" href="#exercise" role="tab" aria-controls="exercise" aria-selected="true">Exercise</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" id="food-tab" data-toggle="tab" href="#food" role="tab" aria-controls="food" aria-selected="false">Nutrition</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" id="workout-tab" data-toggle="tab" href="#workout" role="tab" aria-controls="workout" aria-selected="false">Curated Workouts</a>
+	  </li>
+	</ul>
 
 <!-- Tab panes -->
-<div class="tab-content">
-  <div class="tab-pane active" id="exercise" role="tabpanel" aria-labelledby="exercise-tab">
-  
-  <h2>Enter an exercise: </h2>
-	<form action = "/body" name = "exerciseForm" method = "post">
-	
-	          <textarea name = "userInput"
-	          placeholder="Your text here" rows = "3" cols = "80"></textarea>
-					<br>
-					<input type="submit" value="Submit">
-	
-	</form>
+	<div class="tab-content">
+	  <div class="tab-pane active" id="exercise" role="tabpanel" aria-labelledby="exercise-tab">
+	  
+	  <h3>Enter an exercise such as "ran 3 miles in 30 mins" to calculate calories burned: </h3>
+		<form action = "/body" name = "exerciseForm" method = "post">
+		
+		          <textarea name = "userInput"
+		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
+						<br>
+						<input type="submit" value="Submit">
+		
+		</form>
 
-<c:forEach var= "exercise" items="${exercises}">
-<h2>Total Calories burned: ${exercise.nf_calories}</h2>
-<h2>Time in minutes: ${exercise.duration_min}</h2>
-<h2>Exercise name : ${exercise.name}</h2>
-<form action="/save/exercises" method="post">	
-	<input type="hidden" name ="nf_calories" value="${exercise.nf_calories}"/>
-	<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
-	<input type="hidden" name ="name" value="${exercise.name}"/>
-	<br>
-	<button type="submit">Save</button>
-</form>
-<form action="/complete/workout" method="post">	
-	<button type="submit">I did this</button>
-</form>
-</c:forEach>
+			<c:forEach var= "exercise" items="${exercises}">
+			<div class="card w-100">
+			 	<div class="card-body">
+				<h5 class = "card-title"> ${exercise.name} </h5>
+				<p class = "card-text" >You burned ${exercise.nf_calories} calories in ${exercise.duration_min} minutes </p>
+				
+				<form action="/save/exercises" method="post">	
+				<input type="hidden" name ="nf_calories" value="${exercise.nf_calories}"/>
+				<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
+				<input type="hidden" name ="name" value="${exercise.name}"/>
+				<br>
+				<button type="submit" class="btn btn-primary">Save</button>
+				</form>
+				
+				</div>
+			</div>
+			</c:forEach>
+		</div>
   
   
-  
-  </div>
-  
-  
-  <div class="tab-pane" id="food" role="tabpanel" aria-labelledby="food-tab">
-  
+<div class="tab-pane" id="food" role="tabpanel" aria-labelledby="food-tab">
+ <h3>Enter food items such as "2 eggs and a slice of white toast" to calculate the nutrition facts: </h3>  
   <form action = "/bodyfood" name = "foodForm" method = "post">
 	
 	          <textarea name = "userInput" placeholder="Your text here"
@@ -93,209 +93,202 @@ $(document).ready(function(){
 	          <br>
 					<input type="submit" value="Submit">
 	
-</form>
-<c:forEach var= "foods" items="${food}">
-
-<section class="performance-facts">
-  <header class="performance-facts__header">
-    <h1 class="performance-facts__title">Nutrition Facts</h1>
-    <p class = "pnutrition"> ${foods.serving_qty} ${foods.serving_unit} ${foods.food_name} </p> 
-  </header>
- 
- <table class="performance-facts__table">
-    <thead class = "thnutrition">
-      <tr class = "trnutrition">
-        <th colspan="3" class="small-info">
-          Amount Per Serving
-        </th>
-      </tr>
-    </thead>
-    <tbody class = "bodynutrition">
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Calories</b>
-          ${foods.nf_calories}
-        </th>
-        <td class = "tdnutrition">
-          Calories from Fat
-          130
-        </td>
-      </tr>
-      <tr class="thick-row">
-        <td colspan="3" class="small-info">
-          <b class = "bodynutrition">% Daily Value*</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Total Fat</b>
-          ${foods.nf_total_fat}
-        </th>
-        <td class = "tdnutrition">
-          <b class = "bodynutrition">22%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell">
-        </td>
-        <th class = "thnutrition">
-          Saturated Fat
-          ${foods.nf_saturated_fat}
-        </th>
-        <td class = "tdnutrition">
-          <b>22%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell">
-        </td>
-        <th class = "thnutrition">
-          Trans Fat
-          0
-        </th>
-        <td class = "tdnutrition">
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Cholesterol</b>
-          ${foods.nf_cholesterol}
-        </th>
-        <td class = "tdnutrition">
-          <b class = "bodynutrition">18%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Sodium</b>
-          ${foods.nf_sodium}
-        </th>
-        <td class = "tdnutrition">
-          <b class = "bodynutrition">2%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Total Carbohydrate</b>
-          ${foods.nf_total_carbohydrate}
-        </th>
-        <td class = "tdnutrition">
-          <b class = "bodynutrition">6%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell">
-        </td>
-        <th class = "thnutrition">
-          Dietary Fiber
-          ${foods.nf_dietary_fiber}
-        </th>
-        <td class = "tdnutrition">
-          <b class = "bodynutrition">4%</b>
-        </td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell">
-        </td>
-        <th class = "thnutrition">
-          Sugars
-          ${foods.nf_sugars}
-        </th>
-        <td class = "tdnutrition">
-        </td>
-      </tr>
-      <tr class="thick-end">
-        <th colspan="2" class = "thnutrition">
-          <b class = "bodynutrition">Protein</b>
-          ${foods.nf_protein}
-        </th>
-        <td class = "tdnutrition">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
- 
- 
- 
- 
-  <table class="performance-facts__table--small small-info">
-    <thead>
-      <tr class = "trnutrition">
-        <td colspan="2" class = "tdnutrition"></td>
-        <th class = "thnutrition">Calories:</th>
-        <th class = "thnutrition">2,000</th>
-        <th class = "thnutrition">2,500</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">Total Fat</th>
-        <td class = "tdnutrition">Less than</td>
-        <td class = "tdnutrition">65g</td>
-        <td class = "tdnutrition">80g</td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell"></td>
-        <th class = "tdnutrition">Saturated Fat</th>
-        <td class = "tdnutrition">Less than</td>
-        <td class = "tdnutrition">20g</td>
-        <td class = "tdnutrition">25g</td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">Cholesterol</th>
-        <td class = "tdnutrition">Less than</td>
-        <td class = "tdnutrition">300mg</td>
-        <td class = "tdnutrition">300 mg</td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="2" class = "thnutrition">Sodium</th>
-        <td class = "tdnutrition">Less than</td>
-        <td class = "tdnutrition">2,400mg</td>
-        <td class = "tdnutrition">2,400mg</td>
-      </tr>
-      <tr class = "trnutrition">
-        <th colspan="3" class = "thnutrition">Total Carbohydrate</th>
-        <td class = "tdnutrition">300g</td>
-        <td class = "tdnutrition">375g</td>
-      </tr>
-      <tr class = "trnutrition">
-        <td class="blank-cell"></td>
-        <th colspan="2" class = "thnutrition">Dietary Fiber</th>
-        <td class = "tdnutrition">25g</td>
-        <td class = "tdnutrition">30g</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p class="small-info">
-    Calories per gram:
-  </p>
-  <p class="small-info text-center">
-    Fat 9
-    &bull;
-    Carbohydrate 4
-    &bull;
-    Protein 4
-  </p>
-
-</section>
-</c:forEach>
-  
- 
+  </form>
+		<c:forEach var= "foods" items="${food}">
+		
+		<section class="performance-facts">
+		  <header class="performance-facts__header">
+		    <h1 class="performance-facts__title">Nutrition Facts</h1>
+		    <p class = "pnutrition"> ${foods.serving_qty} ${foods.serving_unit} ${foods.food_name} </p> 
+		  </header>
+		 
+		 <table class="performance-facts__table">
+		    <thead class = "thnutrition">
+		      <tr class = "trnutrition">
+		        <th colspan="3" class="small-info">
+		          Amount Per Serving
+		        </th>
+		      </tr>
+		    </thead>
+		    <tbody class = "bodynutrition">
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Calories</b>
+		          ${foods.nf_calories}
+		        </th>
+		        <td class = "tdnutrition">
+		          Calories from Fat
+		          130
+		        </td>
+		      </tr>
+		      <tr class="thick-row">
+		        <td colspan="3" class="small-info">
+		          <b class = "bodynutrition">% Daily Value*</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Total Fat</b>
+		          ${foods.nf_total_fat}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">22%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Saturated Fat
+		          ${foods.nf_saturated_fat}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b>22%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Trans Fat
+		          0
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Cholesterol</b>
+		          ${foods.nf_cholesterol}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">18%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Sodium</b>
+		          ${foods.nf_sodium}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">2%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Total Carbohydrate</b>
+		          ${foods.nf_total_carbohydrate}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">6%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Dietary Fiber
+		          ${foods.nf_dietary_fiber}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">4%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Sugars
+		          ${foods.nf_sugars}
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		      <tr class="thick-end">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Protein</b>
+		          ${foods.nf_protein}
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		  <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+		  <table class="performance-facts__table--small small-info">
+		    <thead>
+		      <tr class = "trnutrition">
+		        <td colspan="2" class = "tdnutrition"></td>
+		        <th class = "thnutrition">Calories:</th>
+		        <th class = "thnutrition">2,000</th>
+		        <th class = "thnutrition">2,500</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Total Fat</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">65g</td>
+		        <td class = "tdnutrition">80g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell"></td>
+		        <th class = "tdnutrition">Saturated Fat</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">20g</td>
+		        <td class = "tdnutrition">25g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Cholesterol</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">300mg</td>
+		        <td class = "tdnutrition">300 mg</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Sodium</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">2,400mg</td>
+		        <td class = "tdnutrition">2,400mg</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="3" class = "thnutrition">Total Carbohydrate</th>
+		        <td class = "tdnutrition">300g</td>
+		        <td class = "tdnutrition">375g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell"></td>
+		        <th colspan="2" class = "thnutrition">Dietary Fiber</th>
+		        <td class = "tdnutrition">25g</td>
+		        <td class = "tdnutrition">30g</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		
+		  <p class="small-info">
+		    Calories per gram:
+		  </p>
+		  <p class="small-info text-center">
+		    Fat 9
+		    &bull;
+		    Carbohydrate 4
+		    &bull;
+		    Protein 4
+		  </p>
+		</section>
+		</c:forEach>
   </div>
-  <div class="tab-pane" id="workout" role="tabpanel" aria-labelledby="workout-tab">
-  
-  <c:forEach var= "result" items="${resultList}">
-<h3>${result.name}</h3>
-<p>${result.description}</p>
 
-</c:forEach>
-  
-  </div>
+<div class="tab-pane" id="workout" role="tabpanel" aria-labelledby="workout-tab">
+	<c:forEach var= "result" items="${resultList}">
+		<div class="card w-100">
+	  		<div class="card-body">
+				<h3 class = "card-title">${result.name}</h3>
+				<p class = "card-body">${result.description}</p>
+			</div>
+		</div>
+	</c:forEach>  
+</div>
 </div>
 </main>
-
 </body>
 </html>
