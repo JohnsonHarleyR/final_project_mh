@@ -137,6 +137,7 @@ public class UserController {
 		boolean isFriend = false;
 		boolean isRequested = false;
 		
+		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
 			model.addAttribute("user", loggedUser);
 			isFriend = UserMethods.checkIfFriends(profileUser, loggedUser);

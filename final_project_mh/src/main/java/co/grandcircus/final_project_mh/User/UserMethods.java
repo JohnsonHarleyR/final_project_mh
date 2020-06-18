@@ -89,8 +89,9 @@ public class UserMethods {
 		final int MAX_FRIENDS = 500; //determined by varchar length in SQL table
 		
 		//test
-		System.out.println(user.getUsername());
-		System.out.println(friend.getUsername());
+		System.out.println("\nSending request");
+		System.out.println("User: " + user.getUsername());
+		System.out.println("Friend: " + friend.getUsername());
 		
 		//if their requests and friends does not contain user's id, and they don't
 		//have too many requests, and user isn't at friend limit, then proceed
@@ -101,11 +102,20 @@ public class UserMethods {
 			
 			//add user's id to their request list
 			//if it's the first request, don't add a comma
+			String requestString = "";
 			if (friend.getRequests().contentEquals("")) {
-				friend.setRequests(user.getId().toString());
+				requestString = user.getId().toString();
 			} else {
-				friend.setRequests(friend.getRequests() + "," + user.getId());
+				requestString = friend.getRequests() + "," + user.getId();
 			}
+			System.out.println("\nAdding request to string...");
+			System.out.println("New request string: " + requestString);
+			
+			//Set their request list
+			System.out.println("\nChanging friend's request string to new string");
+			friend.setRequests(requestString);
+			
+			System.out.println("New possible friend's request string: " + friend.getRequests());
 			
 			//update friend
 			repo.save(friend);
@@ -170,25 +180,38 @@ public class UserMethods {
 	
 	
 	//Delete request
+	//deletes request from the USER'S request list
 	public static void deleteRequest(User user, User friend, UserDao repo) {
 		//Get list of requests
-		List<String> requestIds = idStringToList(friend.getRequests());
+		List<String> requestIds = idStringToList(user.getRequests());
+		System.out.println("Request list: " + requestIds);
 		
 		//loop through list, remove matching id
 		if (!requestIds.isEmpty() && requestIds != null) {
 			for (String id: requestIds) {
-				if (id.equals(friend.getId().toString())) {
-					System.out.println(id);
+				if (id.equals(friend.getId() + "")) {
+					System.out.println("removed:" + id);
+					System.out.println("removed from:" + user.getId());
 					requestIds.remove(id);
+					System.out.println("Request list after removal: " + requestIds);
+					break;
 				}
 			}
 		}
+		System.out.println("Request list after loop: " + requestIds);
 		
 		//Turn list back into a string
-		String idString = idListToString(requestIds);
+		String idString = "";
+		
+		if (!requestIds.isEmpty() || requestIds != null) {
+			idString = idListToString(requestIds);
+		}
+		System.out.println("New request string: " + idString);
 		
 		//set user's request string to idString
 		user.setRequests(idString);
+		
+		System.out.println("New requests in SQL: " + user.getRequests());
 		
 		//Save the user
 		repo.save(user);
@@ -217,7 +240,7 @@ public class UserMethods {
 	//Turn string of ids into list
 	public static List<String> idStringToList(String string) {
 		List<String> list = new ArrayList<>();
-		if (string != "") {
+		if (string != "" && string != null) {
 			String[] array = string.split(",");
 			
 			//turn array into list
