@@ -89,22 +89,23 @@ public class SoulController {
 			//knows whether to show the save button
 			model.addAttribute("exists", exists);
 			
-			UserPreferences userPreferences = (UserPreferences) session.getAttribute("userPreferemces");
+			UserPreferences userPreferences = (UserPreferences) session.getAttribute("userPreferences");
 			String genre = userPreferences.getMusicGenrePreferences();
 			String q = "";
 			String[] genreArray = genre.split(",");
-			
+			System.out.println(genreArray);
 			
 			for (int i = 0; i < genreArray.length; i++) {
+				System.out.println(genreArray[i]);
 				if (i == genreArray.length - 1) {
 					q += genreArray[i];
 				}
 				else {
-					q += genreArray + "%7C";
+					q += genreArray[i] + "|";
 				}
 					
 			}
-			
+			System.out.println(q);
 			
 			String videoId = youtubeService.getRandomVideoIdForVideoDisplay(q);
 			

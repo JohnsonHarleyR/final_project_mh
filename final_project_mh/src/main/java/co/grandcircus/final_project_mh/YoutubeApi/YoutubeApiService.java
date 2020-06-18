@@ -1,5 +1,6 @@
 package co.grandcircus.final_project_mh.YoutubeApi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,14 +16,20 @@ public class YoutubeApiService {
 	private String apiKey;
 	private String part = "snippet";
 	private String type = "video";
-	public String getRandomVideoIdForVideoDisplay(String q) {
-	String url = "https://www.googleapis.com/youtube/v3/search?key" + apiKey +
-			"&part=" + part + "&q=" + q + "&type=" + type;
 	
-	YoutubeApiResponse response = rest.getForObject(url, YoutubeApiResponse.class);
-		
+	public String getRandomVideoIdForVideoDisplay(String q) {
+	String url = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey +
+			"&part=" + part + "&q=" + q + "&type=" + type;
+	System.out.println(url);
+	
+	YoutubeApiResponse response;
+	response = rest.getForObject(url, YoutubeApiResponse.class);
+	
+	System.out.println(response);	
+	
 	List<Item> items = response.getItems();
-	List<String> videoIds = null;
+	System.out.println("items: " + items.get(0));
+	List<String> videoIds = new ArrayList<>();
 	
 	for (Item item: items) {
 		String videoId = item.getId().getVideoId();
@@ -32,8 +39,8 @@ public class YoutubeApiService {
 	Random rand = new Random();
 	
     int length = videoIds.size();
-	
-    int videoIdNumber = rand.nextInt(length);
+	System.out.println(length);
+    int videoIdNumber = rand.nextInt(length + 1);
 		
 	String selectedId = videoIds.get(videoIdNumber);	
 		

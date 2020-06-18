@@ -8,6 +8,7 @@ public class YoutubeApiResponse {
 	private String nextPageToken;
 	private PageInfo pageInfo;
 	private List<Item> items;
+	
 	public String getKind() {
 		return kind;
 	}

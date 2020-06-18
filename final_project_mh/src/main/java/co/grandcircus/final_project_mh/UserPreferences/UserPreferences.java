@@ -1,5 +1,7 @@
 package co.grandcircus.final_project_mh.UserPreferences;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_preferences")
-public class UserPreferences {
+public class UserPreferences implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
