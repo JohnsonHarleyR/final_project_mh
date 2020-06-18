@@ -20,6 +20,9 @@ public class User implements Serializable {
 	private String password;
 	private String name;
 	private int points;
+	private String friends;
+	private String requests;
+	private String status;
 	
 	public User() {
 		
@@ -30,6 +33,10 @@ public class User implements Serializable {
 		this.email = email.trim();
 		this.password = password;
 		this.name = name.trim(); //I thought about the trim for when the name gets displayed
+		this.points = 0;
+		friends = "";
+		requests = "";
+		status = "user";
 	}
 	
 	public Long getId() {
@@ -64,8 +71,6 @@ public class User implements Serializable {
 		this.name = name;
 	}
 	
-	
-	
 	public Integer getPoints() {
 		return points;
 	}
@@ -74,10 +79,35 @@ public class User implements Serializable {
 		this.points = points;
 	}
 
+	public String getFriends() {
+		return friends;
+	}
+
+	public void setFriends(String friends) {
+		this.friends = friends;
+	}
+
+	public String getRequests() {
+		return requests;
+	}
+
+	public void setRequests(String requests) {
+		this.requests = requests;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
-				+ name + ", points=" + points + "]";
+				+ name + ", points=" + points + ", friends=" + friends + ", requests=" + requests + ", status=" + status
+				+ "]";
 	}
 
 	

@@ -12,7 +12,21 @@
 </head>
 <body>
 
-<main>
+<!-- Header -->
+<section class="header">
+<%@ include file="partials/header.jsp" %>
+</section>
+
+
+
+<main class = "container">
+
+<!-- Card Body -->
+<div class = "card" style="max-width:30rem;">
+ <div class="card-header">
+ <h2>Daily Check-in</h2>
+ </div>
+<div class="card-body">
 <form method="post">
 <input name= "userId" type="hidden" value="${user.id}" >
  <div class="form-group">
@@ -88,7 +102,9 @@
 
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-</main>
 
+</div>
+</div>
+</main>
 </body>
 </html>

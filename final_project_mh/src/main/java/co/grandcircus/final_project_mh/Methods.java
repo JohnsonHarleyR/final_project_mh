@@ -41,8 +41,9 @@ public class Methods {
 
 		description =  description.toLowerCase();
 
+		//Make sure these are all lower case
 		String[]words = {"sex", "drugs", "cannabis", "suicide", "death", "politics"
-				,"trump", "democrat", "republican"};
+				,"trump", "democrat", "republican", "victoria's secret"};
 
 
 		for (int i = 0; i < words.length; i ++)
