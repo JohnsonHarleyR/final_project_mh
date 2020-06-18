@@ -76,6 +76,8 @@ public class UserController {
 		boolean loggedIn = Methods.checkLogin(session);
 		User user = (User)session.getAttribute("user");
 		
+		boolean areRequests = false;
+		
 		model.addAttribute("loggedin", loggedIn);
 		
 		if (user != null) {
@@ -84,15 +86,31 @@ public class UserController {
 			//Create list to store users
 			List<User> users = new ArrayList<>();
 			//turn it into a list of users
-			for (String id: userIds) {
-				int iId = Integer.parseInt(id);
-				long lId = iId;
-				Optional<User> optUser = userRepo.findById(lId);
-				User tempUser = optUser.get();
-				users.add(tempUser);
+			if (!userIds.isEmpty()) {
+				for (String id: userIds) {
+					if (!id.equals("")) {
+						int iId = Integer.parseInt(id);
+						long lId = iId;
+						Optional<User> optUser = userRepo.findById(lId);
+						User tempUser = optUser.get();
+						users.add(tempUser);
+						
+						//if list isn't empty, then there are requests
+						if (!users.isEmpty()) {
+							areRequests = true;
+						}
+					}
+					
+				}
 			}
 			
-			model.addAttribute("list", users);
+			
+			
+			model.addAttribute("requests", areRequests);
+			if (!users.isEmpty() && users != null) {
+				model.addAttribute("list", users);
+			}
+			
 			
 			return "request-list";
 		} else {

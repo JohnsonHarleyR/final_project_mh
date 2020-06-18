@@ -26,6 +26,9 @@
 <main class="container">
 
 <h1>Friend Requests</h1>
+
+<c:choose>
+<c:when test="${requests == true}">
 These users want to be your friend!
 <br><br>
 <ul>
@@ -39,6 +42,11 @@ These users want to be your friend!
 		</c:forEach>
 	</li>
 </ul>
+</c:when>
+<c:otherwise>
+You do not have any friend requests.
+</c:otherwise>
+</c:choose>
 
 </main>
 
