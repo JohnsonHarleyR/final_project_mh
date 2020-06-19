@@ -56,10 +56,30 @@ public class Methods {
 	}
 	
 	
-	
+	//-----------------------------------------------------------------------
 	
 
 	//Basic point methods
+    //Most of this methods section is in reference to a scoring system.
+	
+	
+	//-Add points to category and to credit system (what do we call the credit system)
+	//-At Certain Checkpoints we award for involvement and progress. Level progress.
+	//Enable spending credits for perks.(trophies, new challenges, unlock profile perks...)
+	//Coordinate the DataBase b4 end of day for Monday Quiz.
+	//
+	//Current Point Disbursement
+	//General Points
+	//Total Points (bucket points)
+	
+	//Categorical Points
+	//- add record points (soul points?)
+	//-motivation quote points (soul points)
+	//-article save points (mind points)
+	//-quiz points (mind points -uncompleted)
+	//- exercise points (body points)
+	//-add workout points (body points?)
+	
 	
 	
 	//General add points method
@@ -72,6 +92,7 @@ public class Methods {
 	}
 	
 	
+	//Soul Points
 	
 	//Save affirmation (or quote)
 	public static void addAffirmationPoints(User user, UserDao repo) {
@@ -111,7 +132,6 @@ public class Methods {
 		}
 		*/
 		
-		
 		user.setPoints(user.getPoints() + POINTS);
 		//save user
 		repo.save(user);
@@ -123,6 +143,9 @@ public class Methods {
 		//Later set up to challenges
 
 	}
+	
+	//Body Points
+	
 	public static void addExercisePoints(User user, UserDao repo) {
 		//Set number of points it's worth
 		final int POINTS = 1; //can grab from challenge list later
@@ -154,6 +177,8 @@ public class Methods {
 		//Later set up to challenges
 
 	}
+	
+	//Mind Points
 	
 public static void addArticlePoints(User user, UserDao repo) {
 	//Set number of points it's worth
@@ -190,6 +215,8 @@ public static void addRecordPoints(User user, UserDao repo) {
 
 }
 	
+    //Interactive Points
+
 	
 	
 	
@@ -209,4 +236,7 @@ public static void addRecordPoints(User user, UserDao repo) {
 	}
 	
 
+	
+	
+	
 }
