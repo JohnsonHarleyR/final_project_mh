@@ -175,11 +175,17 @@ public class UserController {
 		
 		if(loggedUser != null) {
 			
-		for(String ids: friends) {
-		if(loggedUser.getId().toString().equals(ids)) {
-			canComment = true;
+			for(String ids: friends) {
+				
+				if(loggedUser.getId().toString().equals(ids)) {
+					canComment = true;
+				}
+			}	
 		}
-		}	
+		
+		//Also check if the profile id equals the user id. If it does, let them comment.
+		if (loggedUser.getId() == profileUser.getId()) {
+			canComment = true;
 		}
 		
 		List<ProfileComments> comments = new ArrayList<>();
