@@ -99,6 +99,15 @@
     Country 
   </label>
 </div>
+<div class="form-check">
+  <input class="form-check-input" name="musicPreferences[]" type="checkbox" value="Melodic-Techno" id="check11" >
+  <label class="form-check-label" for="check8">
+    Melodic-Techno
+  </label>
+</div>
+
+
+
 </div>
 
 
