@@ -70,7 +70,6 @@
 			<div class="progress-bar" role="progressbar" style="width: <c:out value="${width}" />%" aria-valuenow="${total}"
 				aria-valuemin="${min}" aria-valuemax="${max}"></div>
 		</div>
-		<br>
 
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item"><a class="nav-link" id="exercise-tab"
@@ -114,6 +113,7 @@
 			</div>
 		</div>
 		</c:forEach>
+		</div>
 
 
   
