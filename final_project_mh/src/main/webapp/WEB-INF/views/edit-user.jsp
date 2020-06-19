@@ -23,7 +23,7 @@
 </section>
 
 <!-- MainBody -->
-<main class="container">
+<main id="card" class="container">
 	<article class="card" style="width: 22rem;">
 		<section class="card-header">
 			<h2>Edit User Information</h2>
@@ -58,7 +58,7 @@
 			<input id="t5" type="text" name="name" value="${user.name}" required/>
 			</p>
 			<p  id="sub">
-			<button id="btnsub" type="submit" class="btn btn-primary btn-lg">Submit Changes</button>
+			<button id="btnsub" type="submit" class="btn btn-info btn-lg">Submit Changes</button>
 			</p>
 			</form>
 		</section>

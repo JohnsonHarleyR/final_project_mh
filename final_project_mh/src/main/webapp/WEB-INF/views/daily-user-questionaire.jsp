@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link href="/style.css" rel="stylesheet" />
 </head>
+
 <body>
 
 <!-- Header -->
@@ -19,7 +20,7 @@
 
 
 
-<main class = "container">
+<main id="card" class = "container">
 
 <!-- Card Body -->
 <div class = "card" style="max-width:30rem;">
@@ -27,7 +28,7 @@
  <h2>Daily Check-in</h2>
  </div>
 <div class="card-body">
-<form method="post">
+<form method="post" action="/">
 <input name= "userId" type="hidden" value="${user.id}" >
  <div class="form-group">
     <label for="FormControlSelect1">How are you feeling today?</label>
@@ -105,6 +106,8 @@
       <option value = "4">Meditation</option>
     </select>
 </div>
+
+<input type="hidden" name="plus" value="five"/>
 
 <button type="submit" class="btn btn-info">Submit</button>
 </form>

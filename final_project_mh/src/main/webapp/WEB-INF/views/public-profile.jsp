@@ -22,6 +22,18 @@
 <%@ include file="partials/header.jsp" %>
 </section>
 
+<script>
+function addPoints() {
+  alert("You just earned points.");
+}
+</script>
+
+<script>
+function deletePoints() {
+  alert("You just lost points.");
+}
+</script>
+
 <!-- MainBody -->
 <main class="container">
 
@@ -37,16 +49,16 @@
 				<c:choose>
 					<c:when test="${isfriend == true}">
 						You are friends! 
-						(<a href="/delete/friend?user=${user.id}&friend=${profileuser.id}">Remove</a>)
+						(<a  onclick="deletePoints()" href="/delete/friend?user=${user.id}&friend=${profileuser.id}">Remove</a>)
 					</c:when>
 					<c:when test="${acceptrequest == true}">
-						<a href="/accept/request?user=${user.id}&friend=${profileuser.id}">Accept Request</a>
+						<a onclick="addPoints()" href="/accept/request?user=${user.id}&friend=${profileuser.id}">Accept Request</a>
 					</c:when>
 					<c:when test="${isrequested == true}">
-						<a href="/cancel/request?user=${user.id}&friend=${profileuser.id}">Cancel Request</a>
+						<a onclick="deletePoints()" href="/cancel/request?user=${user.id}&friend=${profileuser.id}">Cancel Request</a>
 					</c:when>
 					<c:otherwise>
-						<a href="/add/friend?user=${user.id}&friend=${profileuser.id}">Add Friend</a>
+						<a onclick="addPoints()" href="/add/friend?user=${user.id}&friend=${profileuser.id}">Add Friend</a>
 					</c:otherwise>
 				</c:choose>
 				

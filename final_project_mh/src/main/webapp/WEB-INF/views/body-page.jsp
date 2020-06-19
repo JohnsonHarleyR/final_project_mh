@@ -17,6 +17,13 @@
 	<section class="header">
 	<%@ include file="partials/header.jsp" %>
 	</section>
+	
+	
+	<script>
+	function addPoints() {
+	  alert("You just earned points.");
+	}
+	</script>
 
 <main class="container">
 	<h1>Body</h1>
@@ -60,7 +67,7 @@
 		          <textarea name = "userInput"
 		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
 						<br>
-						<input type="submit" value="Submit" class = "btn btn-info">
+						<input type="submit" onclick="addPoints()" value="Submit" class = "btn btn-info btn-sm">
 		
 		</form>
 
@@ -75,7 +82,7 @@
 				<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
 				<input type="hidden" name ="name" value="${exercise.name}"/>
 				<br>
-				<button type="submit" class="btn btn-info">I did this!</button>
+				<button type="submit" onclick="addPoints()" class="btn btn-info btn-sm">I did this!</button>
 				</form>
 				
 				</div>
@@ -91,7 +98,7 @@
 	          <textarea name = "userInput" placeholder="Your text here"
 	           rows = "3" cols = "80"></textarea>
 	          <br>
-					<input type="submit" value="Submit" class = "btn btn-info">
+					<input type="submit" value="Submit" onclick="addPoints()" class = "btn btn-info btn-sm">
 	
   </form>
 		<c:forEach var= "foods" items="${food}">

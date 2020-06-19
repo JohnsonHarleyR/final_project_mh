@@ -18,7 +18,13 @@
 <%@ include file="partials/header.jsp" %>
 </section>
 
-<main class = "container"> 
+<script>
+function addPoints() {
+  alert("You just earned points.");
+}
+</script>
+
+<main id="card" class = "container"> 
   
 <!-- Card Body -->
 <div class = "card" style="max-width:30rem;">
@@ -124,6 +130,8 @@
     <label for="FormControlInput3" >What is your goal weight?</label>
     <input type="text" name="userGoalWeight" class="form-control" id="FormControlInput3">
   </div>
+  
+  <input type="hidden" name="plus" value="ten"/>
  
  <button type="submit" class="btn btn-info">Submit</button>
 
