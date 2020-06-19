@@ -80,6 +80,32 @@ function deletePoints() {
 	<br>
 	</section>
 	
+	<!--Comment Section -->
+
+	<section id="comment">
+	<c:if test="${canComment}">
+	<form action="comment" method="post">
+	<textarea name="comment" rows="5" cols="50" maxlength="500" 
+	placeholder="Say something nice!" required></textarea>
+	
+	<br>
+	<input type="hidden" name="profileId" value="${profileuser.id}"/>
+	<button class="btn btn-info" type="submit">Add</button>
+	</form>
+	<br>
+	<h2>Comments</h2>
+	<c:forEach var="comment" items="${comments}">
+		
+		
+		${comment.comment}
+		<br>
+		<i>${comment.datetime}</i> <a href="/delete/comment?id=${comment.id}&profileuserId=${profileuser.id}">
+		Delete</a>
+		
+		<br>
+	</c:forEach>
+	</c:if>
+</section>
 	
 
 

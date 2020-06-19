@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import co.grandcircus.final_project_mh.Communication.ProfileComments;
+import co.grandcircus.final_project_mh.Communication.ProfileCommentsDao;
 import co.grandcircus.final_project_mh.Favorites.AffirmationDao;
 import co.grandcircus.final_project_mh.Favorites.ArticleDao;
 import co.grandcircus.final_project_mh.Favorites.ExerciseDao;
@@ -50,6 +52,9 @@ public class UserController {
 	
 	@Autowired
 	private RecordDao recordRepo;
+	
+	@Autowired
+	private ProfileCommentsDao profileCommentsRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
@@ -161,17 +166,98 @@ public class UserController {
 			System.out.println(isFriend);
 		}
 		
+		//Get list of their comments
+				//List<ProfileComments> comments =
+					//	profileCommentsRepo.findByUserId(profileUser.getId());
+		// This is getting a list of the profile users friends
+		Boolean canComment=false;
+		List<String> friends = UserMethods.idStringToList(profileUser.getFriends());		
+		
+		if(loggedUser != null) {
+			
+		for(String ids: friends) {
+		if(loggedUser.getId().toString().equals(ids)) {
+			canComment = true;
+		}
+		}	
+		}
+		
+		List<ProfileComments> comments = new ArrayList<>();
+		try {
+		comments = profileCommentsRepo.findByProfileId(id);
+		}catch(NullPointerException e) {
+			
+		}
+		
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
 		model.addAttribute("isrequested", isRequested);
 		model.addAttribute("acceptrequest", acceptRequested);
-		
+		model.addAttribute("canComment",canComment);
+		model.addAttribute("comments",comments);
 		System.out.println(loggedIn);
 		System.out.println(isFriend);
 		
 		return "public-profile";
 	}
+	
+	@RequestMapping("/delete/comment")
+	public String deleteComment(
+			@RequestParam(value = "profileuserId") Long profileId,
+			@RequestParam(value = "id") Long id,
+			Model model) {
+		profileCommentsRepo.deleteById(id);
+		return "redirect:/profile?id=" + profileId;
+	}
+
+
+
+	
+	@PostMapping("/comment")
+	public String saveComment(
+			@RequestParam(value= "profileId") Long profileId,
+			@RequestParam(value = "comment") String text,
+			Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		
+		
+		if (!loggedIn) {
+			model.addAttribute("loggedin", loggedIn);
+		} else {
+		
+			//Get user
+			User user = (User)session.getAttribute("user");
+			
+			
+			
+				
+				//Create values for Comment
+				//Date from timestamp
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				Date date=new Date(timestamp.getTime());
+				
+				
+				ProfileComments comment = 
+						new ProfileComments(text,user.getId() , date, profileId );
+				//Save to favorite
+				profileCommentsRepo.save(comment);
+				
+				Methods.addPoints(5, user, userRepo);
+				
+			
+			
+		}
+	
+			return "redirect:/profile?id=" + profileId;
+		
+		
+		
+	}
+
+	
+	
 	
 	//Delete friend
 	@RequestMapping("/delete/friend")
