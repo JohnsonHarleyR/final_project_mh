@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestions;
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestionsDao;
 import co.grandcircus.final_project_mh.User.User;
+import co.grandcircus.final_project_mh.User.UserDao;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferencesDao;
 
@@ -33,19 +34,44 @@ public class HomeController {
 	
 	@Autowired
 	private DailyUserQuestionsDao dailyQuestionsRepo;
+	
+	@Autowired
+	private UserDao userRepo;
 
 	
 
 	@RequestMapping("/")
-	public String home (Model model) {
+	public String home (
+			@RequestParam(value="plus", required=false) String plus,
+			Model model) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		//for when someone earned points
+		boolean points = false;
 		
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
+		
+		//Check if points should be true
+		if (plus != null) {
+			points = true;
+			if (plus.equals("five")) {
+				Methods.addPoints(5, user, userRepo);
+			}
+			if (plus.equals("ten")) {
+				Methods.addPoints(10, user, userRepo);
+			}
+		}
 		
 		
 		//for the header
 		model.addAttribute("loggedin", loggedIn);
 		
+		//whether to add points
+		model.addAttribute("points", points);
+		
+		System.out.println(points);
 		return "index";
 	}
 	

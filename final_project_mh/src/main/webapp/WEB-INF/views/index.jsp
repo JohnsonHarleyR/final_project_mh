@@ -15,12 +15,30 @@
 <meta charset="ISO-8859-1">
 <title>Home Page</title>
 </head>
+
 <body>
+
+
 
 <!-- Header -->
 <section class="header">
 <%@ include file="partials/header.jsp" %>
 </section>
+
+
+<script>
+function addPoints() {
+  alert("You just earned points.");
+}
+</script>
+
+<c:if test="${points}">
+<script>
+
+addPoints();
+
+</script>
+</c:if>
 
 <!-- MainBody -->
 <main class="container">

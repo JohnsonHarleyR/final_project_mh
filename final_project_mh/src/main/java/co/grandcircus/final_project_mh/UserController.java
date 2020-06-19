@@ -194,6 +194,10 @@ public class UserController {
 		//Make sure session user is updated
 		session.setAttribute("user", user);
 		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
@@ -217,6 +221,9 @@ public class UserController {
 		
 		//Make sure session user is updated
 		session.setAttribute("user", user);
+		
+		Methods.addPoints(3, user, userRepo);
+		System.out.println("added points");
 		
 		return "redirect:/profile?id=" + friendId;
 	}
@@ -242,10 +249,14 @@ public class UserController {
 		//Make sure session user is updated
 		session.setAttribute("user", user);
 		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
-	//Cancel friend request
+	//Accept friend request
 	@RequestMapping("/accept/request")
 	public String acceptRequest(
 			@RequestParam("user") long userId,
@@ -265,6 +276,8 @@ public class UserController {
 		
 		//Make sure session user is updated
 		session.setAttribute("user", user);
+		
+		Methods.addPoints(3, user, userRepo);
 		
 		return "redirect:/profile?id=" + friendId;
 	}
@@ -371,7 +384,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		affirmationRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -410,7 +429,12 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
 		articleRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -450,7 +474,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		exerciseRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -491,7 +521,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		recordRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -542,6 +578,9 @@ public class UserController {
 						new Record(date, text, user.getId());
 				//Save to favorite
 				recordRepo.save(favorite);
+				
+				Methods.addPoints(3, user, userRepo);
+				
 			}
 			
 		}
@@ -604,6 +643,7 @@ public class UserController {
 			return "redirect:/login";
 		} else {
 			loggedIn = true;
+			loginMessage = "Please enter your username and password.";
 		}
 
 		//Add user to session
@@ -688,10 +728,12 @@ public class UserController {
 			session.setAttribute("user", user);
 			loggedIn = true;
 			infoMessage = "Sign up was successful!";
+			signUpMessage = "Please enter the following information.";
 			session.setAttribute("loggedIn", loggedIn);
 			//Add user to session
 			//Doing this repeatedly to make session last longer
 			session.setAttribute("user", user);
+			Methods.addPoints(10, user, userRepo);
 			
 			return "redirect:/questionaire";
 
@@ -834,6 +876,8 @@ public class UserController {
 			infoMessage = "Information was successfully edited.";
 			
 			session.setAttribute("loggedIn", loggedIn);
+			
+			editMessage = "Edit your user info here.";
 			
 			return "redirect:/settings";
 

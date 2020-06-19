@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.final_project_mh.ArticleApi.ArticleService;
 import co.grandcircus.final_project_mh.Favorites.ArticleDao;
-import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
 import co.grandcircus.final_project_mh.Favorites.FavArticle;
 import co.grandcircus.final_project_mh.NewsApi.Article;
 import co.grandcircus.final_project_mh.NewsApi.NewsApiService;
@@ -20,10 +19,9 @@ import co.grandcircus.final_project_mh.User.UserDao;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -80,8 +78,12 @@ public class MindController {
 		User user = (User)session.getAttribute("user");
 		
 		//Get list of their favorite Articles
-		List<FavArticle> articles =
-						articleRepo.findByUserId(user.getId());
+		List<FavArticle> articles = new ArrayList<>();
+		
+		if (user != null) {
+			articles = articleRepo.findByUserId(user.getId());
+		}
+						
 		
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer keywordIndex = (Integer)session.getAttribute("keyword");
@@ -122,7 +124,7 @@ public class MindController {
 		
 		//check if article is saved already
 		boolean exists3 = false;
-		if (!articles.isEmpty()) {
+		if (articles != null && !articles.isEmpty()) {
 			for (FavArticle b: articles) {
 				if (b.getTitle().contentEquals(article1.getTitle())) {
 					exists3 = true;
@@ -149,7 +151,7 @@ public class MindController {
 	        
 	      //check if article is saved already
 		boolean exists4 = false;
-		if (!articles.isEmpty()) {
+		if (articles != null && !articles.isEmpty()) {
 			for (FavArticle b: articles) {
 				if (b.getUrl().contentEquals(article2.getUrl())) {
 					exists4 = true;
