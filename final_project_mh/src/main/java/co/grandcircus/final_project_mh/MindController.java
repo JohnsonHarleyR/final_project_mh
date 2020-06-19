@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+//comment to test github connection
 
 @Controller
 public class MindController {
