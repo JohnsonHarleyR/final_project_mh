@@ -57,7 +57,7 @@ function addPoints() {
 			<br>
 			<input type="hidden" name="affirmation" 
 			value="${affirmation}"/>
-			<button class="btn btn-info" onclick="addPoints()" type="submit">Save</button>
+			<button class="btn btn-info btn-sm" onclick="addPoints()" type="submit">Save</button>
 		</form>
 	</c:otherwise>
 </c:choose>

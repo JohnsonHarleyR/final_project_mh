@@ -61,6 +61,18 @@ public class Methods {
 
 	//Basic point methods
 	
+	
+	//General add points method
+	public static void addPoints(int points, User user, UserDao repo) {
+		
+		user.setPoints(user.getPoints() + points);
+		//save user
+		repo.save(user);
+		
+	}
+	
+	
+	
 	//Save affirmation (or quote)
 	public static void addAffirmationPoints(User user, UserDao repo) {
 		//Set number of points it's worth
@@ -184,13 +196,14 @@ public static void addRecordPoints(User user, UserDao repo) {
 	//Challenges
 	
 	//Sign up
-	public static void signUp(User user) {
-		//create instance of challenges list
+	public static void signUp(User user, UserDao repo) {
 		
-		//(for now just hard code)
+		//Set number of points it's worth
+		final int POINTS = 10;
 		
-		//Add 10 points to user
-		//save it
+		user.setPoints(user.getPoints() + POINTS);
+		//save user
+		repo.save(user);
 		
 		
 	}

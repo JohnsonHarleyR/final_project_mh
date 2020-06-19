@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.final_project_mh.ArticleApi.ArticleService;
 import co.grandcircus.final_project_mh.Favorites.ArticleDao;
+import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
 import co.grandcircus.final_project_mh.Favorites.FavArticle;
 import co.grandcircus.final_project_mh.NewsApi.Article;
 import co.grandcircus.final_project_mh.NewsApi.NewsApiService;
@@ -76,6 +77,12 @@ public class MindController {
 		PickedArticles articleObject = new PickedArticles();
 		HashMap<String, PickedArticle> pickedArticles = articleObject.getMap();
 		
+		User user = (User)session.getAttribute("user");
+		
+		//Get list of their favorite Articles
+		List<FavArticle> articles =
+						articleRepo.findByUserId(user.getId());
+		
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer keywordIndex = (Integer)session.getAttribute("keyword");
 		
@@ -113,6 +120,18 @@ public class MindController {
 		
 		model.addAttribute("article1", article1);
 		
+		//check if article is saved already
+		boolean exists3 = false;
+		if (!articles.isEmpty()) {
+			for (FavArticle b: articles) {
+				if (b.getTitle().contentEquals(article1.getTitle())) {
+					exists3 = true;
+				}
+			}
+		}
+		
+		model.addAttribute("exists3", exists3);
+		
 	
 		
 	    Article article2 = null;
@@ -127,6 +146,18 @@ public class MindController {
 	    } while (!Methods.isArticleOk(article2.getDescription()));
 	        model.addAttribute("article2", article2);
 	
+	        
+	      //check if article is saved already
+		boolean exists4 = false;
+		if (!articles.isEmpty()) {
+			for (FavArticle b: articles) {
+				if (b.getUrl().contentEquals(article2.getUrl())) {
+					exists4 = true;
+				}
+			}
+		}
+		System.out.println(exists4);
+		model.addAttribute("exists4", exists4);
 	    
 		//System.out.println(article.toString());
 	    //Testing area - datetime stuff
@@ -150,9 +181,24 @@ public class MindController {
 		
 		
 		//Add picked articles to page
+		//Add boolean for if it's already saved, to page
+	    int n = 1;
 		for (String a: pickedArticles.keySet()) {
 			model.addAttribute(a, pickedArticles.get(a));
+			boolean exists = false;
+			for (FavArticle b: articles) {
+				if (b.getUrl().equals(pickedArticles.get(a).getUrl())) {
+					exists = true;
+				}
+			}
+			String c = "exists" + n;
+			model.addAttribute(c, exists);
+			n++;
 		}
+		
+		
+		
+		
 		
 	    
 	    //User stuff

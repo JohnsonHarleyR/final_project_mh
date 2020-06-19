@@ -13,6 +13,14 @@
 <%@ include file="partials/header.jsp" %>
 </section>
 
+
+<script>
+function addPoints() {
+  alert("You just earned a point.");
+}
+</script>
+
+
 <main class="container">
 <h1>Mind</h1>
 
@@ -24,12 +32,14 @@
 
 
 <section id="important">
+
+	
 	<h2><c:out value="${important.title }"></c:out></h2>
 <c:out value="${important.description }"></c:out>
 <br>
 <a href="${important.url}">Read Article</a>
 
-<c:if test="${loggedin}">
+<c:if test="${loggedin && !exists1}">
 <form action="/save/article" method="post">
 			<input type="hidden" name="title" 
 			value="${important.title}"/>
@@ -37,7 +47,7 @@
 			value="${important.description}"/>
 			<input type="hidden" name="url" 
 			value="${important.url}"/>
-			<button type="submit">Save</button>
+			<button onclick="addPoints()" class="btn btn-info btn-sm" type="submit">Save</button>
 		</form>
 		</c:if>
 
@@ -49,7 +59,7 @@
 <br>
 <a href="${mindfulness.url}">Read Article</a>
 
-<c:if test="${loggedin}">
+<c:if test="${loggedin && !exists2}">
 <form action="/save/article" method="post">
 			<input type="hidden" name="title" 
 			value="${mindfulness.title}"/>
@@ -57,7 +67,7 @@
 			value="${mindfulness.description}"/>
 			<input type="hidden" name="url" 
 			value="${mindfulness.url}"/>
-			<button type="submit">Save</button>
+			<button class="btn btn-info btn-sm" onclick="addPoints()" type="submit">Save</button>
 		</form>
 		</c:if>
 
@@ -71,7 +81,7 @@
 <br>
 <a href="${article1.url}">Read Article</a>
 
-<c:if test="${loggedin}">
+<c:if test="${loggedin && !exists3}">
 <form action="/save/article" method="post">
 			<input type="hidden" name="title" 
 			value="${article1.title}"/>
@@ -79,7 +89,7 @@
 			value="${article1.description}"/>
 			<input type="hidden" name="url" 
 			value="${article1.url}"/>
-			<button type="submit">Save</button>
+			<button class="btn btn-info btn-sm" onclick="addPoints()" type="submit">Save</button>
 		</form>
 		</c:if>
 </section>
@@ -91,7 +101,7 @@
 <br>
 <a href="${article2.url}">Read Article</a>
 
-<c:if test="${loggedin}">
+<c:if test="${loggedin && !exists4}">
 <form action="/save/article" method="post">
 			<input type="hidden" name="title" 
 			value="${article2.title}"/>
@@ -99,7 +109,7 @@
 			value="${article2.description}"/>
 			<input type="hidden" name="url" 
 			value="${article2.url}"/>
-			<button type="submit">Save</button>
+			<button class="btn btn-info btn-sm" onclick="addPoints()" type="submit">Save</button>
 		</form>
 		</c:if>
 </section>
