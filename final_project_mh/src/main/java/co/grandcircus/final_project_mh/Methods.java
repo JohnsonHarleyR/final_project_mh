@@ -49,13 +49,6 @@ public class Methods {
 		}
 		return true;
 	}
-<<<<<<< HEAD
-
-	// Basic point methods
-
-	// Save affirmation (or quote)
-=======
-	
 	
 	//-----------------------------------------------------------------------
 	
@@ -93,10 +86,7 @@ public class Methods {
 	}
 	
 	
-	//Soul Points
-	
-	//Save affirmation (or quote)
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
+
 	public static void addAffirmationPoints(User user, UserDao repo) {
 		// Set number of points it's worth
 		final int POINTS = 1; // can grab from challenge list later
@@ -120,38 +110,35 @@ public class Methods {
 		 * //if date doesn't exist yet, create new line if (!exists) { //counter = }
 		 */
 
-=======
 		//Get todays affirmation saves
 		//First store current date
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		Date date =  new Date(ts.getTime());
-		String sDate = sdf.format(date);
-		
-		//Get today's save counter for user
-		//if it's not there, create new line
-		List<SaveCounter> counters = counterRepo.findByUserId(user.getId());
-		boolean exists = false;
-		SaveCounter counter = null;
-		for (SaveCounter c: counters) {
-			//Get date out of counter
-			Date cDate = c.getDatetime();
-			String sCDate = sdf.format(cDate);
-			
-			//compare dates
-			if (sDate.equals(sCDate)) {
-				exists = true;
-				counter = c;
-			}
-		}
-		
-		//if date doesn't exist yet, create new line
-		if (!exists) {
-			//counter = 
-		}
-		*/
-		
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
+	//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		Timestamp ts = new Timestamp(System.currentTimeMillis());
+//		Date date =  new Date(ts.getTime());
+//		String sDate = sdf.format(date);
+//		
+//		Get today's save counter for user
+//		if it's not there, create new line
+//		List<SaveCounter> counters = counterRepo.findByUserId(user.getId());
+//		boolean exists = false;
+//		SaveCounter counter = null;
+//		for (SaveCounter c: counters) {
+//			Get date out of counter
+//			Date cDate = c.getDatetime();
+//			String sCDate = sdf.format(cDate);
+//			
+//			compare dates
+//			if (sDate.equals(sCDate)) {
+//				exists = true;
+//				counter = c;
+//			}
+//		}
+//		
+//		if date doesn't exist yet, create new line
+//		if (!exists) {
+//			counter = 
+//		}
+
 		user.setPoints(user.getPoints() + POINTS);
 		// save user
 		repo.save(user);
@@ -161,13 +148,7 @@ public class Methods {
 		// Later set up to challenges
 
 	}
-<<<<<<< HEAD
 
-=======
-	
-	//Body Points
-	
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
 	public static void addExercisePoints(User user, UserDao repo) {
 		// Set number of points it's worth
 		final int POINTS = 1; // can grab from challenge list later
@@ -197,27 +178,8 @@ public class Methods {
 		// Later set up to challenges
 
 	}
-<<<<<<< HEAD
-=======
 	
 	//Mind Points
-	
-public static void addArticlePoints(User user, UserDao repo) {
-	//Set number of points it's worth
-	final int POINTS = 1; //can grab from challenge list later
-	final int LIMIT = 4;
-	
-	user.setPoints(user.getPoints() + POINTS);
-	//save user
-	repo.save(user);
-	
-	
-	//TODO (check if daily limit is reached before adding)
-	
-	
-	//Later set up to challenges
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
-
 	public static void addArticlePoints(User user, UserDao repo) {
 		// Set number of points it's worth
 		final int POINTS = 1; // can grab from challenge list later
@@ -229,7 +191,6 @@ public static void addArticlePoints(User user, UserDao repo) {
 
 		// TODO (check if daily limit is reached before adding)
 
-<<<<<<< HEAD
 		// Later set up to challenges
 
 	}
@@ -313,28 +274,7 @@ public static void addArticlePoints(User user, UserDao repo) {
 			minSoulPoints = 51;
 			maxSoulPoints = 100;
 		}
-=======
-}
-	
-    //Interactive Points
 
-	
-	
-	
-	//Challenges
-	
-	//Sign up
-	public static void signUp(User user, UserDao repo) {
-		
-		//Set number of points it's worth
-		final int POINTS = 10;
-		
-		user.setPoints(user.getPoints() + POINTS);
-		//save user
-		repo.save(user);
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
-		
-		
 		if(mindPoints >= 0 && mindPoints <= 10) {
 			name += " B.S";
 			minMindPoints = 0;
@@ -357,15 +297,17 @@ public static void addArticlePoints(User user, UserDao repo) {
 		
 		return rank;
 	}
-
-
+		
+		
+	public static void signUp(User user, UserDao repo) {
+		
+		//Set number of points it's worth
+		final int POINTS = 10;
+		
+		user.setPoints(user.getPoints() + POINTS);
+		//save user
+		repo.save(user);
 	}
-	
-
-<<<<<<< HEAD
-=======
-	
-	
-	
+		
 }
->>>>>>> 7effa4c24c15b31eecf0a6e0c34f0be6f234b348
+
