@@ -24,7 +24,7 @@
 </section>
 
 <!-- MainBody -->
-<main class="container">
+<main id="card" class="container">
 	
 	<c:choose>
 		<c:when test="${loggedin == false}">

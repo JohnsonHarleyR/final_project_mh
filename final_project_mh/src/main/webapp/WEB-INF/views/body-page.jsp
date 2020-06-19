@@ -21,6 +21,13 @@
 	<section class="header">
 		<%@ include file="partials/header.jsp"%>
 	</section>
+	
+	
+	<script>
+	function addPoints() {
+	  alert("You just earned points.");
+	}
+	</script>
 
 	<main class="container">
 
@@ -78,188 +85,229 @@
 		</ul>
 
 		<!-- Tab panes -->
-		<div class="tab-content">
-			<div class="tab-pane active" id="exercise" role="tabpanel"
-				aria-labelledby="exercise-tab">
+	<div class="tab-content">
+	  <div class="tab-pane active" id="exercise" role="tabpanel" aria-labelledby="exercise-tab">
+	  
+	  <h3>Enter an exercise such as "ran 3 miles in 30 mins" to calculate calories burned: </h3>
+		<form action = "/body" name = "exerciseForm" method = "post">
+		
+		          <textarea name = "userInput"
+		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
+						<br>
+						<input type="submit" onclick="addPoints()" value="Submit" class = "btn btn-info btn-sm">
+		
+		</form>
 
-				<h3>Enter an exercise such as "ran 3 miles in 30 mins" to
-					calculate calories burned:</h3>
-				<form action="/body" name="exerciseForm" method="post">
-
-					<textarea name="userInput" placeholder="Your text here" rows="3"
-						cols="80"></textarea>
-					<br> <input type="submit" value="Submit" class="btn btn-info">
-
+			<c:forEach var= "exercise" items="${exercises}">
+			<div class="card w-100">
+			 	<div class="card-body">
+				<h5 class = "card-title"> ${exercise.name} </h5>
+				<p class = "card-text" >You burned ${exercise.nf_calories} calories in ${exercise.duration_min} minutes </p>
+				
+				<form action="/save/exercises" method="post">	
+				<input type="hidden" name ="nf_calories" value="${exercise.nf_calories}"/>
+				<input type="hidden" name ="duration_min" value="${exercise.duration_min}"/>
+				<input type="hidden" name ="name" value="${exercise.name}"/>
+				<br>
+				<button type="submit" onclick="addPoints()" class="btn btn-info btn-sm">I did this!</button>
 				</form>
-
-				<c:forEach var="exercise" items="${exercises}">
-					<div class="card w-100">
-						<div class="card-body">
-							<h5 class="card-title">${exercise.name}</h5>
-							<p class="card-text">You burned ${exercise.nf_calories}
-								calories in ${exercise.duration_min} minutes</p>
-
-							<form action="/save/exercises" method="post">
-								<input type="hidden" name="nf_calories"
-									value="${exercise.nf_calories}" /> <input type="hidden"
-									name="duration_min" value="${exercise.duration_min}" /> <input
-									type="hidden" name="name" value="${exercise.name}" /> <br>
-								<button type="submit" class="btn btn-info">I did this!</button>
-							</form>
-
-						</div>
-					</div>
-				</c:forEach>
 			</div>
+		</div>
+		</c:forEach>
 
 
-			<div class="tab-pane" id="food" role="tabpanel"
-				aria-labelledby="food-tab">
-				<h3>Enter food items such as "2 eggs and a slice of white
-					toast" to calculate the nutrition facts:</h3>
-				<form action="/bodyfood" name="foodForm" method="post">
-
-					<textarea name="userInput" placeholder="Your text here" rows="3"
-						cols="80"></textarea>
-					<br> <input type="submit" value="Submit" class="btn btn-info">
-
-				</form>
-				<c:forEach var="foods" items="${food}">
-
-					<section class="performance-facts">
-						<header class="performance-facts__header">
-							<h1 class="performance-facts__title">Nutrition Facts</h1>
-							<p class="pnutrition">${foods.serving_qty}
-								${foods.serving_unit} ${foods.food_name}</p>
-						</header>
-
-						<table class="performance-facts__table">
-							<thead class="thnutrition">
-								<tr class="trnutrition">
-									<th colspan="3" class="small-info">Amount Per Serving</th>
-								</tr>
-							</thead>
-							<tbody class="bodynutrition">
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Calories</b> ${foods.nf_calories}</th>
-									<td class="tdnutrition">Calories from Fat 130</td>
-								</tr>
-								<tr class="thick-row">
-
-									<td colspan="2" class="small-info"><b
-										class="bodynutrition"> % Daily Value*</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Total Fat</b> ${foods.nf_total_fat}</th>
-									<td class="tdnutrition"><b class="bodynutrition">22%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th class="thnutrition">Saturated Fat
-										${foods.nf_saturated_fat}</th>
-									<td class="tdnutrition"><b>22%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th class="thnutrition">Trans Fat 0</th>
-									<td class="tdnutrition"></td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Cholesterol</b> ${foods.nf_cholesterol}
-									</th>
-									<td class="tdnutrition"><b class="bodynutrition">18%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Sodium</b> ${foods.nf_sodium}</th>
-									<td class="tdnutrition"><b class="bodynutrition">2%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Total Carbohydrate</b>
-										${foods.nf_total_carbohydrate}</th>
-									<td class="tdnutrition"><b class="bodynutrition">6%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th class="thnutrition">Dietary Fiber
-										${foods.nf_dietary_fiber}</th>
-									<td class="tdnutrition"><b class="bodynutrition">4%</b></td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th class="thnutrition">Sugars ${foods.nf_sugars}</th>
-									<td class="tdnutrition"></td>
-								</tr>
-								<tr class="thick-end">
-									<th colspan="2" class="thnutrition"><b
-										class="bodynutrition">Protein</b> ${foods.nf_protein}</th>
-									<td class="tdnutrition"></td>
-								</tr>
-							</tbody>
-						</table>
-						<p class="small-info">* Percent Daily Values are based on a
-							2,000 calorie diet. Your daily values may be higher or lower
-							depending on your calorie needs:</p>
-						<table class="performance-facts__table--small small-info">
-							<thead>
-								<tr class="trnutrition">
-									<td colspan="2" class="tdnutrition"></td>
-									<th class="thnutrition">Calories:</th>
-									<th class="thnutrition">2,000</th>
-									<th class="thnutrition">2,500</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition">Total Fat</th>
-									<td class="tdnutrition">Less than</td>
-									<td class="tdnutrition">65g</td>
-									<td class="tdnutrition">80g</td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th class="tdnutrition">Saturated Fat</th>
-									<td class="tdnutrition">Less than</td>
-									<td class="tdnutrition">20g</td>
-									<td class="tdnutrition">25g</td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition">Cholesterol</th>
-									<td class="tdnutrition">Less than</td>
-									<td class="tdnutrition">300mg</td>
-									<td class="tdnutrition">300 mg</td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="2" class="thnutrition">Sodium</th>
-									<td class="tdnutrition">Less than</td>
-									<td class="tdnutrition">2,400mg</td>
-									<td class="tdnutrition">2,400mg</td>
-								</tr>
-								<tr class="trnutrition">
-									<th colspan="3" class="thnutrition">Total Carbohydrate</th>
-									<td class="tdnutrition">300g</td>
-									<td class="tdnutrition">375g</td>
-								</tr>
-								<tr class="trnutrition">
-									<td class="blank-cell"></td>
-									<th colspan="2" class="thnutrition">Dietary Fiber</th>
-									<td class="tdnutrition">25g</td>
-									<td class="tdnutrition">30g</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<p class="small-info text-center">Fat ${foods.nf_total_fat}
-							&bull; Carbohydrate ${foods.nf_total_carbohydrate} &bull; Protein
-							${foods.nf_total_fat}</p>
-					</section>
-				</c:forEach>
-			</div>
-
+  
+<div class="tab-pane" id="food" role="tabpanel" aria-labelledby="food-tab">
+ <h3>Enter food items such as "2 eggs and a slice of white toast" to calculate the nutrition facts: </h3>  
+  <form action = "/bodyfood" name = "foodForm" method = "post">
+	
+	          <textarea name = "userInput" placeholder="Your text here"
+	           rows = "3" cols = "80"></textarea>
+	          <br>
+					<input type="submit" value="Submit" onclick="addPoints()" class = "btn btn-info btn-sm">
+	
+  </form>
+		<c:forEach var= "foods" items="${food}">
+		
+		<section class="performance-facts">
+		  <header class="performance-facts__header">
+		    <h1 class="performance-facts__title">Nutrition Facts</h1>
+		    <p class = "pnutrition"> ${foods.serving_qty} ${foods.serving_unit} ${foods.food_name} </p> 
+		  </header>
+		 
+		 <table class="performance-facts__table">
+		    <thead class = "thnutrition">
+		      <tr class = "trnutrition">
+		        <th colspan="3" class="small-info">
+		          Amount Per Serving
+		        </th>
+		      </tr>
+		    </thead>
+		    <tbody class = "bodynutrition">
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Calories</b>
+		          ${foods.nf_calories}
+		        </th>
+		        <td class = "tdnutrition">
+		          Calories from Fat
+		          130
+		        </td>
+		      </tr>
+		      <tr class="thick-row">
+		      
+		        <td colspan="2" class="small-info">
+		          <b class = "bodynutrition" >		% Daily Value*</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Total Fat</b>
+		          ${foods.nf_total_fat}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">22%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Saturated Fat
+		          ${foods.nf_saturated_fat}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b>22%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Trans Fat
+		          0
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Cholesterol</b>
+		          ${foods.nf_cholesterol}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">18%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Sodium</b>
+		          ${foods.nf_sodium}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">2%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Total Carbohydrate</b>
+		          ${foods.nf_total_carbohydrate}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">6%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Dietary Fiber
+		          ${foods.nf_dietary_fiber}
+		        </th>
+		        <td class = "tdnutrition">
+		          <b class = "bodynutrition">4%</b>
+		        </td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell">
+		        </td>
+		        <th class = "thnutrition">
+		          Sugars
+		          ${foods.nf_sugars}
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		      <tr class="thick-end">
+		        <th colspan="2" class = "thnutrition">
+		          <b class = "bodynutrition">Protein</b>
+		          ${foods.nf_protein}
+		        </th>
+		        <td class = "tdnutrition">
+		        </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		  <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+		  <table class="performance-facts__table--small small-info">
+		    <thead>
+		      <tr class = "trnutrition">
+		        <td colspan="2" class = "tdnutrition"></td>
+		        <th class = "thnutrition">Calories:</th>
+		        <th class = "thnutrition">2,000</th>
+		        <th class = "thnutrition">2,500</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Total Fat</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">65g</td>
+		        <td class = "tdnutrition">80g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell"></td>
+		        <th class = "tdnutrition">Saturated Fat</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">20g</td>
+		        <td class = "tdnutrition">25g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Cholesterol</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">300mg</td>
+		        <td class = "tdnutrition">300 mg</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="2" class = "thnutrition">Sodium</th>
+		        <td class = "tdnutrition">Less than</td>
+		        <td class = "tdnutrition">2,400mg</td>
+		        <td class = "tdnutrition">2,400mg</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <th colspan="3" class = "thnutrition">Total Carbohydrate</th>
+		        <td class = "tdnutrition">300g</td>
+		        <td class = "tdnutrition">375g</td>
+		      </tr>
+		      <tr class = "trnutrition">
+		        <td class="blank-cell"></td>
+		        <th colspan="2" class = "thnutrition">Dietary Fiber</th>
+		        <td class = "tdnutrition">25g</td>
+		        <td class = "tdnutrition">30g</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		
+		  <p class="small-info text-center">
+		    Fat ${foods.nf_total_fat}
+		    &bull;
+		    Carbohydrate ${foods.nf_total_carbohydrate}
+		    &bull;
+		    Protein ${foods.nf_total_fat}
+		  </p>
+		</section>
+		</c:forEach>
+  </div>
 			<div class="tab-pane" id="workout" role="tabpanel"
 				aria-labelledby="workout-tab">
 				<c:forEach var="result" items="${resultList}">

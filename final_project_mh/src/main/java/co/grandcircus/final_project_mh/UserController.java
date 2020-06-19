@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import co.grandcircus.final_project_mh.Communication.ProfileComments;
+import co.grandcircus.final_project_mh.Communication.ProfileCommentsDao;
 import co.grandcircus.final_project_mh.Favorites.AffirmationDao;
 import co.grandcircus.final_project_mh.Favorites.ArticleDao;
 import co.grandcircus.final_project_mh.Favorites.ExerciseDao;
@@ -50,6 +52,9 @@ public class UserController {
 	
 	@Autowired
 	private RecordDao recordRepo;
+	
+	@Autowired
+	private ProfileCommentsDao profileCommentsRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
@@ -161,17 +166,98 @@ public class UserController {
 			System.out.println(isFriend);
 		}
 		
+		//Get list of their comments
+				//List<ProfileComments> comments =
+					//	profileCommentsRepo.findByUserId(profileUser.getId());
+		// This is getting a list of the profile users friends
+		Boolean canComment=false;
+		List<String> friends = UserMethods.idStringToList(profileUser.getFriends());		
+		
+		if(loggedUser != null) {
+			
+		for(String ids: friends) {
+		if(loggedUser.getId().toString().equals(ids)) {
+			canComment = true;
+		}
+		}	
+		}
+		
+		List<ProfileComments> comments = new ArrayList<>();
+		try {
+		comments = profileCommentsRepo.findByProfileId(id);
+		}catch(NullPointerException e) {
+			
+		}
+		
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
 		model.addAttribute("isrequested", isRequested);
 		model.addAttribute("acceptrequest", acceptRequested);
-		
+		model.addAttribute("canComment",canComment);
+		model.addAttribute("comments",comments);
 		System.out.println(loggedIn);
 		System.out.println(isFriend);
 		
 		return "public-profile";
 	}
+	
+	@RequestMapping("/delete/comment")
+	public String deleteComment(
+			@RequestParam(value = "profileuserId") Long profileId,
+			@RequestParam(value = "id") Long id,
+			Model model) {
+		profileCommentsRepo.deleteById(id);
+		return "redirect:/profile?id=" + profileId;
+	}
+
+
+
+	
+	@PostMapping("/comment")
+	public String saveComment(
+			@RequestParam(value= "profileId") Long profileId,
+			@RequestParam(value = "comment") String text,
+			Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		
+		
+		if (!loggedIn) {
+			model.addAttribute("loggedin", loggedIn);
+		} else {
+		
+			//Get user
+			User user = (User)session.getAttribute("user");
+			
+			
+			
+				
+				//Create values for Comment
+				//Date from timestamp
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				Date date=new Date(timestamp.getTime());
+				
+				
+				ProfileComments comment = 
+						new ProfileComments(text,user.getId() , date, profileId );
+				//Save to favorite
+				profileCommentsRepo.save(comment);
+				
+				Methods.addPoints(5, user, userRepo);
+				
+			
+			
+		}
+	
+			return "redirect:/profile?id=" + profileId;
+		
+		
+		
+	}
+
+	
+	
 	
 	//Delete friend
 	@RequestMapping("/delete/friend")
@@ -193,6 +279,10 @@ public class UserController {
 		
 		//Make sure session user is updated
 		session.setAttribute("user", user);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
 		
 		return "redirect:/profile?id=" + friendId;
 	}
@@ -218,6 +308,9 @@ public class UserController {
 		//Make sure session user is updated
 		session.setAttribute("user", user);
 		
+		Methods.addPoints(3, user, userRepo);
+		System.out.println("added points");
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
@@ -242,10 +335,14 @@ public class UserController {
 		//Make sure session user is updated
 		session.setAttribute("user", user);
 		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
+		
 		return "redirect:/profile?id=" + friendId;
 	}
 	
-	//Cancel friend request
+	//Accept friend request
 	@RequestMapping("/accept/request")
 	public String acceptRequest(
 			@RequestParam("user") long userId,
@@ -265,6 +362,8 @@ public class UserController {
 		
 		//Make sure session user is updated
 		session.setAttribute("user", user);
+		
+		Methods.addPoints(3, user, userRepo);
 		
 		return "redirect:/profile?id=" + friendId;
 	}
@@ -371,7 +470,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		affirmationRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -410,7 +515,12 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
 		articleRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -450,7 +560,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		exerciseRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-1, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -491,7 +607,13 @@ public class UserController {
 			@RequestParam(value = "id") Long id,
 			Model model) {
 		
+		User user = (User)session.getAttribute("user");
+		
 		recordRepo.deleteById(id);
+		
+		if (user.getPoints() != 0) {
+			Methods.addPoints(-3, user, userRepo);
+		}
 		
 		return "redirect:" + url;
 	}
@@ -542,6 +664,9 @@ public class UserController {
 						new Record(date, text, user.getId());
 				//Save to favorite
 				recordRepo.save(favorite);
+				
+				Methods.addPoints(3, user, userRepo);
+				
 			}
 			
 		}
@@ -604,6 +729,7 @@ public class UserController {
 			return "redirect:/login";
 		} else {
 			loggedIn = true;
+			loginMessage = "Please enter your username and password.";
 		}
 
 		//Add user to session
@@ -688,10 +814,12 @@ public class UserController {
 			session.setAttribute("user", user);
 			loggedIn = true;
 			infoMessage = "Sign up was successful!";
+			signUpMessage = "Please enter the following information.";
 			session.setAttribute("loggedIn", loggedIn);
 			//Add user to session
 			//Doing this repeatedly to make session last longer
 			session.setAttribute("user", user);
+			Methods.addPoints(10, user, userRepo);
 			
 			return "redirect:/questionaire";
 
@@ -834,6 +962,8 @@ public class UserController {
 			infoMessage = "Information was successfully edited.";
 			
 			session.setAttribute("loggedIn", loggedIn);
+			
+			editMessage = "Edit your user info here.";
 			
 			return "redirect:/settings";
 

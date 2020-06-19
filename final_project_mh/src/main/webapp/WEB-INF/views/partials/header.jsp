@@ -26,6 +26,24 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-custom">
 
+
+	<ul class="nav">
+
+		<li class="nav-item">
+			<a class="nav-link" href="/"><img height=30px src="/house_icon.png"></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/mind">Mind</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/body">Body</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/soul">Soul</a>
+		</li>
+		
+	</ul>
+
 	<ul class="nav">
 	
 		<li class="nav-item" >
@@ -88,36 +106,7 @@
 			</c:when>
 		</c:choose>
 		
-		
-		
-		
-		
-		
-		
-		
-		
 	</ul>
-
-	<ul class="nav">
-
-		
-		
-		<li class="nav-item">
-			<a class="nav-link" href="/mind">Mind</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/body">Body</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/soul">Soul</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/"><img height=30px src="/house_icon.png"></a>
-		</li>
-		
-	</ul>
-
-
 	
 	
 </nav>
