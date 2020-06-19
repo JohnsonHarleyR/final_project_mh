@@ -27,6 +27,14 @@
 <!-- MainBody -->
 <main class="container">
 
+
+<script>
+function addPoints() {
+  alert("You just earned a point.");
+}
+</script>
+
+
 <!-- Let's try kittens - kitten api -->
 <img id="kitten" style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
 
@@ -49,7 +57,7 @@
 			<br>
 			<input type="hidden" name="affirmation" 
 			value="${affirmation}"/>
-			<button class="btn btn-info" type="submit">Save</button>
+			<button class="btn btn-info" onclick="addPoints()" type="submit">Save</button>
 		</form>
 	</c:otherwise>
 </c:choose>
@@ -77,7 +85,7 @@
 			<br>
 			<input type="hidden" name="affirmation" 
 			value="${quotestring}"/>
-			<button class="btn btn-info" type="submit">Save</button>
+			<button class="btn btn-info" onclick="addPoints()" type="submit">Save</button>
 		</form>
 	</c:otherwise>
 </c:choose>

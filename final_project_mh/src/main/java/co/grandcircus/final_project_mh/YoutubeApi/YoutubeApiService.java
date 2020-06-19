@@ -40,7 +40,7 @@ public class YoutubeApiService {
 	
     int length = videoIds.size();
 	System.out.println(length);
-    int videoIdNumber = rand.nextInt(length + 1);
+    int videoIdNumber = rand.nextInt(length);
 		
 	String selectedId = videoIds.get(videoIdNumber);	
 		
