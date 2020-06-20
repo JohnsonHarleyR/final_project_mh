@@ -27,9 +27,11 @@
 <h1>${user.name}'s Page</h1>
 
 <section id="user-options">
-	<b>Username:</b> ${user.username}
+	<a href="/friends?id=${user.id}">See friends</a>
 	<br>
 	<b>Points:</b> ${user.points}
+	<br>
+	<b>Username:</b> ${user.username}
 	<br>
 </section>
 

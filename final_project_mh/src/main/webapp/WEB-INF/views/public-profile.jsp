@@ -44,12 +44,16 @@ function deletePoints() {
 		<c:choose>
 			<c:when test="${profileuser.id == user.id}">
 			This is your public profile.
+			<br>
+			<a href="/friends?id=${profileuser.id}">See your friends</a>
 			</c:when>
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${isfriend == true}">
 						You are friends! 
 						(<a  onclick="deletePoints()" href="/delete/friend?user=${user.id}&friend=${profileuser.id}">Remove</a>)
+						<br>
+						<a href="/friends?id=${profileuser.id}">Friend List</a>
 					</c:when>
 					<c:when test="${acceptrequest == true}">
 						<a onclick="addPoints()" href="/accept/request?user=${user.id}&friend=${profileuser.id}">Accept Request</a>
@@ -84,26 +88,38 @@ function deletePoints() {
 
 	<section id="comment">
 	<c:if test="${canComment}">
+	<h2>Comments</h2>
+	<c:if test="${!arecomments}">
+		There are no comments yet.
+		<br><br>
+	</c:if>
+	<c:forEach var="comment" items="${comments}">
+		<p style="font-size:larger">
+		
+		${comment.comment}
+		
+	
+		
+		<br>
+		<sup>
+		<a href="/profile?id=${comment.commenterId}"><i>${comment.username}</i></a> on <i>${comment.datetime}</i>
+			<!-- Only show delete button if it's the session user's profile or their own comment -->
+		<c:if test="${comment.profileId == user.id || comment.commenterId == user.id }">
+		<a href="/delete/comment?id=${comment.id}&profileuserId=${profileuser.id}">
+		Delete</a>
+		</c:if></sup>
+		</p>
+	</c:forEach>
+	<h2>Leave a comment</h2>
 	<form action="comment" method="post">
 	<textarea name="comment" rows="5" cols="50" maxlength="500" 
 	placeholder="Say something nice!" required></textarea>
 	
 	<br>
 	<input type="hidden" name="profileId" value="${profileuser.id}"/>
-	<button class="btn btn-info" type="submit">Add</button>
+	<button class="btn btn-info" type="submit">Add Comment</button>
 	</form>
 	<br>
-	<h2>Comments</h2>
-	<c:forEach var="comment" items="${comments}">
-		
-		
-		${comment.comment}
-		<br>
-		<i>${comment.datetime}</i> <a href="/delete/comment?id=${comment.id}&profileuserId=${profileuser.id}">
-		Delete</a>
-		
-		<br>
-	</c:forEach>
 	</c:if>
 </section>
 	

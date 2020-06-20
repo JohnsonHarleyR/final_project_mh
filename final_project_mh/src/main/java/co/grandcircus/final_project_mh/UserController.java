@@ -138,6 +138,74 @@ public class UserController {
 		
 	}
 	
+	@RequestMapping("/friends") 
+	public String friendList(
+			@RequestParam(value="id") long id,
+			Model model) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		Optional<User> optUser = userRepo.findById(id);
+		User profileUser = optUser.get();
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		boolean letSee = false;
+		
+		//if the id matches the session user id, let them see the list
+		if (user != null && user.getId() == id) {
+			letSee = true;
+		}
+		
+		//Get list of user's friends ids
+		List<String> friendIds = new ArrayList<>();
+		try {
+			friendIds = UserMethods.idStringToList(profileUser.getFriends());
+		} catch (Exception e) {
+			
+		}
+		
+		//Turn list into list of their friends
+		List<User> friends = new ArrayList<>();
+		for (String s: friendIds) {
+			long num = Long.parseLong(s);
+			
+			Optional<User> opt = userRepo.findById(num);
+			User temp = opt.get();
+			
+			friends.add(temp);
+		}
+		
+		//See if session user is in friend list
+		for (User friend: friends) {
+			if (friend.getId() == user.getId()) {
+				letSee = true;
+			}
+		}
+		
+		//Tell jsp whether or not profile user has friends
+		if (friends.isEmpty() || friends == null) {
+			model.addAttribute("friends", false);
+		} else {
+			model.addAttribute("friends", true);
+		}
+		
+		
+		model.addAttribute("loggedin", loggedIn);
+		model.addAttribute("list", friends);
+		model.addAttribute("profile", profileUser);
+		
+		
+		//If user is sneaky and isn't supposed to see the list, redirect to homepage
+		if (letSee) {
+			return "friend-list";
+		} else {
+			return "redirect:/";
+		}
+		
+	}
+	
+	
+	
 	//User public profile
 	@RequestMapping("/profile")
 	public String profilePage(
@@ -156,6 +224,8 @@ public class UserController {
 		boolean isFriend = false;
 		boolean isRequested = false;
 		boolean acceptRequested = false;
+		Boolean canComment=false;
+		boolean areComments = false;
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
@@ -170,7 +240,7 @@ public class UserController {
 				//List<ProfileComments> comments =
 					//	profileCommentsRepo.findByUserId(profileUser.getId());
 		// This is getting a list of the profile users friends
-		Boolean canComment=false;
+		
 		List<String> friends = UserMethods.idStringToList(profileUser.getFriends());		
 		
 		if(loggedUser != null) {
@@ -195,12 +265,17 @@ public class UserController {
 			
 		}
 		
+		if (comments != null && comments.size() != 0) {
+			areComments = true;
+		}
+		
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
 		model.addAttribute("isrequested", isRequested);
 		model.addAttribute("acceptrequest", acceptRequested);
 		model.addAttribute("canComment",canComment);
+		model.addAttribute("arecomments", areComments);
 		model.addAttribute("comments",comments);
 		System.out.println(loggedIn);
 		System.out.println(isFriend);
@@ -246,7 +321,7 @@ public class UserController {
 				
 				
 				ProfileComments comment = 
-						new ProfileComments(text,user.getId() , date, profileId );
+						new ProfileComments(text,user.getId() , date, profileId, userRepo );
 				//Save to favorite
 				profileCommentsRepo.save(comment);
 				

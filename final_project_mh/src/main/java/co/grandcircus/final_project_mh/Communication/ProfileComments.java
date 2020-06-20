@@ -1,6 +1,7 @@
 package co.grandcircus.final_project_mh.Communication;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.servlet.http.HttpSession;
+
+import co.grandcircus.final_project_mh.User.User;
+import co.grandcircus.final_project_mh.User.UserDao;
 
 
 @Entity
@@ -23,16 +28,31 @@ public class ProfileComments implements Comparable<ProfileComments> {
 	private Date datetime;
 	@Column(name="profile_id")
 	private Long profileId;
+	@Column(name="commenter_username")
+	private String username;
+	
+	
 	public ProfileComments() {
 		
 	}
 	
-	public ProfileComments(String comment, Long commenterId, Date datetime, Long profileId) {
+	public ProfileComments(String comment, Long commenterId, Date datetime, Long profileId, UserDao repo) {
+		
 		super();
 		this.comment = comment;
 		this.commenterId = commenterId;
 		this.datetime = datetime;
 		this.profileId = profileId;
+		
+		//Get username from session and commenterId
+		//It's just easier to do it this way after everything
+		Optional<User> opt = repo.findById(commenterId);
+		User commenter = opt.get();
+		
+		username = commenter.getUsername();
+		
+		
+		
 	}
 	public Long getId() {
 		return id;
@@ -65,12 +85,23 @@ public class ProfileComments implements Comparable<ProfileComments> {
 	public void setProfileId(Long profileId) {
 		this.profileId = profileId;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ProfileComments [id=" + id + ", comment=" + comment + ", commenterId=" + commenterId + ", datetime="
-				+ datetime + ", profileId=" + profileId + "]";
+				+ datetime + ", profileId=" + profileId + ", username=" + username + "]";
 	}
-	
+
 	@Override
 	public int compareTo(ProfileComments o) {
 		if (datetime == o.getDatetime()) {
