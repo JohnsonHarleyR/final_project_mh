@@ -29,9 +29,13 @@
 <section id="user-options">
 	<a href="/friends?id=${user.id}">See friends</a>
 	<br>
+	<a href="/profile?id=${user.id}">See your profile</a>
+	<br>
+	<br>
 	<b>Points:</b> ${user.points}
 	<br>
 	<b>Username:</b> ${user.username}
+	<br>
 	<br>
 </section>
 

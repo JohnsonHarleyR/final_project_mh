@@ -38,6 +38,8 @@ function deletePoints() {
 <main class="container">
 
 	<h1>${profileuser.username}'s Profile</h1>
+	
+	
 	<section id="add-friend"">
 	<!-- Check if user is friends with them - if user is logged in -->
 	<c:if test="${loggedin}">
