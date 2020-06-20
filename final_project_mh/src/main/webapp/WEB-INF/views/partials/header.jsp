@@ -46,6 +46,12 @@
 
 	<ul class="nav">
 	
+		<c:if test="${user.status == 'admin'}">
+			<li class="nav-item" >
+				<a style="color:#000000;" class="nav-link">Admin</a>
+			</li>
+		</c:if>
+	
 		<li class="nav-item" >
 			<c:choose>
 				<c:when test="${loggedin == false}">
