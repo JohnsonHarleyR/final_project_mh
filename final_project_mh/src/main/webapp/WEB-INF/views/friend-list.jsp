@@ -30,12 +30,12 @@
 <c:choose>
 <c:when test="${friends}">
 <ul>
-	<li>
-		<c:forEach var="friend" items="${list}">
-		${friend.username} - <a href="/profile?id=${friend.id}">See profile</a>
-		<br>
-		</c:forEach>
-	</li>
+	<c:forEach var="friend" items="${list}">
+		<li>
+			${friend.username} - <a href="/profile?id=${friend.id}">See profile</a>
+			<br>
+		</li>
+	</c:forEach>
 </ul>
 </c:when>
 <c:otherwise>
