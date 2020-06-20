@@ -26,7 +26,7 @@
 <main  id="card" class="container">
 
 
-<article class="card text-left" style="width: 19rem;">
+<article class="card text-left" style="width: 27rem;">
 <table>
 <tr>
 <th>

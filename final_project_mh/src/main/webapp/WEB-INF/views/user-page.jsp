@@ -42,7 +42,7 @@
 	Whatever it may be, record it here for when you need a 
 	pick-me-up!
 	
-	<form action="record" method="post">
+	<form  style="padding-top: 15px" action="record" method="post">
 	<textarea name="text" rows="5" cols="50" maxlength="500" 
 	placeholder="What made you smile?" required></textarea>
 	
