@@ -44,7 +44,7 @@
 			<textarea name="comment" rows="7" cols="52" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
-			<input type="hidden" name="username" value="${user.username}"/>
+			<input type="hidden" name="usernamegit" value="${user.username}"/>
 			<button class="btn btn-info" type="submit">Create Thread</button>
 			<a href="/forum/discussion?id=${discussion}" 
 			style="color: #ffffff;" class="btn btn-info">Cancel</a>

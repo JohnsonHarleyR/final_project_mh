@@ -142,7 +142,7 @@ public class ForumController {
 		//save to discussion repo
 		
 		//Create new post in thread table using newly created thread id
-		thread newPost = new thread(); //pass parameters
+		Thread newPost = new Thread(); //pass parameters
 		//save to thread repo
 		
 		
