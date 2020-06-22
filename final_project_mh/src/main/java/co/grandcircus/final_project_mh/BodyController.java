@@ -77,7 +77,6 @@ public class BodyController {
 		int min = (int) minD;
 		int nextRank = max - total;
 
-		System.out.print(percent);
 		if(percent == 0) {percent = 1;}
 
 
@@ -122,6 +121,7 @@ public class BodyController {
 		int max = (int) maxD;
 		int min = (int) minD;
 		int nextRank = max - total;
+		
 		if(percent == 0) {percent = 1;}
 
 		model.addAttribute("nextRank", nextRank);
