@@ -73,6 +73,24 @@
 	</form>
 	<br>
 </section>
+<!-- Form to pass achievement into database to be displayed on profile page, make popup that shows points, also delete or update achieve.-->
+<section>
+<form action = "/submit/achievement">
+<label for = "achivementName"> Achievement Name: </label>
+<input type = "text" id = "achievementName" name = "achievementName">
+<label for = "achievementDescription"> Description: </label>
+<input type = "text" id = "achievementDescription" name = "achievementDescription">
+<label for = "achivementDate"> Date: </label>
+<input type = "date" id = "achievementDate" name = "achievementDate">
+<input type = "submit" value = "Submit">
+</form>
+
+
+
+
+
+</section>
+
 
 
 <section id="affirmations">

@@ -88,6 +88,7 @@ public class Methods {
 	public static void addPoints(int points, User user, UserDao repo) {
 
 		user.setPoints(user.getPoints() + points);
+		user.setGeneralpoints(user.getGeneralpoints() + points);
 		//save user
 		repo.save(user);
 
@@ -135,6 +136,7 @@ public class Methods {
 		 */
 
 		user.setSoulpoints(user.getSoulpoints() + POINTS);
+		user.setPoints(user.getPoints() + POINTS);
 		//save user
 		repo.save(user);
 
@@ -153,6 +155,7 @@ public class Methods {
 		final int POINTS = 1; //can grab from challenge list later
 
 		user.setBodypoints(user.getBodypoints() + POINTS);
+		user.setPoints(user.getPoints() + POINTS);
 		//save user
 		repo.save(user);
 
@@ -188,6 +191,7 @@ public class Methods {
 		final int LIMIT = 4;
 
 		user.setMindpoints(user.getMindpoints() + POINTS);
+		user.setPoints(user.getPoints() + POINTS);
 		//save user
 		repo.save(user);
 
@@ -231,6 +235,7 @@ public class Methods {
 		final int POINTS = 10;
 
 		user.setPoints(user.getPoints() + POINTS);
+		user.setGeneralpoints(user.getGeneralpoints() + POINTS);
 		//save user
 		repo.save(user);
 
