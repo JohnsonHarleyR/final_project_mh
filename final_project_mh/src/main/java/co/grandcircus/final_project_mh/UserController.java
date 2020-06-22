@@ -30,6 +30,8 @@ import co.grandcircus.final_project_mh.Favorites.FavArticle;
 import co.grandcircus.final_project_mh.Favorites.FavExercises;
 import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
+import co.grandcircus.final_project_mh.Gamification.Achievements;
+import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 import co.grandcircus.final_project_mh.User.UserMessage;
@@ -57,6 +59,9 @@ public class UserController {
 	
 	@Autowired
 	private RecordDao recordRepo;
+	
+	@Autowired 
+	private AchievementsRepo achievementsRepo;
 	
 	@Autowired
 	private UserMessageDao userMessageRepo;
@@ -434,6 +439,10 @@ public class UserController {
 			areComments = true;
 		}
 		
+		List<Achievements> achieve = achievementsRepo.findAchievementsByUserId(loggedUser.getId());
+		
+	
+		model.addAttribute("achieve",achieve);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
@@ -681,6 +690,38 @@ public class UserController {
 		
 		return "user-page";
 	}
+	
+	//form for submitting achievements to be displayed
+	//TO DO add points and credit system
+	@RequestMapping("/submit/achievement")
+	public String achievements(@RequestParam("achievementName") String achievementName,
+			@RequestParam("achievementDescription") String achievementDescription,
+			@RequestParam("achievementDate") Date achievementDate,
+			Model model) 
+	{
+		
+		User user = (User)session.getAttribute("user");
+		Achievements achievements = new Achievements();
+		achievements.setUser(user);
+		achievements.setDate(achievementDate);
+		achievements.setDescription(achievementDescription);
+		achievements.setName(achievementName);		
+
+		achievementsRepo.save(achievements); 
+		Methods.addPoints(-10,user, userRepo);
+		
+		return "redirect:/user";
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	//Expanded list - can be multiple things, like on pizza lab
 	@RequestMapping("/list/affirmations")

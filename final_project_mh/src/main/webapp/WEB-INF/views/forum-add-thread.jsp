@@ -32,8 +32,8 @@
 	Otherwise, ask them to sign in.-->
 	<c:choose>
 		<c:when test="${loggedin}">
-			
-			<form action="comment" method="post">
+	
+			<form action="/thread/add/submit" method="post">
 			Discussion: *discussion name here*
 			<br>
 			<br>
@@ -44,7 +44,7 @@
 			<textarea name="comment" rows="7" class="postwidth" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
-			<input type="hidden" name="usernamegit" value="${user.username}"/>
+			<input type="hidden" name="discussion" value="${discussion }">
 			<button class="btn btn-info" type="submit">Create Thread</button>
 			<a href="/forum/discussion?id=${discussion}" 
 			style="color: #ffffff;" class="btn btn-info">Cancel</a>

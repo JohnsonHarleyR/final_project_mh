@@ -1,6 +1,7 @@
 package co.grandcircus.final_project_mh.Forum;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class Thread {
 	@Column(name="thread_id")
 	private Long threadId;
 	private String username;
-	private Date datetime;
+	private LocalDateTime datetime;
 	private String messege;
 	@Column(name="discussion_id")
 	private Long discussionId;
@@ -26,10 +27,9 @@ public class Thread {
 
 	}
 	
-	public Thread(Long id, Long threadId, String username, Date datetime, String messege,
+	public Thread( Long threadId, String username, LocalDateTime datetime, String messege,
 			Long discussionId) {
 		super();
-		this.id = id;
 		this.threadId = threadId;
 		this.username = username;
 		this.datetime = datetime;
@@ -54,10 +54,10 @@ public class Thread {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Date getDatetime() {
+	public LocalDateTime getDatetime() {
 		return datetime;
 	}
-	public void setDatetime(Date datetime) {
+	public void setDatetime(LocalDateTime datetime) {
 		this.datetime = datetime;
 	}
 	public String getMessege() {

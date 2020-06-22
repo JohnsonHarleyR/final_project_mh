@@ -1,6 +1,10 @@
 package co.grandcircus.final_project_mh;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.final_project_mh.Forum.Discussion;
+import co.grandcircus.final_project_mh.Forum.DiscussionDao;
+import co.grandcircus.final_project_mh.Forum.ThreadDao;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 
@@ -25,9 +31,11 @@ public class ForumController {
 	private UserDao userRepo;
 	
 	//Add discussion repo
-	
+	@Autowired
+	private DiscussionDao discussionRepo;
 	//Add thread repo
-	
+	@Autowired
+	private ThreadDao threadRepo;
 	
 	@RequestMapping("/forum")
 	public String mainForum(Model model) {
@@ -57,7 +65,8 @@ public class ForumController {
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
 		
-		
+		//for the id
+		model.addAttribute("d",id);
 		
 		//for the header
 		model.addAttribute("loggedin", loggedIn);
@@ -69,7 +78,7 @@ public class ForumController {
 	//individual threads inside discussion
 	@RequestMapping("/forum/thread")
 	public String forumThread(
-			//@RequestParam("id") Long threadId,
+			@RequestParam("id") Long threadId,
 			//@RequestParam("discussion") Long discussionId,
 			Model model) {
 		
@@ -126,7 +135,6 @@ public class ForumController {
 	public String submitThread(
 			@RequestParam ("discussion") Long discussionId,
 			@RequestParam ("topic") String topic,
-			@RequestParam ("thread") Long threadId,
 			@RequestParam ("message") String message,
 			Model model) {
 		
@@ -134,16 +142,21 @@ public class ForumController {
 		User user = (User)session.getAttribute("user");
 		
 		//Create timestamp for thread and first post
+		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
+		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
 		
 		//Create new thread, put into discussion table
-		Discussion newThread = new Discussion(); //pass parameters
+		Discussion newThread = new Discussion(discussionId, "normal",topic, user.getUsername()); //pass parameters
 		//save to discussion repo
-		
+		discussionRepo.save(newThread);
 		//Create new post in thread table using newly created thread id
-		Thread newPost = new Thread(); //pass parameters
+		Thread newPost = new Thread(newThread.getId(), user.getUsername(),localDateTime,message,discussionId); //pass parameters
 		//save to thread repo
-		
+		threadRepo.save(newPost);
 		
 		return "redirect: /thread?id=" + threadId;
 		
