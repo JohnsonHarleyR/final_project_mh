@@ -19,7 +19,7 @@ public class WorkoutService {
 		
 		ExerciseInfo response = rest.getForObject(url, ExerciseInfo.class, category);
 		
-		System.out.println(url);
+		//System.out.println(url);
 		List<Results> exercise = response.getResults();
 
 		return exercise;

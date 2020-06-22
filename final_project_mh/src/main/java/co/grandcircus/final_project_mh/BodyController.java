@@ -37,8 +37,8 @@ public class BodyController {
 	@Autowired
 	private UserDao userRepo;
 
-	
-	
+
+
 	@Autowired
 	private ExcerciseService excerciseService;
 
@@ -59,7 +59,7 @@ public class BodyController {
 
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer category = (Integer) session.getAttribute("category");
-		
+
 		if (category == null) {
 			category = 10;
 		}
@@ -67,10 +67,22 @@ public class BodyController {
 		List<Results> resultList = workoutService.getWorkout(category);
 		User user = (User) session.getAttribute("user");
 		String names = Methods.getRank(user, userRepo).getName();
-		int max = Methods.getRank(user, userRepo).getMaxBodyPoints();
-		int min = Methods.getRank(user, userRepo).getMinBodyPoints();
-		int total = user.getBodypoints();
-		
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
+
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+
+		System.out.print(percent);
+		if(percent == 0) {percent = 1;}
+
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
 		model.addAttribute("total", total);
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
@@ -97,13 +109,23 @@ public class BodyController {
 		}
 
 		List<Results> resultList = workoutService.getWorkout(category);
-		
+
 		User user = (User) session.getAttribute("user");
 		String names = Methods.getRank(user, userRepo).getName();
-		int max = Methods.getRank(user, userRepo).getMaxBodyPoints();
-		int min = Methods.getRank(user, userRepo).getMinBodyPoints();
-		int total = user.getBodypoints();
-		
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
+
+		//this calculates the percentage for the progress bar
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+		if(percent == 0) {percent = 1;}
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
 		model.addAttribute("total", total);
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
@@ -120,8 +142,8 @@ public class BodyController {
 	public String foodWithInput(Model model, @RequestParam(required = false) String userInput) {
 
 		boolean loggedIn = Methods.checkLogin(session);
-		
-		
+
+
 		Nutrients foodTracker = foodService.getTest(userInput);
 
 		List<Foods> food = foodTracker.getFoods();
@@ -132,13 +154,25 @@ public class BodyController {
 		}
 
 		List<Results> resultList = workoutService.getWorkout(category);
-		
+
 		User user = (User) session.getAttribute("user");
 		String names = Methods.getRank(user, userRepo).getName();
-		int max = Methods.getRank(user, userRepo).getMaxBodyPoints();
-		int min = Methods.getRank(user, userRepo).getMinBodyPoints();
-		int total = user.getBodypoints();
-		
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
+
+		//calculates percent for progress bar
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+
+		//this is so the progress bar shows something when 0%
+		if(percent == 0) {percent = 1;}
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
 		model.addAttribute("total", total);
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
@@ -171,20 +205,13 @@ public class BodyController {
 			// Save to favorite
 			exerciseRepo.save(favorite);
 			Methods.addExercisePoints(user, userRepo);
-			
+
 			String names = Methods.getRank(user, userRepo).getName();
 			int max = Methods.getRank(user, userRepo).getMaxBodyPoints();
 			int min = Methods.getRank(user, userRepo).getMinBodyPoints();
 			int total = user.getBodypoints();
-			
-			int width = 40;
-			System.out.println(min);
-			System.out.println(max);
-			System.out.println(width);
-			String wString = String.valueOf(width);
-			//String newString = wString + "%";
 
-			model.addAttribute("width", width);
+
 			model.addAttribute("total", total);
 			model.addAttribute("max", max);
 			model.addAttribute("min", min);

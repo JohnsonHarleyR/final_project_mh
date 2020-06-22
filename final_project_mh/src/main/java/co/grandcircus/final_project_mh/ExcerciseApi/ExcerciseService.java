@@ -32,7 +32,6 @@ public class ExcerciseService {
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<>(personJsonObject,headers);
 		
 		ExcerciseTracker response = rest.postForObject(url, entity, ExcerciseTracker.class);
-		System.out.println(response);
 		return response;
 	}
 	

@@ -9,11 +9,14 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Body Page</title>
+<style>
+</style>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
 <link href="/style.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -64,13 +67,18 @@
 								}
 							});
 		</script>
-
-		<br>
+		<div>
+        <h3>Your Rank is: <c:out value = "${names}"/></h3>
+        </div>
 		<div class="progress">
-			<div class="progress-bar" role="progressbar" style="width: <c:out value="${width}" />%" aria-valuenow="${total}"
+			<div class="progress-bar" role="progressbar" style="width:<c:out value ="${percent}"/>%;" aria-valuenow="${total}"
 				aria-valuemin="${min}" aria-valuemax="${max}"></div>
 		</div>
-
+		<p> Total Body Points: <c:out value = "${total}"/></p>
+		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
+		</div>
+		
+<br>
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item"><a class="nav-link" id="exercise-tab"
 				data-toggle="tab" href="#exercise" role="tab"
@@ -93,8 +101,8 @@
 		          <textarea name = "userInput"
 		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
 						<br>
-						<input type="submit" onclick="addPoints()" value="Submit" class = "btn btn-info btn-sm">
-		
+						<input type="submit"  value="Submit" class = "btn btn-info btn-sm">
+		<!-- onclick="addPoints()" Don't think we want this in input above -->
 		</form>
 
 			<c:forEach var= "exercise" items="${exercises}">
