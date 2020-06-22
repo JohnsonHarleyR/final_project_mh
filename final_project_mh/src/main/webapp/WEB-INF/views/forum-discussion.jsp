@@ -13,7 +13,7 @@
 <link href="/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>${discussion}</title>
 </head>
 <body>
 
@@ -24,6 +24,81 @@
 
 <!-- MainBody -->
 <main class="container">
+
+<div id="forum-discussion">
+
+	<a href="/forum">Back to Main Forum</a>
+	
+	<article class="card" id="threads" style="width: 50rem;">
+	
+		
+		
+		<section class="card-header">
+			<h1>*Discussion Name* ${discussion}</h1>
+			
+		</section>
+		<section class="card-body">
+		
+			<table  id="table2" class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th scope="col">Topic</th>
+			      <th scope="col">Replies</th>
+			      <th scope="col">Author</th>
+			      <th scope="col">Latest Post</th>
+			    </tr>
+			  </thead>
+			  
+			  <tbody>
+			  
+			  	<!-- For Each loop here, connect to thread database -->
+			    <tr>
+			      <td>
+			      	<a href="">*thread topic title*</a>
+			      </td>
+			      <td>*# of replies*</td>
+			      <td>*number of posts*</td>
+			      <td>
+			      	*<a href="">thread/topic author</a>,<br>
+			      	 <sup><a href="">post author</a>, datetime*</sup>
+			      </td>
+			    </tr>
+			    
+			    
+			    <!-- for the sake of an example, take this out later -->
+			    <tr>
+			      <td>
+			      	<a href="">*thread topic title*</a>
+			      </td>
+			      <td>*# of replies*</td>
+			      <td>*number of posts*</td>
+			      <td>
+			      	*<a href="">thread/topic author</a>,<br>
+			      	 <sup><a href="">post author</a>, datetime*</sup>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>
+			      	<a href="">*thread topic title*</a>
+			      </td>
+			      <td>*# of replies*</td>
+			      <td>*number of posts*</td>
+			      <td>
+			      	*<a href="">thread/topic author</a>,<br>
+			      	 <sup><a href="">post author</a>, datetime*</sup>
+			      </td>
+			    </tr>
+	
+			    
+			  </tbody>
+			</table>
+		
+			
+		</section>
+	</article>
+</div>
+
+
 
 </main>
 

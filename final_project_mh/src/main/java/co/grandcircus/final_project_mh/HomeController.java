@@ -38,7 +38,6 @@ public class HomeController {
 	@Autowired
 	private UserDao userRepo;
 
-	
 
 	@RequestMapping("/")
 	public String home (

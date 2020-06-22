@@ -38,9 +38,9 @@ public class ForumController {
 		return "forum-main";
 	}
 	
-	@RequestMapping("/forum/discuss")
-	public String forumThread(
-			@RequestParam("name") String name,
+	@RequestMapping("/forum/discussion")
+	public String forumDiscussion(
+			//@RequestParam("id") Long id,
 			Model model) {
 		
 		//Get session user
@@ -54,7 +54,34 @@ public class ForumController {
 		//for the header
 		model.addAttribute("loggedin", loggedIn);
 		
-		return "forum-main";
+		
+		return "forum-discussion";
+	}
+	
+	//individual threads inside discussion
+	@RequestMapping("/forum/thread")
+	public String forumThread(
+			//@RequestParam("id") Long threadId,
+			//@RequestParam("discussion") Long discussionId,
+			Model model) {
+		
+		//Get session user
+		User user = (User)session.getAttribute("user");
+		
+		//for the header
+		boolean loggedIn = Methods.checkLogin(session);
+		
+		
+		
+		//for the header
+		model.addAttribute("loggedin", loggedIn);
+		
+		//If user is logged in, add user to model
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		return "forum-thread";
 	}
 	
 	

@@ -26,121 +26,91 @@
 <main class="container">
 
 
-
+<div id="forum-main">
 <article class="card" id="welcome" style="width: 50rem;">
 	<section class="card-header">
 		<h1>Welcome to the Forum</h1>
 		
 	</section>
 	<section class="card-body">
-		<table id="table1">
-		
-			<tr>
-				<th>
-					<b>Discussion</b>
-				</th>
-				<th>
-					<b>Topics</b>
-				</th>
-				<th>
-					<b>Posts</b>
-				</th>
-				<th>
-					<b>Last Post</b>
-				</h>
-			</tr>
-		
-		
-			<tr>
-				<td>
-					Announcements
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<td>
-					Introductions
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
+	
+		<table  id="table2" class="table table-borderless">
+		  <thead>
+		    <tr>
+		      <th scope="col">Discussion</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Topics</th>
+		      <th scope="col">Latest Post</th>
+		    </tr>
+		  </thead>
+		  
+		  <tbody>
+		  
+		    <tr>
+		      <td>
+		      	<a href="">Announcements</a>
+		      </td>
+		      <td>*describe here*</td>
+		      <td>*number of posts*</td>
+		      <td>
+		      	*<a href="">post title</a>,<br>
+		      	 <sup><a href="">author</a>, datetime*</sup>
+		      </td>
+		    </tr>
+		    
+		    <tr>
+		      <td>
+		      	<a href="">Introductions</a>
+		      </td>
+		      <td>*describe here*</td>
+		      <td>*# of posts*</td>
+		      <td>
+		      	*<a href="">post title</a>,<br>
+		      	 <sup><a href="">author</a>, datetime*</sup>
+		      </td>
+		    </tr>
+		    
+		  </tbody>
 		</table>
+	
+		
 	</section>
 </article>
+</div>
 
 
 
 <article class="card" id="general" style="width: 50rem;">
 	<section class="card-header">
 		<h1>General</h1>
-		
 	</section>
+	
 	<section class="card-body">
-		<table id="table2">
-		
-			<tr>
-				<th>
-					<b>Discussion</b>
-				</th>
-				<th>
-					<b>Topics</b>
-				</th>
-				<th>
-					<b>Posts</b>
-				</th>
-				<th>
-					<b>Last Post</b>
-				</h>
-			</tr>
-		
-		
-			<tr>
-				<td>
-					Announcements
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<td>
-					Introductions
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
+		<table  id="table2" class="table table-borderless">
+		  <thead>
+		    <tr>
+		      <th scope="col">Discussion</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Topics</th>
+		      <th scope="col">Latest Post</th>
+		    </tr>
+		  </thead>
+		  
+		  <tbody>
+		  
+		    <tr>
+		      <td>
+		      	<a href="">*discussion name*</a>
+		      </td>
+		      <td>*describe here*</td>
+		      <td>*# of posts*</td>
+		      <td>
+		      	*<a href="">post title</a>,<br>
+		      	 <sup><a href="">author</a>, datetime*</sup>
+		      </td>
+		    </tr>
+		    
+		  </tbody>
 		</table>
 	</section>
 </article>
@@ -153,55 +123,34 @@
 		
 	</section>
 	<section class="card-body">
-		<table id="table3">
-		
-			<tr>
-				<th>
-					<b>Discussion</b>
-				</th>
-				<th>
-					<b>Topics</b>
-				</th>
-				<th>
-					<b>Posts</b>
-				</th>
-				<th>
-					<b>Last Post</b>
-				</h>
-			</tr>
-		
-		
-			<tr>
-				<td>
-					Announcements
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<td>
-					Introductions
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-				<td>
-					test
-				</td>
-			</tr>
+	
+		<table  id="table3" class="table table-borderless">
+		  <thead>
+		    <tr>
+		      <th scope="col">Discussion</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Topics</th>
+		      <th scope="col">Latest Post</th>
+		    </tr>
+		  </thead>
+		  
+		  <tbody>
+		  
+		    <tr>
+		      <td>
+		      	<a href="">*discussion name*</a>
+		      </td>
+		      <td>*describe here*</td>
+		      <td>*# of posts*</td>
+		      <td>
+		      	*<a href="">post title</a>,<br>
+		      	 <a href="">author</a>, datetime*
+		      </td>
+		    </tr>
+		    
+		  </tbody>
 		</table>
+	
 	</section>
 </article>
 		
