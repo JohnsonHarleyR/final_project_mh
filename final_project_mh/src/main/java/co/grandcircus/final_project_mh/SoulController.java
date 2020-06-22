@@ -56,6 +56,32 @@ public class SoulController {
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
 		
+		User user = (User)session.getAttribute("user");
+		//adds progress bar line
+				String names = Methods.getRank(user, userRepo).getName();
+				double maxD = Methods.getRank(user, userRepo).getMaxSoulPoints();
+				double minD = Methods.getRank(user, userRepo).getMinSoulPoints();
+				double totalD = user.getSoulpoints();
+
+				int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+				int total = (int) totalD;
+				int max = (int) maxD;
+				int min = (int) minD;
+				int nextRank = max - total;
+
+				if(percent == 0) {percent = 1;}
+				
+				model.addAttribute("nextRank", nextRank);
+				model.addAttribute("percent",percent);
+				model.addAttribute("total", total);
+				model.addAttribute("max", max);
+				model.addAttribute("min", min);
+				model.addAttribute("names", names);
+		
+		
+		
+		
+		
 		//Get an affirmation
 		String affirmation = affirmationsService.getAffirmation();
 		
@@ -69,8 +95,8 @@ public class SoulController {
 		//If user is logged in, check to see if it's saved already
 		if (loggedIn) {
 			
-			//Get user
-			User user = (User)session.getAttribute("user");
+			//Get user  (assigned above with the progress bar)
+			//User user = (User)session.getAttribute("user");
 			
 			//Get list of their favorite Affirmations
 			List<FavAffirmation> affirmations =
@@ -196,8 +222,8 @@ public class SoulController {
 		//If user is logged in, check to see if it's saved already
 		if (loggedIn) {
 			
-			//Get user
-			User user = (User)session.getAttribute("user");
+			//Get user (assigned above with progress bar
+			// User user = (User)session.getAttribute("user");
 		//Get list of their favorite Affirmations
 			List<FavAffirmation> affirmations =
 					affirmationRepo.findByUserId(user.getId());

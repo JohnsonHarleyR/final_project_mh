@@ -26,7 +26,7 @@
 
 <!-- MainBody -->
 <main class="container">
-
+<h1>Soul</h1>
 
 <script>
 function addPoints() {
@@ -34,13 +34,21 @@ function addPoints() {
 }
 </script>
 
+<div>
+        <h3>Your Rank is: <c:out value = "${names}"/></h3>
+        </div>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" style="width:<c:out value ="${percent}"/>%;" aria-valuenow="${total}"
+				aria-valuemin="${min}" aria-valuemax="${max}"></div>
+		</div>
+		<p> Total Soul Points: <c:out value = "${total}"/></p>
+		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
+</div>
 
 <!-- Let's try kittens - kitten api -->
 <img id="kitten" style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
 
 <br>
-
-<h1>Soul</h1>
 
 <!-- If user is logged in, show option to save -->
 <section id="affirmation" style="font-size:larger" >

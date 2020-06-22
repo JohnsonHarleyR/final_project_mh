@@ -33,7 +33,7 @@
 	</script>
 
 	<main class="container">
-
+<h1>Body</h1>
 
 
 
@@ -67,6 +67,7 @@
 								}
 							});
 		</script>
+		<div>
 		<div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>
         </div>

@@ -134,7 +134,7 @@ public class Methods {
 		}
 		 */
 
-		user.setPoints(user.getPoints() + POINTS);
+		user.setSoulpoints(user.getSoulpoints() + POINTS);
 		//save user
 		repo.save(user);
 
@@ -187,7 +187,7 @@ public class Methods {
 		final int POINTS = 1; //can grab from challenge list later
 		final int LIMIT = 4;
 
-		user.setPoints(user.getPoints() + POINTS);
+		user.setMindpoints(user.getMindpoints() + POINTS);
 		//save user
 		repo.save(user);
 

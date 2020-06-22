@@ -24,6 +24,19 @@ function addPoints() {
 <main class="container">
 <h1>Mind</h1>
 
+<div>
+<div>
+        <h3>Your Rank is: <c:out value = "${names}"/></h3>
+        </div>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" style="width:<c:out value ="${percent}"/>%;" aria-valuenow="${total}"
+				aria-valuemin="${min}" aria-valuemax="${max}"></div>
+		</div>
+		<p> Total Mind Points: <c:out value = "${total}"/></p>
+		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
+</div>
+
+
 <section id="game">
 	<div style="width:55%;height:55%;float:right;padding:10px;">
 		<script src="https://cdn.htmlgames.com/embed.js?game=DailyWordSearch&amp;&amp;bgcolor=white"></script>

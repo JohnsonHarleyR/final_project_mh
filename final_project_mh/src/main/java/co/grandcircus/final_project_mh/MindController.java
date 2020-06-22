@@ -16,6 +16,7 @@ import co.grandcircus.final_project_mh.PickedArticles.PickedArticle;
 import co.grandcircus.final_project_mh.PickedArticles.PickedArticles;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.WorkoutsApi.Results;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -78,6 +79,27 @@ public class MindController {
 		
 		User user = (User)session.getAttribute("user");
 		
+		//adds progress bar line
+		String names = Methods.getRank(user, userRepo).getName();
+		double maxD = Methods.getRank(user, userRepo).getMaxMindPoints();
+		double minD = Methods.getRank(user, userRepo).getMinMindPoints();
+		double totalD = user.getMindpoints();
+
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+
+		if(percent == 0) {percent = 1;}
+		
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
+		model.addAttribute("total", total);
+		model.addAttribute("max", max);
+		model.addAttribute("min", min);
+		model.addAttribute("names", names);
+
 		//Get list of their favorite Articles
 		List<FavArticle> articles = new ArrayList<>();
 		
@@ -110,7 +132,6 @@ public class MindController {
 	  
 	    //NEWS API
 
-		
 		Article article1 = null; 
 		
 		//filters description of article for specific keywords if keyword found it 
@@ -135,8 +156,6 @@ public class MindController {
 		
 		model.addAttribute("exists3", exists3);
 		
-	
-		
 	    Article article2 = null;
 	    //to make sure 2 different articles come up
 	    //2nd it compares the article to a preset list of strings to filter for content
@@ -159,7 +178,6 @@ public class MindController {
 				}
 			}
 		}
-		System.out.println(exists4);
 		model.addAttribute("exists4", exists4);
 	    
 		//System.out.println(article.toString());
@@ -198,12 +216,7 @@ public class MindController {
 			model.addAttribute(c, exists);
 			n++;
 		}
-		
-		
-		
-		
-		
-	    
+
 	    //User stuff
 		model.addAttribute("loggedin", loggedIn);
 
@@ -223,6 +236,7 @@ public class MindController {
 			Model model) {
 		
 		boolean loggedIn = Methods.checkLogin(session);
+			
 		
 		
 		if (!loggedIn) {
@@ -263,7 +277,6 @@ public class MindController {
 				Methods.addArticlePoints(user, userRepo);
 			}
 			}
-			
 		
 		//Find way to let user know if their save was successful
 		return "redirect:/mind";
