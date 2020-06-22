@@ -43,6 +43,15 @@
 					
 					</td>
 					</tr>
+					
+					<tr>
+					<td>
+					 <label for="exampleFormControlFile1">Upload a Profile Picture</label>
+    				 <input type="file" class="form-control-file" id="exampleFormControlFile1">
+					</td>
+					</tr>
+					
+					
 					<tr>
 					<td>
 					
