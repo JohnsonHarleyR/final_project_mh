@@ -17,12 +17,11 @@ public class Discussion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="thread_id")
-	private Long threadId;
+	@Column(name="discussion_id")
+	private Long discussionId;
 	@Column(name="post_type")
 	private String postType;
 	private String topic;
-	private Integer replies;
 	private String username;
 	
 	
@@ -32,11 +31,11 @@ public class Discussion {
 		
 	}
 	
-	public Discussion(Long id, Long threadId, String postType, String topic, String username
+	public Discussion( Long threadId, String postType, String topic, String username
 			) {
 		super();
-		this.id = id;
-		this.threadId = threadId;
+		
+		this.discussionId = threadId;
 		this.postType = postType;
 		this.topic = topic;
 		this.username = username;
@@ -49,10 +48,10 @@ public class Discussion {
 		this.id = id;
 	}
 	public Long getThreadId() {
-		return threadId;
+		return discussionId;
 	}
 	public void setThreadId(Long threadId) {
-		this.threadId = threadId;
+		this.discussionId = threadId;
 	}
 	public String getPostType() {
 		return postType;
@@ -74,7 +73,7 @@ public class Discussion {
 	}
 	@Override
 	public String toString() {
-		return "Discussion [id=" + id + ", threadId=" + threadId + ", postType=" + postType + ", topic=" + topic
+		return "Discussion [id=" + id + ", threadId=" + discussionId + ", postType=" + postType + ", topic=" + topic
 				+ ", username=" + username + "]";
 	}
 	

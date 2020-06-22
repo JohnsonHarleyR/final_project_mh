@@ -39,7 +39,7 @@
 		
 			<!-- If logged in, let them create new thread -->
 			<c:if test="${loggedin}">
-				<a href="/thread/add?d=${id}">Create a New Thread</a>
+				<a href="/thread/add?d=${d}">Create a New Thread</a>
 			</c:if>
 		
 			<table  id="table2" class="table table-hover">
