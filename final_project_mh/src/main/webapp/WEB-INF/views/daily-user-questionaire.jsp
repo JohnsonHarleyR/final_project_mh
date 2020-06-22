@@ -32,7 +32,7 @@
 <input name= "userId" type="hidden" value="${user.id}" >
  <div class="form-group">
     <label for="FormControlSelect1">How are you feeling today?</label>
-    <select name= "feelings" class="form-control" id="FormControlSelect1">
+    <select name= "feelings" class="form-control" id="FormControlSelect1" required>
       <option>Happy</option>
       <option>Sad</option>
       <option>Un-Motivated</option>
@@ -45,7 +45,7 @@
 <div class="form-group" id="excerciseFocusOptions">
 <label for="excerciseFocusOptions" >What part of your body would you like to work on today?</label>
 <div class="form-check">
-  <input class="form-check-input" type="radio" name="workoutFocus" id="radios1" value="9" >
+  <input class="form-check-input" type="radio" name="workoutFocus" id="radios1" value="9" required>
   <label class="form-check-label" for="radios1">
    Legs
   </label>
@@ -97,7 +97,7 @@
 <%--Question ties into the mind page for display of an article --%>
 <div class="form-group">
     <label for="FormControlSelect2">What topics are you interested in today?</label>
-    <select name= "interests" class="form-control" id="FormControlSelect2">
+    <select name= "interests" class="form-control" id="FormControlSelect2" required>
       <option value = "0">Top Headlines</option>
       <option value = "1">Spirituality</option>
       <option value = "2">Overcoming Struggle</option>

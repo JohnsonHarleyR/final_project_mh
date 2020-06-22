@@ -107,7 +107,7 @@ function addPoints() {
 </div>
 <div class="form-check">
   <input class="form-check-input" name="musicPreferences[]" type="checkbox" value="Melodic-Techno" id="check11" >
-  <label class="form-check-label" for="check8">
+  <label class="form-check-label" for="check11">
     Melodic-Techno
   </label>
 </div>
@@ -121,14 +121,14 @@ function addPoints() {
   <%-- User Current Body Weight --%>
 <div class="form-group">
     <label for="FormControlInput2" >How much do you weigh currently?</label>
-    <input type="text" name="userWeight" class="form-control" id="FormControlInput2">
+    <input type="text" name="userWeight" class="form-control" id="FormControlInput2" required>
   </div>
   
  
  <%-- User Current Body Weight Goal --%>
   <div class="form-group">
     <label for="FormControlInput3" >What is your goal weight?</label>
-    <input type="text" name="userGoalWeight" class="form-control" id="FormControlInput3">
+    <input type="text" name="userGoalWeight" class="form-control" id="FormControlInput3" required>
   </div>
   
   <input type="hidden" name="plus" value="ten"/>
