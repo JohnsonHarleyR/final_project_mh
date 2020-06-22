@@ -28,7 +28,7 @@
 	<div id="thread">
 		<a href="/forum/discussion">Back to *Discussion Title*</a>
 		<article class="card" id="posts" style="width: 50rem;">
-		
+			<a href="/forum/discussion">Back to *Discussion Title*</a>
 			<section class="card-body">
 				
 	

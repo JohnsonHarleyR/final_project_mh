@@ -30,14 +30,17 @@
 	<a href="/forum">Back to Main Forum</a>
 	
 	<article class="card" id="threads" style="width: 50rem;">
-	
-		
 		
 		<section class="card-header">
 			<h1>*Discussion Name* ${discussion}</h1>
 			
 		</section>
 		<section class="card-body">
+		
+			<!-- If logged in, let them create new thread -->
+			<c:if test="${loggedin}">
+				<a href="/thread/add?d=${id}">Create a New Thread</a>
+			</c:if>
 		
 			<table  id="table2" class="table table-hover">
 			  <thead>
