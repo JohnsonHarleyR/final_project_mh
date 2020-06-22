@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="thread")
-public class thread {
+public class Thread {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,18 +20,21 @@ public class thread {
 	private String username;
 	private Date datetime;
 	private String messege;
-	
-	public thread() {
-		
+	@Column(name="discussion_id")
+	private Long discussionId;
+	public Thread() {
+
 	}
 	
-	public thread(Long id, Long threadId, String username, Date datetime, String messege) {
+	public Thread(Long id, Long threadId, String username, Date datetime, String messege,
+			Long discussionId) {
 		super();
 		this.id = id;
 		this.threadId = threadId;
 		this.username = username;
 		this.datetime = datetime;
 		this.messege = messege;
+		this.discussionId = discussionId;
 	}
 	public Long getId() {
 		return id;
@@ -64,6 +67,14 @@ public class thread {
 		this.messege = messege;
 	}
 	
+	public Long getDiscussionId() {
+		return discussionId;
+	}
+
+	public void setDiscussionId(Long discussionId) {
+		this.discussionId = discussionId;
+	}
+
 	@Override
 	public String toString() {
 		return "thread [id=" + id + ", threadId=" + threadId + ", username=" + username + ", datetime=" + datetime
