@@ -20,6 +20,10 @@ public class User implements Serializable {
 	private String password;
 	private String name;
 	private int points;
+	private int bodypoints;
+	private int mindpoints;
+	private int soulpoints;
+	private int generalpoints;
 	private String friends;
 	private String requests;
 	private String status;
@@ -27,6 +31,8 @@ public class User implements Serializable {
 	public User() {
 		
 	}
+	
+	
 	
 	public User(String username, String email, String password, String name) {
 		this.username = username.trim();
@@ -39,6 +45,45 @@ public class User implements Serializable {
 		status = "user";
 	}
 	
+	
+	
+	
+	public int getBodypoints() {
+		return bodypoints;
+	}
+
+
+
+	public void setBodypoints(int bodypoints) {
+		this.bodypoints = bodypoints;
+	}
+
+
+
+	public int getMindpoints() {
+		return mindpoints;
+	}
+
+
+
+	public void setMindpoints(int mindpoints) {
+		this.mindpoints = mindpoints;
+	}
+
+
+
+	public int getSoulpoints() {
+		return soulpoints;
+	}
+
+
+
+	public void setSoulpoints(int soulpoints) {
+		this.soulpoints = soulpoints;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -108,6 +153,18 @@ public class User implements Serializable {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
 				+ name + ", points=" + points + ", friends=" + friends + ", requests=" + requests + ", status=" + status
 				+ "]";
+	}
+
+
+
+	public int getGeneralpoints() {
+		return generalpoints;
+	}
+
+
+
+	public void setGeneralpoints(int generalpoints) {
+		this.generalpoints = generalpoints;
 	}
 
 	

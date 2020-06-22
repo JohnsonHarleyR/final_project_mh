@@ -13,7 +13,7 @@
 <link href="/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
-<title>Friends List</title>
+<title>Insert title here</title>
 </head>
 <body>
 
@@ -24,25 +24,6 @@
 
 <!-- MainBody -->
 <main class="container">
-
-<h1>${profile.name}'s Friend List</h1>
-
-<c:choose>
-<c:when test="${friends}">
-<ul>
-	<c:forEach var="friend" items="${list}">
-		<li>
-			${friend.username} - <a href="/profile?id=${friend.id}">See profile</a>
-			<br>
-		</li>
-	</c:forEach>
-</ul>
-</c:when>
-<c:otherwise>
-Everyone needs friends.
-<br>Let's go find some!
-</c:otherwise>
-</c:choose>
 
 </main>
 

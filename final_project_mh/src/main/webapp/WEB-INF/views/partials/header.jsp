@@ -26,8 +26,13 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-custom">
 
-
-	<ul class="nav">
+<!--
+display: flex;
+  justify-content: center;
+  align-items: center;
+-->
+	
+	<ul class="nav" >
 
 		<li class="nav-item">
 			<a class="nav-link" href="/"><img height=30px src="/house_icon.png"></a>
@@ -43,8 +48,16 @@
 		</li>
 		
 	</ul>
+	
+	
 
-	<ul class="nav">
+	<ul  class="nav">
+	
+		<c:if test="${user.status == 'admin'}">
+			<li class="nav-item" >
+				<a style="color:#000000;" class="nav-link">Admin</a>
+			</li>
+		</c:if>
 	
 		<li class="nav-item" >
 			<c:choose>

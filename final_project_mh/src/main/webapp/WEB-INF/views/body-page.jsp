@@ -1,21 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Body Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="/style.css" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Body Page</title>
+<style>
+</style>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<link href="/style.css" rel="stylesheet" />
+
 </head>
-	
-	<body>
+
+<body>
 
 	<section class="header">
-	<%@ include file="partials/header.jsp" %>
+		<%@ include file="partials/header.jsp"%>
 	</section>
 	
 	
@@ -25,39 +32,66 @@
 	}
 	</script>
 
-<main class="container">
-	<h1>Body</h1>
+	<main class="container">
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-	<script>
-	$(document).ready(function(){
-	    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-	        localStorage.setItem('activeTab', $(e.target).attr('href'));
-	    });
-	    var activeTab = localStorage.getItem('activeTab');
-	    if(activeTab){
-	        $('#myTab a[href="' + activeTab + '"]').tab('show');
-	    }
-	});
-	</script>
 
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
-	  <li class="nav-item">
-	    <a class="nav-link" id="exercise-tab" data-toggle="tab" href="#exercise" role="tab" aria-controls="exercise" aria-selected="true">Exercise</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" id="food-tab" data-toggle="tab" href="#food" role="tab" aria-controls="food" aria-selected="false">Nutrition</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" id="workout-tab" data-toggle="tab" href="#workout" role="tab" aria-controls="workout" aria-selected="false">Daily Workouts</a>
-	  </li>
-	</ul>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+			crossorigin="anonymous"></script>
 
-<!-- Tab panes -->
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('a[data-toggle="tab"]').on(
+										'show.bs.tab',
+										function(e) {
+											localStorage.setItem('activeTab',
+													$(e.target).attr('href'));
+										});
+								var activeTab = localStorage
+										.getItem('activeTab');
+								if (activeTab) {
+									$('#myTab a[href="' + activeTab + '"]')
+											.tab('show');
+								}
+							});
+		</script>
+		<div>
+        <h3>Your Rank is: <c:out value = "${names}"/></h3>
+        </div>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" style="width:<c:out value ="${percent}"/>%;" aria-valuenow="${total}"
+				aria-valuemin="${min}" aria-valuemax="${max}"></div>
+		</div>
+		<p> Total Body Points: <c:out value = "${total}"/></p>
+		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
+		</div>
+		
+<br>
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item"><a class="nav-link" id="exercise-tab"
+				data-toggle="tab" href="#exercise" role="tab"
+				aria-controls="exercise" aria-selected="true">Exercise</a></li>
+			<li class="nav-item"><a class="nav-link" id="food-tab"
+				data-toggle="tab" href="#food" role="tab" aria-controls="food"
+				aria-selected="false">Nutrition</a></li>
+			<li class="nav-item"><a class="nav-link" id="workout-tab"
+				data-toggle="tab" href="#workout" role="tab" aria-controls="workout"
+				aria-selected="false">Daily Workouts</a></li>
+		</ul>
+
+		<!-- Tab panes -->
 	<div class="tab-content">
 	  <div class="tab-pane active" id="exercise" role="tabpanel" aria-labelledby="exercise-tab">
 	  
@@ -67,8 +101,8 @@
 		          <textarea name = "userInput"
 		          placeholder="Your text here" rows = "3" cols = "80"></textarea>
 						<br>
-						<input type="submit" onclick="addPoints()" value="Submit" class = "btn btn-info btn-sm">
-		
+						<input type="submit"  value="Submit" class = "btn btn-info btn-sm">
+		<!-- onclick="addPoints()" Don't think we want this in input above -->
 		</form>
 
 			<c:forEach var= "exercise" items="${exercises}">
@@ -84,12 +118,12 @@
 				<br>
 				<button type="submit" onclick="addPoints()" class="btn btn-info btn-sm">I did this!</button>
 				</form>
-				
-				</div>
 			</div>
-			</c:forEach>
 		</div>
-  
+		</c:forEach>
+		</div>
+
+
   
 <div class="tab-pane" id="food" role="tabpanel" aria-labelledby="food-tab">
  <h3>Enter food items such as "2 eggs and a slice of white toast" to calculate the nutrition facts: </h3>  
@@ -282,18 +316,18 @@
 		</section>
 		</c:forEach>
   </div>
-
-<div class="tab-pane" id="workout" role="tabpanel" aria-labelledby="workout-tab">
-	<c:forEach var= "result" items="${resultList}">
-		<div class="card w-100">
-	  		<div class="card-body">
-				<h3 class = "card-title">${result.name}</h3>
-				<p class = "card-body">${result.description}</p>
+			<div class="tab-pane" id="workout" role="tabpanel"
+				aria-labelledby="workout-tab">
+				<c:forEach var="result" items="${resultList}">
+					<div class="card w-100">
+						<div class="card-body">
+							<h3 class="card-title">${result.name}</h3>
+							<p class="card-body">${result.description}</p>
+						</div>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
-	</c:forEach>  
-</div>
-</div>
-</main>
+	</main>
 </body>
 </html>

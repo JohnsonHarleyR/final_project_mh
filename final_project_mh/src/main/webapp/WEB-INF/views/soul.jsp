@@ -91,6 +91,8 @@ function addPoints() {
 </c:choose>
 </section>
 
+<br>
+<br>
 
 <%--Start of YouTube Player  --%>
 <section >

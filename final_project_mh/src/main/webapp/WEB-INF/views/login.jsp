@@ -73,9 +73,9 @@
 		</c:when>
 		
 		<c:otherwise>
-			<section id="panda">
+			<section style="display:flex;align-items: center;justify-content: center;" id="panda">
 				<h1>${user.name}, you are already logged in!</h1>
-				<img width=300px src="/confused-panda-blue.png">
+				<img style="float:right;" width=300px src="/confused-panda-turq.png">
 			</section>
 		</c:otherwise>
 	</c:choose>

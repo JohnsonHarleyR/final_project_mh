@@ -27,9 +27,15 @@
 <h1>${user.name}'s Page</h1>
 
 <section id="user-options">
-	<b>Username:</b> ${user.username}
+	<a href="/friends?id=${user.id}">See friends</a>
+	<br>
+	<a href="/profile?id=${user.id}">See your profile</a>
+	<br>
 	<br>
 	<b>Points:</b> ${user.points}
+	<br>
+	<b>Username:</b> ${user.username}
+	<br>
 	<br>
 </section>
 
@@ -40,7 +46,7 @@
 	Whatever it may be, record it here for when you need a 
 	pick-me-up!
 	
-	<form action="record" method="post">
+	<form  style="padding-top: 15px" action="record" method="post">
 	<textarea name="text" rows="5" cols="50" maxlength="500" 
 	placeholder="What made you smile?" required></textarea>
 	

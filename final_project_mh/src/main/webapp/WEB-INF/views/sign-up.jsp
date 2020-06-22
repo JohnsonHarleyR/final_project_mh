@@ -57,21 +57,21 @@
 					
 					
 					<label id="i1">Username: </label><br>
-					<input id="t1" type="text" name="username" required/>
+					<input id="t1" type="text" name="username" maxlength="50" required/>
 					</td>
 					</tr>
 					
 					<tr>
 					<td>
 					<label id="i2">Email: </label><br>
-					<input id="t2" type="email" name="email" required/>
+					<input id="t2" type="email" name="email" maxlength="45" required/>
 					</td>
 					</tr>
 					
 					<tr>
 					<td>
 					<label id="i2">Password: </label><br>
-					<input id="t2" type="password" name="password1" required/>
+					<input id="t2" type="password" name="password1" minlength="4" maxlength="45" required/>
 					</td>
 					</tr>
 					
@@ -85,7 +85,7 @@
 					<tr>
 					<td>
 					<label id="i2">First name: </label><br>
-					<input id="t2" type="text" name="name" required/>
+					<input id="t2" type="text" name="name" maxlength="30" required/>
 					</td>
 					</tr>
 					

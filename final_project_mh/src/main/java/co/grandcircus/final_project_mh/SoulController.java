@@ -162,8 +162,20 @@ public class SoulController {
 		 //if it hasn't matched anything, grab a quote from the API. Store it.
 		 if (!recorded) {
 			 Quote quote = quoteService.quoteOfTheDay();
-			 QuoteOfTheDay quoteOfDay = new QuoteOfTheDay(date,
-					 quote.getQuote(), quote.getAuthor());
+			 //set a default in case of error here
+			 //It may repeat a quote sometimes, but it's better than a whitepage error
+			 QuoteOfTheDay quoteOfDay;
+			 
+			 try {
+				 quoteOfDay = new QuoteOfTheDay(date,
+						 "You may write me down in history with your bitter, twisted lies. You may trod on me in the very dirt, "
+						 + "but still, like dust, I'll rise.", "Maya Angelou");
+			 } catch (Exception e) {
+				 quoteOfDay  = new QuoteOfTheDay(date,
+						 quote.getQuote(), quote.getAuthor());
+			 }
+			 
+			
 			 quoteRepo.save(quoteOfDay);
 			 String quoteString = "";
 			 if (quoteOfDay.getAuthor().equals(null) ||

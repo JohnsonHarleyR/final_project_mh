@@ -37,6 +37,8 @@ public class BodyController {
 	@Autowired
 	private UserDao userRepo;
 
+
+
 	@Autowired
 	private ExcerciseService excerciseService;
 
@@ -63,7 +65,27 @@ public class BodyController {
 		}
 
 		List<Results> resultList = workoutService.getWorkout(category);
+		User user = (User) session.getAttribute("user");
+		String names = Methods.getRank(user, userRepo).getName();
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
 
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+
+		if(percent == 0) {percent = 1;}
+
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
+		model.addAttribute("total", total);
+		model.addAttribute("max", max);
+		model.addAttribute("min", min);
+		model.addAttribute("names", names);
 		model.addAttribute("resultList", resultList);
 		model.addAttribute("loggedin", loggedIn);
 
@@ -87,6 +109,27 @@ public class BodyController {
 
 		List<Results> resultList = workoutService.getWorkout(category);
 
+		User user = (User) session.getAttribute("user");
+		String names = Methods.getRank(user, userRepo).getName();
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
+
+		//this calculates the percentage for the progress bar
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+		
+		if(percent == 0) {percent = 1;}
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
+		model.addAttribute("total", total);
+		model.addAttribute("max", max);
+		model.addAttribute("min", min);
+		model.addAttribute("names", names);
 		model.addAttribute("resultList", resultList);
 
 		model.addAttribute("exercises", exercises);
@@ -100,6 +143,7 @@ public class BodyController {
 
 		boolean loggedIn = Methods.checkLogin(session);
 
+
 		Nutrients foodTracker = foodService.getTest(userInput);
 
 		List<Foods> food = foodTracker.getFoods();
@@ -110,6 +154,29 @@ public class BodyController {
 		}
 
 		List<Results> resultList = workoutService.getWorkout(category);
+
+		User user = (User) session.getAttribute("user");
+		String names = Methods.getRank(user, userRepo).getName();
+		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
+		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
+		double totalD = user.getBodypoints();
+
+		//calculates percent for progress bar
+		int percent = (int) ((totalD-minD)/(maxD-minD)*100);
+		int total = (int) totalD;
+		int max = (int) maxD;
+		int min = (int) minD;
+		int nextRank = max - total;
+
+		//this is so the progress bar shows something when 0%
+		if(percent == 0) {percent = 1;}
+
+		model.addAttribute("nextRank", nextRank);
+		model.addAttribute("percent",percent);
+		model.addAttribute("total", total);
+		model.addAttribute("max", max);
+		model.addAttribute("min", min);
+		model.addAttribute("names", names);
 		model.addAttribute("food", food);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("resultList", resultList);
@@ -117,12 +184,6 @@ public class BodyController {
 		return "body-page";
 	}
 
-	@PostMapping("/complete/workout")
-	public String completeWorkout(Model model) {
-		User user = (User) session.getAttribute("user");
-		Methods.addWorkoutPoints(user, userRepo);
-		return "redirect:/body";
-	}
 
 	@PostMapping("/save/exercises")
 	public String saveExercises(@RequestParam double nf_calories, double duration_min, String name, Model model) {
@@ -135,7 +196,6 @@ public class BodyController {
 
 			// Get user
 			User user = (User) session.getAttribute("user");
-
 			// Create values for affirmation
 			// Date from timestamp
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -143,9 +203,19 @@ public class BodyController {
 
 			FavExercises favorite = new FavExercises(date, nf_calories, duration_min, name, user.getId());
 			// Save to favorite
-			System.out.println(favorite);
 			exerciseRepo.save(favorite);
 			Methods.addExercisePoints(user, userRepo);
+
+			String names = Methods.getRank(user, userRepo).getName();
+			int max = Methods.getRank(user, userRepo).getMaxBodyPoints();
+			int min = Methods.getRank(user, userRepo).getMinBodyPoints();
+			int total = user.getBodypoints();
+
+
+			model.addAttribute("total", total);
+			model.addAttribute("max", max);
+			model.addAttribute("min", min);
+			model.addAttribute("names", names);
 		}
 
 		// Find way to let user know if their save was successful
