@@ -1,6 +1,7 @@
 package co.grandcircus.final_project_mh.Forum;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,27 +12,29 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="thread")
-public class thread {
+public class Thread {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name="thread_id")
 	private Long threadId;
 	private String username;
-	private Date datetime;
+	private LocalDateTime datetime;
 	private String messege;
-	
-	public thread() {
-		
+	@Column(name="discussion_id")
+	private Long discussionId;
+	public Thread() {
+
 	}
 	
-	public thread(Long id, Long threadId, String username, Date datetime, String messege) {
+	public Thread( Long threadId, String username, LocalDateTime datetime, String messege,
+			Long discussionId) {
 		super();
-		this.id = id;
 		this.threadId = threadId;
 		this.username = username;
 		this.datetime = datetime;
 		this.messege = messege;
+		this.discussionId = discussionId;
 	}
 	public Long getId() {
 		return id;
@@ -51,10 +54,10 @@ public class thread {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Date getDatetime() {
+	public LocalDateTime getDatetime() {
 		return datetime;
 	}
-	public void setDatetime(Date datetime) {
+	public void setDatetime(LocalDateTime datetime) {
 		this.datetime = datetime;
 	}
 	public String getMessege() {
@@ -64,6 +67,14 @@ public class thread {
 		this.messege = messege;
 	}
 	
+	public Long getDiscussionId() {
+		return discussionId;
+	}
+
+	public void setDiscussionId(Long discussionId) {
+		this.discussionId = discussionId;
+	}
+
 	@Override
 	public String toString() {
 		return "thread [id=" + id + ", threadId=" + threadId + ", username=" + username + ", datetime=" + datetime
