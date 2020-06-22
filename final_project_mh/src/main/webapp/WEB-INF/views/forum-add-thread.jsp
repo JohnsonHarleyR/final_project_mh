@@ -32,16 +32,16 @@
 	Otherwise, ask them to sign in.-->
 	<c:choose>
 		<c:when test="${loggedin}">
-	
+			
 			<form action="comment" method="post">
 			Discussion: *discussion name here*
 			<br>
 			<br>
 			<label>What should the thread be called?</label><br>
-			<input type="text" size="50" placeholder="Topic Title" name="topic"/><br>
+			<input type="text" class="postwidth" placeholder="Topic Title" name="topic"/><br>
 			<br>
 			<label>What should the first post say?</label><br>
-			<textarea name="comment" rows="7" cols="52" maxlength="1000" 
+			<textarea name="comment" rows="7" class="postwidth" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
 			<input type="hidden" name="usernamegit" value="${user.username}"/>

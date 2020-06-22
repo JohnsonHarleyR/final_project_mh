@@ -1,5 +1,7 @@
 package co.grandcircus.final_project_mh.User;
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,9 +29,11 @@ public class User implements Serializable {
 	private String friends;
 	private String requests;
 	private String status;
+	@Column(name="unread_messages")
+	private int unreadMessages;
 	
 	public User() {
-		
+		unreadMessages = 0;
 	}
 	
 	
@@ -43,11 +47,24 @@ public class User implements Serializable {
 		friends = "";
 		requests = "";
 		status = "user";
+		unreadMessages = 0;
 	}
 	
 	
 	
 	
+	public int getUnreadMessages() {
+		return unreadMessages;
+	}
+
+
+
+	public void setUnreadMessages(int unreadMessages) {
+		this.unreadMessages = unreadMessages;
+	}
+
+
+
 	public int getBodypoints() {
 		return bodypoints;
 	}
@@ -148,12 +165,6 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
-				+ name + ", points=" + points + ", friends=" + friends + ", requests=" + requests + ", status=" + status
-				+ "]";
-	}
 
 
 
@@ -165,6 +176,16 @@ public class User implements Serializable {
 
 	public void setGeneralpoints(int generalpoints) {
 		this.generalpoints = generalpoints;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
+				+ name + ", points=" + points + ", bodypoints=" + bodypoints + ", mindpoints=" + mindpoints
+				+ ", soulpoints=" + soulpoints + ", generalpoints=" + generalpoints + ", friends=" + friends
+				+ ", requests=" + requests + ", status=" + status + ", unreadMessages=" + unreadMessages + "]";
 	}
 
 	

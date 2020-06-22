@@ -2,6 +2,9 @@ package co.grandcircus.final_project_mh;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +32,8 @@ import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.User.UserMessage;
+import co.grandcircus.final_project_mh.User.UserMessageDao;
 import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 
@@ -54,12 +59,172 @@ public class UserController {
 	private RecordDao recordRepo;
 	
 	@Autowired
+	private UserMessageDao userMessageRepo;
+	
+	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
 	private String infoMessage = "Here is your user information.";
 	private String editMessage = "Edit your user info here.";
+	
+	
+	
+	//MESSAGING (2 person)
+	
+	//See all your messages
+	@RequestMapping("/messages")
+	public String messages(Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		
+		
+		model.addAttribute("loggedin", loggedIn);
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		//if they're not logged in, redirect to login page
+		if (!loggedIn) {
+			return "login";
+		} else {
+			return "messages";
+		}
+		
+	}
+	
+	//See messages between you and a friend/mutual friend
+	@RequestMapping("/message")
+	public String messageFriend(
+			@RequestParam(value = "id") Long id,
+			@RequestParam(value="begin", required=false) Integer begin,
+			@RequestParam(value="end", required=false) Integer end,
+			Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		//if they're not logged in, redirect to login page
+		if (!loggedIn) {
+			return "login";
+		}
+		boolean areMessages = false;
+		
+		//Get other user by id
+		Optional<User> temp = userRepo.findById(id);
+		User friend = temp.get();
+		
+		//Check if friends with them
+		boolean areFriends = UserMethods.checkIfFriends(user, friend);
+		
+		//Get messageRef
+		String convoRef = UserMethods.getConversationRef(user, friend);
+		
+		//Get list of messages between users
+		List<UserMessage> messages = userMessageRepo.findByConversationRef(convoRef);
+		
+		//list length
+		int length = 0;
+		
+		//TODO When there's a chance, sort messages in reverse order by date
+		//Create duplicate page where you can see all messages, or more messages
+		
+		//if list is not empty or null, then areMessages is true
+		if (!messages.isEmpty() && messages != null) {
+			areMessages = true;
+			length = messages.size();
+		}
+		
+		model.addAttribute("loggedin", loggedIn);
+		//Add info about if they're friends
+		model.addAttribute("arefriends", areFriends);
+		//Add messages to page
+		model.addAttribute("convo", messages);
+		//Tell page if there are messages yet
+		model.addAttribute("aremessages", areMessages);
+		//Add friend to page
+		model.addAttribute("friend", friend);
+		//Add conversation length
+		model.addAttribute("length", length);
+		
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		
+		//Determine the page numbers
+		//if the parameters are null, then set them to end
+		if (end == null) {
+			end = messages.size();
+		}
+		
+		if (begin == null) {
+			begin = messages.size() -5;
+		}
+		
+		//if begin is less than 0, set it to 0
+		if (begin < 0) {
+			begin = 0;
+		}
+		
+		//Add to model
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
+		
+		//Any messages between begin and end, mark as read
+		for (int i = begin - 1; i < end; i++) {
+			if (i <= 0) {
+				i = 0;
+			}
+			messages.get(i).setRead(1);
+		}
+		
+		
+		return "message-user";
+	}
+	
+	
+	//Send message
+	@PostMapping("/message/send")
+	public String sendMessage(
+			@RequestParam("message") String message,
+			@RequestParam("user") Long senderId,
+			@RequestParam("friend") Long receiverId
+			) {
+		
+		//get user by id
+		Optional<User> temp1 = userRepo.findById(senderId);
+		User user = temp1.get();
+		
+		//get friend by id
+		Optional<User> temp2 = userRepo.findById(receiverId);
+		User friend = temp2.get();
+		
+		//get conversation ref
+		String ref = UserMethods.getConversationRef(user, friend);
+		
+		//Create datetime
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
+		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
+		
+		//create new user message
+		UserMessage newMessage = new UserMessage(ref, senderId, receiverId, localDateTime, message);
+		
+		//save message to repo
+		userMessageRepo.save(newMessage);
+		
+		
+		return "redirect:/message?id=" + receiverId;
+	}
+	
 	
 	
 	// PROFILE AND FRIEND PAGES
