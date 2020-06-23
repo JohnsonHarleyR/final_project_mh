@@ -34,6 +34,9 @@ function addPoints() {
 }
 </script>
 
+<!-- test for users -->
+   <c:if test = "${loggedin == null}">
+
 <div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>
         </div>
@@ -45,10 +48,13 @@ function addPoints() {
 		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
 </div>
 
+</c:if>
+
 <!-- Let's try kittens - kitten api -->
 <img id="kitten" style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
 
 <br>
+
 
 <!-- If user is logged in, show option to save -->
 <section id="affirmation" style="font-size:larger" >

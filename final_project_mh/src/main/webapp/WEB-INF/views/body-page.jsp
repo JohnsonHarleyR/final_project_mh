@@ -67,6 +67,9 @@
 								}
 							});
 		</script>
+		
+		<!-- test for users -->
+		<c:if test = "${loggedin == null}">	
 		<div>
 		<div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>
@@ -78,7 +81,7 @@
 		<p> Total Body Points: <c:out value = "${total}"/></p>
 		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
 		</div>
-		
+		</c:if>
 <br>
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item"><a class="nav-link" id="exercise-tab"
