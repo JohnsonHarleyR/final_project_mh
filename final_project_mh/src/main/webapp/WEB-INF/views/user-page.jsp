@@ -39,12 +39,12 @@
 	<br>
 	<br>
 	<p>
-	Instructions: Clicking "Post" next to a saved item will post it to your public profile. 
-	Once it is posted, clicking "Remove" will remove it from your profile.
-	<br>Click "Delete" to delete it from your user page altogether. 
+	<b>Instructions:</b> Clicking "<u>Post</u>" next to a saved item will post it to your public profile. 
+	Once it is posted, clicking "<u>Remove</u>" will remove it from your profile.
+	 (Post as many as you'd like, although less is probably more.)
+	<br>Click "<u>Delete</u>" to delete it from your user page altogether. 
 	To see this option, the item must not be on your profile.
 	</p>
-	<br>
 </section>
 
 <section id="record-events">
