@@ -202,6 +202,7 @@ public class ForumController {
 	
 	
 	//Add thread to discussion
+
 	@PostMapping("/thread/add/submit")
 	public String submitThread(
 			@RequestParam ("discussionId") Long discussionId,
@@ -265,6 +266,7 @@ public class ForumController {
 		return "redirect:/thread?id=" + threadId ;
 		
 	}
+
 		
 	//delete post
 	@RequestMapping("/post/delete")

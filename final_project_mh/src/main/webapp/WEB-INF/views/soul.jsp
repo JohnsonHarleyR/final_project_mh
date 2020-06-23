@@ -35,7 +35,7 @@ function addPoints() {
 </script>
 
 <!-- test for users -->
-   <c:if test = "${loggedin == null}">
+   <c:if test = "${loggedin == true}">
 
 <div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>

@@ -18,13 +18,17 @@
 </head>
 
 <body>
-
 <!-- Header -->
 <section class="header">
 <%@ include file="partials/header.jsp" %>
 </section>
 
-<c:if test = "${loggedin}">
+<main class = "container">
+
+<c:if test = "${loggedin == true}">
+
+<br>
+
 <form action="/submit-challenge">
   <label for="category">Choose a Category:</label><br>
   <select name ="category" id ="category" required>
@@ -32,6 +36,7 @@
   <option value="body">Body</option>
   <option value="soul">Soul</option>
   </select>
+  <br>
   <br>
    <label for="name">Challenge Title:</label>
   <br>
@@ -46,8 +51,9 @@
    <label for="prize_url">Prize file</label><br>
   <input type="text" id="prize_url" name="prize_url" required>
   <br>
+  <br>
   <input type="submit" value="Submit">
- 
+  
 </form>
  </c:if>
  <br>
@@ -55,7 +61,8 @@
  <h1>Nothing to see here.</h1>
  </c:if> 
  
- 
+ </main>
+
  
 </body>
 </html>

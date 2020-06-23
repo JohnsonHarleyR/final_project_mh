@@ -26,7 +26,7 @@ function addPoints() {
 
 
 <!-- test for users -->
-   <c:if test = "${loggedin == null}">
+   <c:if test = "${loggedin == true}">
 
 <div>
 <div>

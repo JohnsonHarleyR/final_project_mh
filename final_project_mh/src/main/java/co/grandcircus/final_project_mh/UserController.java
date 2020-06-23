@@ -63,14 +63,13 @@ public class UserController {
 	@Autowired
 	private RecordDao recordRepo;
 	
-	@Autowired 
-	private AchievementsRepo achievementsRepo;
-	
 	@Autowired
 	private UserMessageDao userMessageRepo;
 	
 	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
+	
+	@Autowired private AchievementsRepo achievementsRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
@@ -978,36 +977,6 @@ public class UserController {
 	
 	//form for submitting achievements to be displayed
 	//TO DO add points and credit system
-	@RequestMapping("/submit/achievement")
-	public String achievements(@RequestParam("achievementName") String achievementName,
-			@RequestParam("achievementDescription") String achievementDescription,
-			@RequestParam("achievementDate") Date achievementDate,
-			Model model) 
-	{
-		
-		User user = (User)session.getAttribute("user");
-		Achievements achievements = new Achievements();
-		achievements.setUser(user);
-		achievements.setDate(achievementDate);
-		achievements.setDescription(achievementDescription);
-		achievements.setName(achievementName);		
-
-		achievementsRepo.save(achievements); 
-		Methods.addPoints(-10,user, userRepo);
-		
-		return "redirect:/user";
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	//Expanded list - can be multiple things, like on pizza lab
 	@RequestMapping("/list/affirmations")
 	public String list(Model model) {
