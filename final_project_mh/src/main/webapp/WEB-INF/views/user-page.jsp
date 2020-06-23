@@ -33,20 +33,21 @@
 	/ 
 	<a href="/profile?id=${user.id}">See profile</a>
 	<br>
-	<br>
-	<b>Points:</b> ${user.points}
-	<br>
 	<b>Username:</b> ${user.username}
 	<br>
+	<b>Points:</b> ${user.points}
+	<form action="/invest-points" method="post">
+	<button class="btn btn-info" type="submit">Invest your Pts.</button>
+	</form>
 	<br>
 </section>
 
 <section id="record-events">
 	<h2>Happy Reminders</h2>
-	One way to stay positive is to record what makes you feel happy. This could be an event, 
+	<p>One way to stay positive is to record what makes you feel happy. This could be an event, 
 	a compliment from a stranger, or an uplifting saying.<br> 
 	Whatever it may be, record it here for when you need a 
-	pick-me-up!
+	pick-me-up!</p>
 	
 	<form  style="padding-top: 15px" action="record" method="post">
 	<textarea name="text" rows="5" cols="50" maxlength="500" 
@@ -57,15 +58,14 @@
 	<button class="btn btn-info" type="submit">Add</button>
 	</form>
 	<br>
+	<br>
 	<h3>More Positives</h3>
 	<c:forEach var="record" items="${records}" end="2">
-		
 		
 		${record.text}
 		<br>
 		<i>${record.datetime}</i> <a href="/delete/record?id=${record.id}&url=/user">
 		Delete</a>
-		
 		<br>
 	</c:forEach>
 	
@@ -75,26 +75,8 @@
 	</form>
 	<br>
 </section>
-<!-- Form to pass achievement into database to be displayed on profile page, make popup that shows points, also delete or update achieve.-->
-<section>
-<form action = "/submit/achievement">
-<label for = "achivementName"> Achievement Name: </label>
-<input type = "text" id = "achievementName" name = "achievementName">
-<label for = "achievementDescription"> Description: </label>
-<input type = "text" id = "achievementDescription" name = "achievementDescription">
-<label for = "achivementDate"> Date: </label>
-<input type = "date" id = "achievementDate" name = "achievementDate">
-<input type = "submit" value = "Submit">
-</form>
 
-
-
-
-
-</section>
-
-
-
+<br>
 <section id="affirmations">
 	<h2>Favorite Affirmations</h2>
 	<c:forEach var="affirmation" items="${affirmations}" end="2">

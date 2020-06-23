@@ -24,8 +24,10 @@ public class Thread {
 	@Column(name="discussion_id")
 	private Long discussionId;
 	public Thread() {
-
 	}
+	
+	
+	
 	
 	public Thread( Long threadId, String username, LocalDateTime datetime, String messege,
 			Long discussionId) {

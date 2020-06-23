@@ -131,36 +131,36 @@ public class ForumController {
 	}
 	
 	//Add thread to discussion
-	@PostMapping("/thread/add/submit")
-	public String submitThread(
-			@RequestParam ("discussion") Long discussionId,
-			@RequestParam ("topic") String topic,
-			@RequestParam ("message") String message,
-			Model model) {
-		
-		//Get session user
-		User user = (User)session.getAttribute("user");
-		
-		//Create timestamp for thread and first post
-		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
-		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
-		
-		//Create new thread, put into discussion table
-		Discussion newThread = new Discussion(discussionId, "normal",topic, user.getUsername()); //pass parameters
-		//save to discussion repo
-		discussionRepo.save(newThread);
-		//Create new post in thread table using newly created thread id
-		Thread newPost = new Thread(newThread.getId(), user.getUsername(),localDateTime,message,discussionId); //pass parameters
-		//save to thread repo
-		threadRepo.save(newPost);
-		
-		return "redirect: /thread?id=" + threadId;
-		
-	}
+//	@PostMapping("/thread/add/submit")
+//	public String submitThread(
+//			@RequestParam ("discussion") Long discussionId,
+//			@RequestParam ("topic") String topic,
+//			@RequestParam ("message") String message,
+//			Model model) {
+//		
+//		//Get session user
+//		User user = (User)session.getAttribute("user");
+//		
+//		//Create timestamp for thread and first post
+//		
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+//		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
+//		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
+//		
+//		//Create new thread, put into discussion table
+//		Discussion newThread = new Discussion(discussionId, "normal",topic, user.getUsername()); //pass parameters
+//		//save to discussion repo
+//		discussionRepo.save(newThread);
+//		//Create new post in thread table using newly created thread id
+//		Thread newPost = new Thread(newThread.getId(), user.getUsername(),localDateTime,message,discussionId); //pass parameters
+//		//save to thread repo
+//		threadRepo.save(newPost);
+//		
+//		return "redirect: /thread?id=" + threadId;
+//		
+//	}
 		
 	//delete thread
 	
