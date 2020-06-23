@@ -92,6 +92,16 @@ display: flex;
 			</c:choose>
 		</li>
 		
+		<c:if test="${loggedin}">
+			<c:if test="${user.unreadMessages == 1 }">
+				<li class="nav-item">
+					<a href='/messages' class='nav-link'>
+					New Messages</a>
+				</li>
+			</c:if>
+		
+		</c:if>
+		
 		<c:choose>
 		<c:when test='${!loggedin}'>
 			<li class="nav-item">

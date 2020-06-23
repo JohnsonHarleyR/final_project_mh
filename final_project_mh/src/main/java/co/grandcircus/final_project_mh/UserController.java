@@ -2,10 +2,15 @@ package co.grandcircus.final_project_mh;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,8 +34,11 @@ import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
 import co.grandcircus.final_project_mh.Gamification.Achievements;
 import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
+import co.grandcircus.final_project_mh.User.Conversation;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.User.UserMessage;
+import co.grandcircus.final_project_mh.User.UserMessageDao;
 import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 
@@ -59,12 +67,235 @@ public class UserController {
 	private AchievementsRepo achievementsRepo;
 	
 	@Autowired
+	private UserMessageDao userMessageRepo;
+	
+	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
 	private String infoMessage = "Here is your user information.";
 	private String editMessage = "Edit your user info here.";
+	
+	
+	
+	//MESSAGING (2 person)
+	
+	//See all your messages
+	@RequestMapping("/messages")
+	public String messages(Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		
+		if (!loggedIn) {
+			return "redirect:/login";
+		}
+		//Get list of messages connected to user
+		//First get list of all
+		List<UserMessage> allMessages = userMessageRepo.findAll();
+		//Now search list for user id and add to new message set
+		//First start with storing messages, then compare them to each other to make conversations
+		List<Conversation> conversations = new ArrayList<>();
+		for (UserMessage message: allMessages) {
+			if (message.getReceiverId() == user.getId() ||
+					message.getSenderId() == user.getId()) {
+				User f = null;
+				if (message.getReceiverId() == user.getId()) {
+					Optional<User> temp = userRepo.findById(message.getSenderId());
+					f = temp.get();
+				} else {
+					Optional<User> temp = userRepo.findById(message.getReceiverId());
+					f = temp.get();
+				}
+				
+				boolean exists = false;
+				boolean alreadyRead = false;
+				if (message.getIsRead() == 1) {
+					alreadyRead = true;
+				}
+				
+				Conversation newConvo = new Conversation(message.getId(), f, message.getMessage(),
+						message.getDatetime(), alreadyRead);
+				
+				
+				for (Conversation con: conversations) {
+					if (con.getFriend().getId() == f.getId()) {
+						exists = true;
+					}
+				}
+				if (!exists) {
+					conversations.add(newConvo);
+				} else {
+					for (Conversation con: conversations) {
+						if (con.getFriend().getId() == f.getId() &&
+								con.getNewestDatetime().isBefore(message.getDatetime())) {
+							con = newConvo;
+						}
+					}
+					
+					
+				}
+				
+			}
+			
+		}
+		
+		//Add length of conversation list to model
+		model.addAttribute("length", conversations.size());
+		
+		//Add conversation list to page
+		model.addAttribute("conversations", conversations);
+		
+		
+		model.addAttribute("loggedin", loggedIn);
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		return "user-messages";
+		
+	}
+	
+	//See messages between you and a friend/mutual friend
+	@RequestMapping("/message")
+	public String messageFriend(
+			@RequestParam(value = "id") Long id,
+			@RequestParam(value="begin", required=false) Integer begin,
+			@RequestParam(value="end", required=false) Integer end,
+			Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		//if they're not logged in, redirect to login page
+		if (!loggedIn) {
+			return "login";
+		}
+		boolean areMessages = false;
+		
+		//Get other user by id
+		Optional<User> temp = userRepo.findById(id);
+		User friend = temp.get();
+		
+		//Check if friends with them
+		boolean areFriends = UserMethods.checkIfFriends(user, friend);
+		
+		//Get messageRef
+		String convoRef = UserMethods.getConversationRef(user, friend);
+		
+		//Get list of messages between users
+		List<UserMessage> messages = userMessageRepo.findByConversationRef(convoRef);
+		
+		//list length
+		int length = 0;
+		
+		//TODO When there's a chance, sort messages in reverse order by date
+		//Create duplicate page where you can see all messages, or more messages
+		
+		//if list is not empty or null, then areMessages is true
+		if (!messages.isEmpty() && messages != null) {
+			areMessages = true;
+			length = messages.size();
+			
+			for (UserMessage message: messages) {
+				if (message.getIsRead() == 0) {
+					message.setIsRead(1);
+					userMessageRepo.save(message);
+				}
+			}
+		}
+		
+		
+		
+		model.addAttribute("loggedin", loggedIn);
+		//Add info about if they're friends
+		model.addAttribute("arefriends", areFriends);
+		//Add messages to page
+		model.addAttribute("convo", messages);
+		//Tell page if there are messages yet
+		model.addAttribute("aremessages", areMessages);
+		//Add friend to page
+		model.addAttribute("friend", friend);
+		//Add conversation length
+		model.addAttribute("length", length);
+		
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		
+		//Determine the page numbers
+		//if the parameters are null, then set them to end
+		if (end == null) {
+			end = messages.size();
+		}
+		
+		if (begin == null) {
+			begin = messages.size() -5;
+		}
+		
+		//if begin is less than 0, set it to 0
+		if (begin < 0) {
+			begin = 0;
+		}
+		
+		//Add to model
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
+		
+		
+		user.setUnreadMessages(0);
+		userRepo.save(user);
+		
+		
+		return "message-user";
+	}
+	
+	
+	//Send message
+	@PostMapping("/message/send")
+	public String sendMessage(
+			@RequestParam("message") String message,
+			@RequestParam("user") Long senderId,
+			@RequestParam("friend") Long receiverId
+			) {
+		
+		//get user by id
+		Optional<User> temp1 = userRepo.findById(senderId);
+		User user = temp1.get();
+		
+		//get friend by id
+		Optional<User> temp2 = userRepo.findById(receiverId);
+		User friend = temp2.get();
+		
+		//get conversation ref
+		String ref = UserMethods.getConversationRef(user, friend);
+		
+		//Create datetime
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
+		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
+		
+		//create new user message
+		UserMessage newMessage = new UserMessage(ref, senderId, receiverId, localDateTime, message);
+		
+		//save message to repo
+		userMessageRepo.save(newMessage);
+		
+		//set user to unread messages
+		friend.setUnreadMessages(1);
+		userRepo.save(friend);
+		
+		
+		return "redirect:/message?id=" + receiverId;
+	}
+	
 	
 	
 	// PROFILE AND FRIEND PAGES
@@ -817,6 +1048,12 @@ public class UserController {
 		// tell nav bar whether user is logged in
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("message", loginMessage);
+		
+		model.addAttribute("loggedin", loggedIn);
+		if (loggedIn) {
+			User user = (User)session.getAttribute("user");
+			model.addAttribute("user", user);
+		}
 
 		return "login";
 	}
@@ -860,6 +1097,8 @@ public class UserController {
 		
 		//set whether user is logged in or not
 		session.setAttribute("loggedIn", loggedIn);
+		
+		
 
 		return "redirect:/dailycheckin";
 	}

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import co.grandcircus.final_project_mh.Forum.Discussion;
 import co.grandcircus.final_project_mh.Forum.DiscussionDao;
 import co.grandcircus.final_project_mh.Forum.ThreadDao;
-import co.grandcircus.final_project_mh.Forum.Thread;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 
@@ -151,7 +150,7 @@ public class ForumController {
 		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
 		
 		//Create new thread, put into discussion table
-		Discussion newThread = new Discussion(threadId, "normal",topic, user.getUsername()); //pass parameters
+		Discussion newThread = new Discussion(discussionId, "normal",topic, user.getUsername()); //pass parameters
 		//save to discussion repo
 		discussionRepo.save(newThread);
 		//Create new post in thread table using newly created thread id

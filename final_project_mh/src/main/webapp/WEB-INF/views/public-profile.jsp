@@ -56,6 +56,7 @@
 						(<a onclick="deletePoints()"
 									href="/delete/friend?user=${user.id}&friend=${profileuser.id}">Remove</a>)
 						<br>
+							<a href="/message?id=${profileuser.id}">Message</a> / 
 								<a href="/friends?id=${profileuser.id}">Friend List</a>
 							</c:when>
 							<c:when test="${acceptrequest == true}">
