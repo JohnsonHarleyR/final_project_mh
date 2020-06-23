@@ -1,7 +1,8 @@
 package co.grandcircus.final_project_mh;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
+
 import java.util.List;
 
 
@@ -13,27 +14,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.grandcircus.final_project_mh.Gamification.Achievements;
+import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
 import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
 import co.grandcircus.final_project_mh.Gamification.ChallengeList;
 import co.grandcircus.final_project_mh.Gamification.ChallengeListDao;
 import co.grandcircus.final_project_mh.User.User;
+import co.grandcircus.final_project_mh.User.UserDao;
 
 //test controller: made as a template to be implemented across app
 
 @Controller
 public class GameController {
 	
-	@Autowired ChallengeDao ChallengeRepo;
-	@Autowired ChallengeListDao ChallengeListRepo;
+	@Autowired private AchievementsRepo achievementsRepo;
+	@Autowired private ChallengeDao ChallengeRepo;
+	@Autowired private ChallengeListDao ChallengeListRepo;
 	@Autowired private HttpSession session;
-
-	@RequestMapping("/challenge-form")
+	@Autowired private UserDao userRepo;
+	
+	
+	@RequestMapping("/invest-points")
 	public String challengeForm(Model model) {
 		
-		
+		boolean enoughPoints = true;
 		boolean loggedIn = Methods.checkLogin(session);
 		User user = (User)session.getAttribute("user");
 		
+		model.addAttribute("enoughPoints", enoughPoints);
 		model.addAttribute("loggedin", loggedIn);
 		
 		List<co.grandcircus.final_project_mh.Gamification.Challenge> challenge;
@@ -49,7 +57,7 @@ public class GameController {
 		}
 		}
 		
-	return "challenge-form";
+	return "invest-points";
 	}
 	
 	@RequestMapping("/submit-challenge")
@@ -79,7 +87,53 @@ public class GameController {
 		    ChallengeListRepo.save(challengeList);
 		    
 		
-		return "redirect:/challenge-form";
+		return "redirect:/invest-points";
 	}
 
+	//form for submitting achievements to be displayed
+		//TO DO add points and credit system
+		@RequestMapping("/submit/achievement")
+		public String achievements(@RequestParam("achievementName") String achievementName,
+				@RequestParam("achievementDescription") String achievementDescription,
+				@RequestParam("achievementDate") Date achievementDate,
+				Model model) 
+		{
+			
+			User user = (User)session.getAttribute("user");
+			Achievements achievements = new Achievements();
+			achievements.setUser(user);
+			achievements.setDate(achievementDate);
+			achievements.setDescription(achievementDescription);
+			achievements.setName(achievementName);		
+            
+			boolean enoughPoints = true;
+			
+			if (user.getPoints() >= 10) {
+				Methods.addPoints(-10, user, userRepo);	
+			    achievementsRepo.save(achievements); 
+			}
+			else {enoughPoints = false;}
+			
+			model.addAttribute("enoughPoints", enoughPoints);
+			return "redirect:/invest-points";
+		}	
+		//Delete Achievement
+		//pass in Achievement Id to param for deletion
+		
+//		@RequestMapping("/delete/achievement")
+//		public String deleteAchievement(Model model) { 
+//			
+//		    Long id = (long) 1;
+//		
+//			User user = (User)session.getAttribute("user");
+//			
+//			AchievementsRepo.deleteById(id);
+//			
+//			if (user.getPoints() - 10 >0 ||user.getPoints() - 10 != 0) {
+//				Methods.addPoints(-10, user, userRepo);
+//			}
+//			
+//			return "redirect:" + url;
+//		}
+	
 }

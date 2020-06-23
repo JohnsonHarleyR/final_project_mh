@@ -45,30 +45,21 @@
 		  </thead>
 		  
 		  <tbody>
-		  
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'welcome' }">
 		    <tr>
 		      <td>
-		      	<a href="">Announcements</a>
+		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
 		      </td>
-		      <td>*describe here*</td>
+		      <td><c:out value="${discussion.description}"></c:out></td>
 		      <td>*number of posts*</td>
 		      <td>
 		      	*<a href="">post title</a>,<br>
 		      	 <sup><a href="">author</a>, datetime*</sup>
 		      </td>
 		    </tr>
-		    
-		    <tr>
-		      <td>
-		      	<a href="">Introductions</a>
-		      </td>
-		      <td>*describe here*</td>
-		      <td>*# of posts*</td>
-		      <td>
-		      	*<a href="">post title</a>,<br>
-		      	 <sup><a href="">author</a>, datetime*</sup>
-		      </td>
-		    </tr>
+		    </c:if>
+		    </c:forEach>
 		    
 		  </tbody>
 		</table>
@@ -97,7 +88,8 @@
 		  </thead>
 		  
 		  <tbody>
-		  
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'general' }">
 		    <tr>
 		      <td>
 		      	<a href="">*discussion name*</a>
@@ -109,7 +101,9 @@
 		      	 <sup><a href="">author</a>, datetime*</sup>
 		      </td>
 		    </tr>
-		    
+		   </c:if>
+		   </c:forEach>
+		  
 		  </tbody>
 		</table>
 	</section>
@@ -135,7 +129,8 @@
 		  </thead>
 		  
 		  <tbody>
-		  
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'mental health' }">
 		    <tr>
 		      <td>
 		      	<a href="">*discussion name*</a>
@@ -147,7 +142,8 @@
 		      	 <a href="">author</a>, datetime*
 		      </td>
 		    </tr>
-		    
+		    </c:if>
+		   </c:forEach>
 		  </tbody>
 		</table>
 	

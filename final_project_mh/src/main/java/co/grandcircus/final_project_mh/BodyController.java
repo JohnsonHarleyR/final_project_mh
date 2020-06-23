@@ -60,6 +60,8 @@ public class BodyController {
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer category = (Integer) session.getAttribute("category");
         
+		System.out.print(loggedIn);
+		
 		//used to remove logged in status on JSP
 		model.addAttribute("loggedin", loggedIn);
 		

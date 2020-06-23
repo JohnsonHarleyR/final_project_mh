@@ -26,9 +26,9 @@
 <main class="container">
 
 	<div id="thread">
-		<a href="/forum/discussion">Back to *Discussion Title*</a>
+		<a href="/forum/discussion?id=${discussion.id}">Back to <c:out value="${discussion.topic}" /></a>
 		<article class="card" id="posts" style="width: 50rem;">
-			<a href="/forum/discussion">Back to *Discussion Title*</a>
+			<a href="/forum/discussion/add-post?id=${thread.id}">Add To Thread</a>
 			<section class="card-body">
 				
 	
@@ -37,33 +37,35 @@
 					<tbody>
 					
 						<th>
-							*Thread title*
+							<c:out value="${thread.threadTitle}" />
 						</th>
 						<!-- For each loop here -->
-						
+						<c:forEach var="post" items="${posts}">
 						<!--there's the author column on the left, then the message
 						column will have the main elements -->
 						<tr>
 							<td>
 								*author info*<br>
 								*profile pic later*<br>
-								<a href="">Username</a>
+								<a href=""><c:out value="${post.username}"/></a>
 							</td>
 							
 							<td>
-								<sup>*Date and time of post*</sup>
+								<sup>${post.datetime}</sup>
 								<br>
-								*user's message post text goes here*
+								<c:out value="${post.message}"/>
 								<br>
 								<!-- only if user is logged in 
 								& login user matches post author -->
-								<a href="">Edit </a>
-								<a href="">Delete </a> 
-								
+								<c:if test="${loggedin}">
+									<c:if test="${user.username == post.username}">
+								<a href="/post/delete?id=${post.id }">Delete </a> 
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 						<!-- end for each loop -->
-						
+						</c:forEach>
 						
 						<!-- Other ideas for later: allow reply where it tags
 						a user. Allow signature on bottom. -->
@@ -71,44 +73,6 @@
 						
 						<!-- repeat here is temporary, 
 						only for setting up -->
-						<tr>
-							<td>
-								*author info*<br>
-								*profile pic later*<br>
-								<a href="">Username</a>
-							</td>
-							
-							<td>
-								<sup>*Date and time of post*</sup>
-								<br>
-								*user's message post text goes here*
-								<br>
-								<!-- only if user is logged in 
-								& login user matches post author -->
-								<a href="">Edit </a>
-								<a href="">Delete </a> 
-								
-							</td>
-						</tr>
-						<tr>
-							<td>
-								*author info*<br>
-								*profile pic later*<br>
-								<a href="">Username</a>
-							</td>
-							
-							<td>
-								<sup>*Date and time of post*</sup>
-								<br>
-								*user's message post text goes here*
-								<br>
-								<!-- only if user is logged in 
-								& login user matches post author -->
-								<a href="">Edit </a>
-								<a href="">Delete </a> 
-								
-							</td>
-						</tr>
 						
 					
 					</tbody>

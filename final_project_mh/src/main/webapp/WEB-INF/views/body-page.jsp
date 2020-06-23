@@ -25,7 +25,6 @@
 		<%@ include file="partials/header.jsp"%>
 	</section>
 	
-	
 	<script>
 	function addPoints() {
 	  alert("You just earned points.");
@@ -34,7 +33,6 @@
 
 	<main class="container">
 <h1>Body</h1>
-
 
 
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -69,7 +67,7 @@
 		</script>
 		
 		<!-- test for users -->
-		<c:if test = "${loggedin == null}">	
+		<c:if test = "${loggedin == true}">	
 		<div>
 		<div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>

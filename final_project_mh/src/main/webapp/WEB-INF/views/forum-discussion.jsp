@@ -32,14 +32,14 @@
 	<article class="card" id="threads" style="width: 50rem;">
 		
 		<section class="card-header">
-			<h1>*Discussion Name* ${discussion}</h1>
+			<h1>${discussion.topic}</h1>
 			
 		</section>
 		<section class="card-body">
 		
 			<!-- If logged in, let them create new thread -->
 			<c:if test="${loggedin}">
-				<a href="/thread/add?d=${d}">Create a New Thread</a>
+				<a href="/thread/add?id=${discussion.id}">Create a New Thread</a>
 			</c:if>
 		
 			<table  id="table2" class="table table-hover">
@@ -55,43 +55,27 @@
 			  <tbody>
 			  
 			  	<!-- For Each loop here, connect to thread database -->
+			  	<c:forEach var= "thread" items="${threads }">
+			  	<c:if test="${thread.discussionId == discussion.id }">
 			    <tr>
 			      <td>
-			      	<a href="">*thread topic title*</a>
+			      	<a href="/thread?id=${thread.id}"><c:out value="${thread.threadTitle }"></c:out></a>
 			      </td>
-			      <td>*# of replies*</td>
 			      <td>*number of posts*</td>
+			      <td><c:out value="${thread.username }" /></td>
+			      <c:forEach end= "1" var = "post" items="${ posts}">
+			      <c:if test="${post.threadId == thread.id }">
 			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
+			      	*<a href=""></a>*add post title*<br>
+			      	 <sup><a href=""><c:out value="${post.username }" /></a>${post.datetime}</sup>
 			      </td>
+			      </c:if>
+			      </c:forEach>
 			    </tr>
-			    
+			    </c:if>
+			    </c:forEach>
 			    
 			    <!-- for the sake of an example, take this out later -->
-			    <tr>
-			      <td>
-			      	<a href="">*thread topic title*</a>
-			      </td>
-			      <td>*# of replies*</td>
-			      <td>*number of posts*</td>
-			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
-			      </td>
-			    </tr>
-			    <tr>
-			      <td>
-			      	<a href="">*thread topic title*</a>
-			      </td>
-			      <td>*# of replies*</td>
-			      <td>*number of posts*</td>
-			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
-			      </td>
-			    </tr>
-	
 			    
 			  </tbody>
 			</table>
