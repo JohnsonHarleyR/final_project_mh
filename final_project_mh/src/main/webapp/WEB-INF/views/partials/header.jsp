@@ -93,7 +93,7 @@ display: flex;
 		</li>
 		
 		<c:if test="${loggedin}">
-			<c:if test="${user.unreadMessages == 1 }">
+			<c:if test="${user.unreadMessages == 0 }">
 				<li class="nav-item">
 					<a href='/messages' class='nav-link'>
 					New Messages</a>

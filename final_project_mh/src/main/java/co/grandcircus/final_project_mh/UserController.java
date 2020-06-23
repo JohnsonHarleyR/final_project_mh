@@ -111,13 +111,15 @@ public class UserController {
 				}
 				
 				boolean exists = false;
-				boolean alreadyRead = false;
-				if (message.getIsRead() == 1) {
-					alreadyRead = true;
+				int isRead = 1;
+				if (message.getIsRead() ==0) {
+					isRead = 0;
 				}
 				
-				Conversation newConvo = new Conversation(message.getId(), f, message.getMessage(),
-						message.getDatetime(), alreadyRead);
+				System.out.println(isRead);
+				
+				Conversation newConvo = new Conversation(message.getId(), f, message.getReceiverId(), message.getMessage(),
+						message.getDatetime(), isRead);
 				
 				
 				for (Conversation con: conversations) {
@@ -131,7 +133,8 @@ public class UserController {
 					for (Conversation con: conversations) {
 						if (con.getFriend().getId() == f.getId() &&
 								con.getNewestDatetime().isBefore(message.getDatetime())) {
-							con = newConvo;
+							conversations.remove(con);
+							conversations.add(newConvo);
 						}
 					}
 					
@@ -201,14 +204,30 @@ public class UserController {
 			length = messages.size();
 			
 			for (UserMessage message: messages) {
-				if (message.getIsRead() == 0) {
+				if (message.getReceiverId() == user.getId()) {
 					message.setIsRead(1);
 					userMessageRepo.save(message);
 				}
+				
 			}
+			
 		}
 		
-		
+		//Determine if user has unread messages or not
+		//loop through messages, if there is anything unread besides this one, have user unread
+		//otherwise, read
+		List<UserMessage> all = userMessageRepo.findAll();
+		int unread = 1;
+		for (UserMessage m: all) {
+			if (m.getIsRead() == 0 && 
+					m.getReceiverId() == user.getId()) {
+				unread = 0;
+			}
+			
+		}
+		//Set user to unread int
+		user.setUnreadMessages(unread);
+		userRepo.save(user);
 		
 		model.addAttribute("loggedin", loggedIn);
 		//Add info about if they're friends
@@ -248,10 +267,6 @@ public class UserController {
 		model.addAttribute("end", end);
 		
 		
-		user.setUnreadMessages(0);
-		userRepo.save(user);
-		
-		
 		return "message-user";
 	}
 	
@@ -289,8 +304,23 @@ public class UserController {
 		userMessageRepo.save(newMessage);
 		
 		//set user to unread messages
-		friend.setUnreadMessages(1);
+		friend.setUnreadMessages(0);
 		userRepo.save(friend);
+		
+		//loop through messages, if there is anything unread besides this one, have user unread
+		//otherwise, read
+		List<UserMessage> messages = userMessageRepo.findByConversationRef(UserMethods.getConversationRef(user, friend));
+		int unread = 1;
+		for (UserMessage m: messages) {
+			if (m.getIsRead() == 0 && 
+					m.getReceiverId() == user.getId()) {
+				unread = 0;
+			}
+			
+		}
+		//Set user to unread int
+		user.setUnreadMessages(unread);
+		userRepo.save(user);
 		
 		
 		return "redirect:/message?id=" + receiverId;

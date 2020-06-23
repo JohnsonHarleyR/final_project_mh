@@ -47,8 +47,8 @@
   <c:forEach var="convo" items="${conversations}">
     <tr>
       <td>
-      	<c:if test="${!convo.isRead}">
-      		<b style="color:red;">new</b>
+      	<c:if test="${convo.isRead == 0 && convo.receiverId == user.id }">
+      	<b style="color:red;">new</b>
       	</c:if>
       </td>
       <td><a href="/message?id=${convo.friend.id}">${convo.abridgedMsg}</a></td>
