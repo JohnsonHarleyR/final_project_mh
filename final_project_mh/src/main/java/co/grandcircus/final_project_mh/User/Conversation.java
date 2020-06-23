@@ -1,6 +1,7 @@
 package co.grandcircus.final_project_mh.User;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
 
@@ -8,27 +9,44 @@ import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
 
 public class Conversation implements Comparable<Conversation> {
 	
-	private int id;
+	private Long id;
 	private User friend;
 	private String newestMessage;
+	private String abridgedMsg;
 	private LocalDateTime newestDatetime;
-	private boolean read;
+	private String cleanDatetime;
+	private boolean isRead;
 	
 	
 	
-	public Conversation(int id, User friend, String newestMessage, LocalDateTime newestDatetime, boolean read) {
+	public Conversation(Long id, User friend, String newestMessage, LocalDateTime newestDatetime, boolean isRead) {
 		super();
 		this.id = id;
 		this.friend = friend;
 		this.newestMessage = newestMessage;
 		this.newestDatetime = newestDatetime;
-		this.read = read;
+		this.isRead = isRead;
+		
+		//Store cleanDatetime as string from datetime
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+        cleanDatetime = newestDatetime.format(formatter1) + " at " +
+        		newestDatetime.format(formatter2);
+        
+        //Create abridged message
+        if (newestMessage.length() > 29) {
+        	abridgedMsg = newestMessage.substring(0, 29);
+        } else {
+        	abridgedMsg = newestMessage.substring(0, newestMessage.length() - 1);
+        }
+        
+		
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public User getFriend() {
@@ -49,16 +67,50 @@ public class Conversation implements Comparable<Conversation> {
 	public void setNewestDatetime(LocalDateTime newestDatetime) {
 		this.newestDatetime = newestDatetime;
 	}
-	public boolean isRead() {
-		return read;
+	public boolean getIsRead() {
+		return isRead;
 	}
-	public void setRead(boolean read) {
-		this.read = read;
+	public void setIsRead(boolean isRead) {
+		this.isRead = isRead;
 	}
+	
+	
+	
+	public String getAbridgedMsg() {
+		//Create abridged message
+        if (newestMessage.length() > 29) {
+        	abridgedMsg = newestMessage.substring(0, 29);
+        } else {
+        	abridgedMsg = newestMessage.substring(0, newestMessage.length() - 1);
+        }
+		
+		return abridgedMsg;
+	}
+
+	public void setAbridgedMsg(String abridgedMsg) {
+		this.abridgedMsg = abridgedMsg;
+	}
+
+	public String getCleanDatetime() {
+		
+		//Store cleanDatetime as string from datetime
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+        cleanDatetime = newestDatetime.format(formatter1) + " at " +
+        		newestDatetime.format(formatter2);
+		
+		return cleanDatetime;
+	}
+
+	public void setCleanDatetime(String cleanDatetime) {
+		this.cleanDatetime = cleanDatetime;
+		
+	}
+
 	@Override
 	public String toString() {
 		return "Conversation [friend=" + friend + ", newestMessage=" + newestMessage + ", newestDatetime="
-				+ newestDatetime + ", read=" + read + "]";
+				+ newestDatetime + ", read=" + isRead + "]";
 	}
 	
 

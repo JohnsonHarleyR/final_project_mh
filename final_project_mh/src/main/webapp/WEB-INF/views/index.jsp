@@ -59,7 +59,8 @@ a safe space for you to grow and we are glad you're here!</b>
 
 <c:if test="${loggedin}">
 <p>
-<a href="/users">See Users</a>
+<a href="/users">See Users</a><br>
+<a href="/messages">See Messages</a>
 </p>
 </c:if>
 

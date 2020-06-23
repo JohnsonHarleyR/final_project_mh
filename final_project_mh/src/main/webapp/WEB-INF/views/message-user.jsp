@@ -23,7 +23,7 @@
 </section>
 
 <!-- MainBody -->
-<main class="container">
+<main style="text-align:center;margin:auto;" class="container">
 <h1>Conversation with ${friend.username}</h1>
 
 <!-- Eventually only show last few messages, add next page -->
@@ -39,9 +39,9 @@
 				
 			<c:choose>
 				<c:when test="${message.senderId == user.id }">
-				<table class="table" id="messagewidth">
+				<table style="margin:auto;" class="table" id="messagewidth">
 				<tr>
-					<td style="text-align:right;">
+					<td style="vertical-align: middle;text-align:right;">
 						${user.username}<br>
 						<sup><a href="/profile?id=${user.id}">See profile</a></sup>
 					</td>
@@ -59,7 +59,7 @@
 				</table>
 				</c:when>
 				<c:otherwise>
-				<table class="table" id="messagewidth">
+				<table class="table" style="margin:auto;" id="messagewidth">
 				<tr>
 					<td width="75%">
 						<div class="modal-content">
@@ -70,7 +70,7 @@
 							</div>
 						</div>
 					</td>
-					<td>
+					<td style="text-align:left;vertical-align: middle;">
 						${friend.username}<br>
 					<sup><a href="/profile?id=${friend.id}">See profile</a></sup>
 					</td>
@@ -81,8 +81,8 @@
 		</c:forEach>
 		
 		<c:if test="${length > 5 && begin != 0 }">
-			<a href="/message?id=${friend.id}&begin=${begin - 5}" 
-			style="text-align:right;">See more messages</a>
+			<a style="text-align:left;" href="/message?id=${friend.id}&begin=${begin - 5}">
+			See more messages</a>
 			<br>
 		</c:if>
 	</c:when>
@@ -96,15 +96,19 @@
 
 <!-- if they are friends, allow to send message -->
 <c:if test="${arefriends}">
+	<br>
 	<h2>Send Message</h2>
 	<form action="/message/send" method="post">
 	<textarea name="message" rows="5" class="messagewidth" maxlength="1000" 
-	placeholder="Say something nice!" required></textarea>
+	placeholder="What do you want to say?" required></textarea>
 	
 	<br>
 	<input type="hidden" name="user" value="${user.id}"/>
 	<input type="hidden" name="friend" value="${friend.id}"/>
-	<button class="btn btn-info" type="submit">Send Message</button>
+	<button style="width:20%;margin:left;" class="btn btn-info btn-lg" type="submit">
+	Send Message</button>
+	<br>
+	<br>
 	</form>
 	
 </c:if>

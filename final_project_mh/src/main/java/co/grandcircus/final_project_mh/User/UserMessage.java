@@ -25,12 +25,15 @@ public class UserMessage {
 	private Long receiverId;
 	private LocalDateTime datetime;
 	private String message;
-	private int read; //0 is no, 1 is yes
+	@Column(name = "is_read")
+	private int isRead;
 	
 	private String cleanDatetime;
 	
 	
-	public UserMessage() {}
+	public UserMessage() {
+		this.isRead = 0;
+	}
 	
 	public UserMessage(String conversationRef, Long senderId, Long receiverId, LocalDateTime datetime,
 			String message) {
@@ -40,7 +43,9 @@ public class UserMessage {
 		this.receiverId = receiverId;
 		this.datetime = datetime;
 		this.message = message;
-		read = 0;
+		
+		isRead = 0;
+		
 		
 		//Store cleanDatetime as string from datetime
 		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -51,6 +56,15 @@ public class UserMessage {
 	}
 	
 	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getConversationRef() {
 		return conversationRef;
 	}
@@ -81,13 +95,13 @@ public class UserMessage {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	public int getRead() {
-		return read;
+
+	public int getIsRead() {
+		return isRead;
 	}
 
-	public void setRead(int read) {
-		this.read = read;
+	public void setIsRead(int read) {
+		this.isRead = read;
 	}
 
 	public String getCleanDatetime() {
@@ -106,8 +120,8 @@ public class UserMessage {
 	@Override
 	public String toString() {
 		return "UserMessages [id=" + id + ", conversationRef=" + conversationRef + ", senderId=" + senderId
-				+ ", receiverId=" + receiverId + ", datetime=" + datetime + ", message=" + message +
-				"read=" + read + "]";
+				+ ", receiverId=" + receiverId + ", datetime=" + datetime + ", message=" + message + "isRead=" +
+				isRead + "]";
 	}
 	
 	

@@ -27,9 +27,11 @@
 <h1>${user.name}'s Page</h1>
 
 <section id="user-options">
-	<a href="/friends?id=${user.id}">See friends</a>
-	<br>
-	<a href="/profile?id=${user.id}">See your profile</a>
+	<a href="/friends?id=${user.id}">See friends</a> 
+	/ 
+	<a href="/messages">See messages</a> 
+	/ 
+	<a href="/profile?id=${user.id}">See profile</a>
 	<br>
 	<br>
 	<b>Points:</b> ${user.points}
