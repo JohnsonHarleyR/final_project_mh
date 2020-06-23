@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import co.grandcircus.final_project_mh.AffirmationsApi.AffirmationsService;
 import co.grandcircus.final_project_mh.Favorites.AffirmationDao;
 import co.grandcircus.final_project_mh.Favorites.FavAffirmation;
+import co.grandcircus.final_project_mh.MentalHealthApi.MHAnimal;
+import co.grandcircus.final_project_mh.MentalHealthApi.MHQuote;
+import co.grandcircus.final_project_mh.MentalHealthApi.MHService;
 import co.grandcircus.final_project_mh.QuoteApi.Quote;
 import co.grandcircus.final_project_mh.QuoteApi.QuoteOfTheDay;
 import co.grandcircus.final_project_mh.QuoteApi.QuoteOfTheDayDao;
@@ -33,6 +36,9 @@ public class SoulController {
 	
 	@Autowired
 	private UserDao userRepo;
+	
+	@Autowired
+	private MHService mHService;
 	
 	@Autowired
 	private AffirmationDao affirmationRepo;
@@ -95,6 +101,16 @@ public class SoulController {
 		model.addAttribute("wi", wi);
 		model.addAttribute("he", he);
 		
+		
+		//Add random baby animal to page
+		MHAnimal baby= mHService.getRandomAnimal();
+		model.addAttribute("baby", baby.getUrl());
+		System.out.println("Baby animal: " + baby.getUrl());
+		
+		
+		
+		String quoteString = "";
+		
 		//If user is logged in, check to see if it's saved already
 		if (loggedIn) {
 			
@@ -154,9 +170,16 @@ public class SoulController {
 			}
 			System.out.println(q);
 			
-			String videoId = youtubeService.getRandomVideoIdForVideoDisplay(q);
+			boolean goAhead = true;
 			
-			model.addAttribute("videoId",videoId);
+			try {
+				String videoId = youtubeService.getRandomVideoIdForVideoDisplay(q);
+				
+				model.addAttribute("videoId",videoId);
+			} catch (Exception e) {
+				goAhead = false;
+			}
+			model.addAttribute("goahead",goAhead);
 			
 			
 			
@@ -178,35 +201,56 @@ public class SoulController {
 		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		 Date date = new Date(timestamp.getTime());
 		 String sDate = date.toString();
+		 String qQuote = "";
 		 boolean recorded = false;
 		 for (QuoteOfTheDay quote: allPrevious) {
 			 if (quote.getDatetime().toString().equals(sDate)) {
 				 recorded = true;
 				//If it matches anything, add it to the model
 				 model.addAttribute("quote", quote);
+				 System.out.println(quote.getQuote());
+				 System.out.println(quote.getAuthor());
+				 
+				 if (quote.getAuthor() == null ||
+						 quote.getAuthor().equals("")) {
+					 quoteString = quote.getQuote();
+				 } else {
+					 quoteString = quote.getQuote() + " -" + quote.getAuthor();
+				 }
+				 
+				 model.addAttribute("quotestring", quoteString);
+				 
 			 }
 		 }
 		
-		 String qQuote = "";
+		 QuoteOfTheDay quoteOfDay = new QuoteOfTheDay(date,
+				 "You may write me down in history with your bitter, twisted lies. You may trod on me in the very dirt, "
+				 + "but still, like dust, I'll rise.", "Maya Angelou");;
+		 
 		 //if it hasn't matched anything, grab a quote from the API. Store it.
 		 if (!recorded) {
 			 Quote quote = quoteService.quoteOfTheDay();
 			 //set a default in case of error here
 			 //It may repeat a quote sometimes, but it's better than a whitepage error
-			 QuoteOfTheDay quoteOfDay;
+			 qQuote = quote.getQuote(); //not actually sure what this if for anymore lol
 			 
 			 try {
-				 quoteOfDay = new QuoteOfTheDay(date,
-						 "You may write me down in history with your bitter, twisted lies. You may trod on me in the very dirt, "
-						 + "but still, like dust, I'll rise.", "Maya Angelou");
+				 if (quote.getAuthor() != null && !quote.getAuthor().equals("")) {
+					 quoteOfDay  = new QuoteOfTheDay(date,
+							 quote.getQuote(), quote.getAuthor());
+				 } else {
+					 quoteOfDay  = new QuoteOfTheDay(date,
+							 quote.getQuote(), "");
+				 }
+				 
+				 
 			 } catch (Exception e) {
-				 quoteOfDay  = new QuoteOfTheDay(date,
-						 quote.getQuote(), quote.getAuthor());
 			 }
 			 
+			System.out.println("Not recorded:" + quoteOfDay.getQuote());
 			
 			 quoteRepo.save(quoteOfDay);
-			 String quoteString = "";
+			 
 			 if (quoteOfDay.getAuthor().equals(null) ||
 					 quoteOfDay.getAuthor().equals("")) {
 				 quoteString = quoteOfDay.getQuote();
@@ -214,13 +258,37 @@ public class SoulController {
 				 quoteString = quoteOfDay.getQuote() + " -" + quoteOfDay.getAuthor();
 			 }
 			 
-			 model.addAttribute("quote", quote);
 			 model.addAttribute("quotestring", quoteString);
-			 qQuote = quote.getQuote();
+			 
 		 }
 		 
-		//Loop through favorites to see if quote exists already
 		 
+		 
+		 
+		 List<FavAffirmation> affirmations =
+					affirmationRepo.findByUserId(user.getId());
+		 
+		 boolean qExists = false;
+			for (FavAffirmation a: affirmations) {
+				if (a.getAffirmation().equals(quoteString)) {
+					qExists = true;
+				}
+			}
+			model.addAttribute("qexists", qExists);
+		 
+		//Loop through favorites to see if quote exists already
+			
+			
+			
+		 
+		//MH API quote to put on page
+		MHQuote mQuote = mHService.getRandomQuote();
+		System.out.println(mQuote.getQuote());
+		
+		String mQuoteString = mQuote.getQuote() + " -" + mQuote.getAuthor();
+		model.addAttribute("mquote", mQuote);
+		model.addAttribute("mquotestring", mQuoteString);
+	 
 		 
 		//If user is logged in, check to see if it's saved already
 		if (loggedIn) {
@@ -228,19 +296,19 @@ public class SoulController {
 			//Get user (assigned above with progress bar
 			// User user = (User)session.getAttribute("user");
 		//Get list of their favorite Affirmations
-			List<FavAffirmation> affirmations =
-					affirmationRepo.findByUserId(user.getId());
+
 			
-			boolean qExists = false;
+			boolean mExists = false;
 			for (FavAffirmation a: affirmations) {
-				if (a.getAffirmation().contains(qQuote)) {
-					qExists = true;
+				if (a.getAffirmation().equals(mQuoteString)) {
+					mExists = true;
 				}
 			}
 			//Tell the jsp whether it exists or not so that it
 			//knows whether to show the save button
-			model.addAttribute("qexists", qExists);
+			model.addAttribute("mexists", mExists);
 		}
+		
 		
 		
 		 
@@ -265,9 +333,7 @@ public class SoulController {
 		boolean loggedIn = Methods.checkLogin(session);
 		
 		//If not logged in, skip the rest basically
-		if (!loggedIn) {
-			model.addAttribute("loggedin", loggedIn);
-		} else {
+		if (loggedIn) {
 		
 			//Get user
 			User user = (User)session.getAttribute("user");
