@@ -127,7 +127,6 @@
 			
 			<div id="records" style="text-align:left;content:left;">
 				<h2>Happy Reminders</h2>
-				Here are some of ${profileuser.name}'s favorite reminders.<br><br>
 				<p>
 				<c:choose>
 				<c:when test="${arerecords}">
@@ -152,7 +151,6 @@
 			<td>
 			<div id="affirmations" style="text-align:left;content:left;">
 				<h2>Favorite Affirmations</h2>
-				Here are some of ${profileuser.name}'s favorite affirmations.<br><br>
 				<p>
 				<c:choose>
 				<c:when test="${areaffirmations}">
@@ -179,7 +177,6 @@
 			<td>
 			<div id="exercises" style="text-align:left;content:left;">
 				<h2>Completed Exercises</h2>
-				Here are some of ${profileuser.name}'s favorite completed exercises.<br><br>
 				<p>
 				<c:choose>
 				<c:when test="${areexercises}">
@@ -204,7 +201,7 @@
 			<td>
 			<div id="articles" style="text-align:left;content:left;">
 				<h2>Favorite Articles</h2>
-				Here are some of ${profileuser.name}'s favorite articles.<br><br>
+
 				
 				<p>
 				<c:choose>
