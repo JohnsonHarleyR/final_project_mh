@@ -23,20 +23,10 @@ public class Thread {
 	private LocalDateTime datetime;
 	
 	public Thread() {
-<<<<<<< HEAD
 		
 	}
 
 	public Thread( String threadTitle, Long discussionId, String username, LocalDateTime datetime) {
-=======
-	}
-	
-	
-	
-	
-	public Thread( Long threadId, String username, LocalDateTime datetime, String messege,
-			Long discussionId) {
->>>>>>> d808004986aa703175645824f1e9a1f8986076d3
 		super();
 		this.threadTitle = threadTitle;
 		this.discussionId = discussionId;

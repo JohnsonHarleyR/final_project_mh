@@ -867,8 +867,10 @@ public class UserController {
 	public String postFavorite(
 			@RequestParam("type") String type,
 			@RequestParam("id") Long id,
+			@RequestParam(name = "url") String url,
 			Model model
 			) {
+		
 		
 		
 		//figure out what type it is
@@ -914,7 +916,7 @@ public class UserController {
 			
 		}
 		
-		return "redirect:/user";
+		return "redirect:" + url;
 	}
 	
 	
@@ -923,6 +925,7 @@ public class UserController {
 	public String postRemove(
 			@RequestParam("type") String type,
 			@RequestParam("id") Long id,
+			@RequestParam(name = "url") String url,
 			Model model
 			) {
 		
@@ -970,7 +973,7 @@ public class UserController {
 			
 		}
 			
-			return "redirect:/user";
+			return "redirect:" + url;
 		}
 	
 	

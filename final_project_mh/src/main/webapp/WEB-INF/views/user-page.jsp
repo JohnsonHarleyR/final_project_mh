@@ -76,19 +76,16 @@
 		${record.text}
 		<br>
 
-		<i>${record.datetime}</i> <a href="/delete/record?id=${record.id}&url=/user">
-		Delete</a>
-
 		<i>${record.datetime}</i> 
 		<c:choose>
 			<c:when test="${record.onProfile == 0}">
-				<a href="/post?type=record&id=${record.id}">Post</a> / 
+				<a href="/post?type=record&id=${record.id}&url=/user">Post</a> / 
 				<a href="/delete/record?id=${record.id}&url=/user">
 				Delete</a>
 				<br>
 			</c:when>
 			<c:otherwise>
-				<a href="/post/remove?type=record&id=${record.id}">Remove</a>
+				<a href="/post/remove?type=record&id=${record.id}&url=/user">Remove</a>
 				<br>
 			</c:otherwise>
 		</c:choose>
@@ -116,13 +113,13 @@
 		
 		<c:choose>
 			<c:when test="${affirmation.onProfile == 0}">
-				<a href="/post?type=affirmation&id=${affirmation.id}">Post</a> / 
+				<a href="/post?type=affirmation&id=${affirmation.id}&url=/user">Post</a> / 
 				<a href="/delete/affirmation?id=${affirmation.id}&url=/user">
 				Delete</a>
 				<br>
 			</c:when>
 			<c:otherwise>
-				<a href="/post/remove?type=affirmation&id=${affirmation.id}">Remove</a>
+				<a href="/post/remove?type=affirmation&id=${affirmation.id}&url=/user">Remove</a>
 				<br>
 			</c:otherwise>
 		</c:choose>
@@ -149,13 +146,13 @@
 		<i>${item.datetime}</i>
 		<c:choose>
 			<c:when test="${item.onProfile == 0}">
-				<a href="/post?type=exercise&id=${item.id}">Post</a> / 
+				<a href="/post?type=exercise&id=${item.id}&url=/user">Post</a> / 
 				<a href="/delete/exercise?id=${item.id}&url=/user">
 				Delete</a>
 				<br>
 			</c:when>
 			<c:otherwise>
-				<a href="/post/remove?type=exercise&id=${item.id}">Remove</a>
+				<a href="/post/remove?type=exercise&id=${item.id}&url=/user">Remove</a>
 				<br>
 			</c:otherwise>
 		</c:choose>
@@ -183,13 +180,13 @@
 		<i>${item.datetime}</i>
 		<c:choose>
 			<c:when test="${item.onProfile == 0}">
-				<a href="/post?type=article&id=${item.id}">Post</a> / 
+				<a href="/post?type=article&id=${item.id}&url=/user">Post</a> / 
 				<a href="/delete/article?id=${item.id}&url=/user">
 				Delete</a>
 				<br>
 			</c:when>
 			<c:otherwise>
-				<a href="/post/remove?type=article&id=${item.id}">Remove</a>
+				<a href="/post/remove?type=article&id=${item.id}&url=/user">Remove</a>
 				<br>
 			</c:otherwise>
 		</c:choose>
