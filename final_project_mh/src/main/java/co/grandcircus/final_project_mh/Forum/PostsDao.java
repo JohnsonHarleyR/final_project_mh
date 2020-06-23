@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ThreadDao extends JpaRepository<Thread, Long>{
+public interface PostsDao extends JpaRepository<Posts, Long>{
+	
+	List<Posts> findByThreadId(Long id);
 
-	List<Thread> findByDiscussionId(Long Id);
 }

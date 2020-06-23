@@ -1,5 +1,6 @@
 package co.grandcircus.final_project_mh.Forum;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,30 +11,41 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="threads")
-public class Thread {
+@Table(name="posts")
+public class Posts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="thread_title")
-	private String threadTitle;
-	@Column(name="discussion_id")
-	private Long discussionId;
 	private String username;
+	@Column(name="thread_id")
+	private Long threadId;
 	private LocalDateTime datetime;
+	private String message;
+	private Long discussionId;
 	
-	public Thread() {
+	public Posts() {
 		
 	}
-
-	public Thread( String threadTitle, Long discussionId, String username, LocalDateTime datetime) {
+	
+	
+	public Posts( String username, Long threadId, LocalDateTime datetime, String message, Long discussionId) {
 		super();
-		this.threadTitle = threadTitle;
-		this.discussionId = discussionId;
 		this.username = username;
+		this.threadId = threadId;
 		this.datetime = datetime;
+		this.message = message;
+		this.discussionId = discussionId;
 	}
 
+
+	public Long getDiscussionId() {
+		return discussionId;
+	}
+
+
+	public void setDiscussionId(Long discussionId) {
+		this.discussionId = discussionId;
+	}
 
 
 	public Long getId() {
@@ -45,29 +57,17 @@ public class Thread {
 	public String getUsername() {
 		return username;
 	}
-
-
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-
-
-	public String getThreadTitle() {
-		return threadTitle;
-	}
-	public void setThreadTitle(String threadTitle) {
-		this.threadTitle = threadTitle;
-	}
-	public Long getDiscussionId() {
-		return discussionId;
-	}
-	public void setDiscussionId(Long discussionId) {
-		this.discussionId = discussionId;
+	
+	public Long getThreadId() {
+		return threadId;
 	}
 
-
+	public void setThreadId(Long threadId) {
+		this.threadId = threadId;
+	}
 
 	public LocalDateTime getDatetime() {
 		return datetime;
@@ -75,14 +75,13 @@ public class Thread {
 	public void setDatetime(LocalDateTime datetime) {
 		this.datetime = datetime;
 	}
-
-
-
-	@Override
-	public String toString() {
-		return "Thread [id=" + id + ", threadTitle=" + threadTitle + ", discussionId=" + discussionId + ", username="
-				+ username + ", datetime=" + datetime + "]";
+	public String getMessage() {
+		return message;
+	}
+	public void setMessege(String message) {
+		this.message = message;
 	}
 	
 	
 }
+	

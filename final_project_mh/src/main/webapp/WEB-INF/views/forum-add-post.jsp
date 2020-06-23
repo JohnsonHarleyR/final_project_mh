@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
-    
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +10,7 @@
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
 <link href="/style.css" rel="stylesheet" />
-
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Create a Thread</title>
 </head>
 <body>
@@ -28,31 +26,27 @@
 	
 	<h1>Create a New Thread</h1>
 	<!-- Check if user is logged in. 
-	If they are, let them create thread.
+	If they are, let them create post.
 	Otherwise, ask them to sign in.-->
 	<c:choose>
 		<c:when test="${loggedin}">
 	
-			<form action="/thread/add/submit" method="post">
-			Discussion: <c:out value="${discussion.topic}"/>
+			<form action="/post/add/submit" method="post">
 			<br>
 			<br>
-			<label>What should the thread be called?</label><br>
-			<input type="text" size="50" placeholder="Topic Title" name="threadTitle"/><br>
-			<br>
-			<label>What should the first post say?</label><br>
+			<label>What do you want to say?</label><br>
 			<textarea name="comment" rows="7" cols="52" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
-			<input type="hidden" name="discussionId" value="${discussion.id }">
-			<button class="btn btn-info" type="submit">Create Thread</button>
-			<a href="/forum/discussion?id=${discussion.id}" 
+			<input type="hidden" name="threadId" value="${threadId }">
+			<button class="btn btn-info" type="submit">Post</button>
+			<a href="/forum/thread?id=${threadId}" 
 			style="color: #ffffff;" class="btn btn-info">Cancel</a>
 			</form>
-
+		
 		</c:when>
 		<c:otherwise>
-			Sorry, you must be logged in to create a thread.
+			Sorry, you must be logged in to reply on a thread.
 			<br>
 			<a href="/login">Sign In</a>
 		</c:otherwise>

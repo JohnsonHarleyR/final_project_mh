@@ -11,17 +11,19 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="discussion")
+@Table(name="discussions")
 public class Discussion {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="discussion_id")
-	private Long discussionId;
 	@Column(name="post_type")
 	private String postType;
+	private String description;
 	private String topic;
+	private String tag;
+	
+	//to determine who posted the discussion to start 
 	private String username;
 	
 	
@@ -31,28 +33,25 @@ public class Discussion {
 		
 	}
 	
-	public Discussion( Long threadId, String postType, String topic, String username
-			) {
+	
+	public Discussion(Long id, String postType, String description, String topic, String tag, String username) {
 		super();
-		
-		this.discussionId = threadId;
+		this.id = id;
 		this.postType = postType;
+		this.description = description;
 		this.topic = topic;
+		this.tag = tag;
 		this.username = username;
-		
 	}
+
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getThreadId() {
-		return discussionId;
-	}
-	public void setThreadId(Long threadId) {
-		this.discussionId = threadId;
-	}
+
 	public String getPostType() {
 		return postType;
 	}
@@ -71,10 +70,26 @@ public class Discussion {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
 	@Override
 	public String toString() {
-		return "Discussion [id=" + id + ", threadId=" + discussionId + ", postType=" + postType + ", topic=" + topic
-				+ ", username=" + username + "]";
+		return "Discussion [id=" + id + ", postType=" + postType + ", topic=" + topic + ", username=" + username + "]";
 	}
 	
 	
