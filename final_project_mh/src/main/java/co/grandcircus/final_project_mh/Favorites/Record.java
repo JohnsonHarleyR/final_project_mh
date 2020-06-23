@@ -21,6 +21,8 @@ public class Record implements Comparable<Record> {
 	private String text;
 	@Column(name = "user_id")
 	private Long userId;
+	@Column(name = "on_profile")
+	private int onProfile;
 	
 	public Record() {}
 	
@@ -29,6 +31,8 @@ public class Record implements Comparable<Record> {
 		this.datetime = datetime;
 		this.text = text;
 		this.userId = userId;
+		
+		onProfile = 0;
 		
 	}
 	
@@ -70,9 +74,23 @@ public class Record implements Comparable<Record> {
 	
 	
 
+	
+
+	public int getOnProfile() {
+		return onProfile;
+	}
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
+	}
+	
+	
+	
+
 	@Override
 	public String toString() {
-		return "Record [id=" + id + ", datetime=" + datetime + ", text=" + text + ", userId=" + userId + "]";
+		return "Record [id=" + id + ", datetime=" + datetime + ", text=" + text + ", userId=" + userId + ", onProfile="
+				+ onProfile + "]";
 	}
 
 	//Compare by date. If they're the same, compare by id order.

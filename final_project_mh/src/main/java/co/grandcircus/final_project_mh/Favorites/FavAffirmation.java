@@ -20,16 +20,24 @@ public class FavAffirmation implements Comparable<FavAffirmation> {
 	private String affirmation;
 	@Column(name = "user_id")
 	private Long userId;
+	@Column(name = "on_profile")
+	private int onProfile;
 	
 	public FavAffirmation() {}
 	
-	public FavAffirmation(Date datetime, String affirmation,
-			Long userId) {
+	
+	
+	public FavAffirmation(Date datetime, String affirmation, Long userId) {
+		super();
 		this.datetime = datetime;
 		this.affirmation = affirmation;
 		this.userId = userId;
+		
+		onProfile = 0;
 	}
-	
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -56,13 +64,28 @@ public class FavAffirmation implements Comparable<FavAffirmation> {
 	}
 	
 	
-	@Override
-	public String toString() {
-		return "FavoriteAffirmations [id=" + id + ", datetime=" + datetime + ", affirmation=" + affirmation
-				+ ", userId=" + userId + "]";
+	
+	public int getOnProfile() {
+		return onProfile;
+	}
+
+
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
 	}
 
 	
+
+	
+	@Override
+	public String toString() {
+		return "FavAffirmation [id=" + id + ", datetime=" + datetime + ", affirmation=" + affirmation + ", userId="
+				+ userId + ", onProfile=" + onProfile + "]";
+	}
+
+
+
 	//Compare by date. If they're the same, compare by id order.
 	//(Guess you could probably just compare by id but oh well. This is
 	//more error proof.)

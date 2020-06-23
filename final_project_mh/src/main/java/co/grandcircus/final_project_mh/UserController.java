@@ -497,8 +497,76 @@ public class UserController {
 		boolean isFriend = false;
 		boolean isRequested = false;
 		boolean acceptRequested = false;
-		Boolean canComment=false;
+		boolean canComment=false;
 		boolean areComments = false;
+		
+		
+		
+		
+		
+		//get all saved items to put on profile, along with boolean on whether it exists
+		
+		//set booleans to false, will later determine if any category is posted on profile
+		boolean areRecords = false;
+		boolean areAffirmations = false;
+		boolean areExercises = false;
+		boolean areArticles = false;
+		
+		//Create Lists
+		List<Record> records = recordRepo.findByUserId(id);
+		List<FavAffirmation> affirmations = affirmationRepo.findByUserId(id);
+		List<FavExercises> exercises = exerciseRepo.findByUserId(id);
+		List<FavArticle> articles = articleRepo.findByUserId(id);
+		
+		//Create empty lists to store posted items
+		List<Record> postedRecords = new ArrayList<>();
+		List<FavAffirmation> postedAffirmations = new ArrayList<>();
+		List<FavExercises> postedExercises = new ArrayList<>();
+		List<FavArticle> postedArticles = new ArrayList<>();
+		
+		//Now loop through all beginning lists, store anything in new list that has onProfile = 1
+		for (Record r: records) {
+			if (r.getOnProfile() == 1) {
+				postedRecords.add(r);
+				areRecords = true;
+			}
+		}
+		
+		for (FavAffirmation a: affirmations) {
+			if (a.getOnProfile() == 1) {
+				postedAffirmations.add(a);
+				areAffirmations = true;
+			}
+		}
+		
+		for (FavExercises e: exercises) {
+			if (e.getOnProfile() == 1) {
+				postedExercises.add(e);
+				areExercises = true;
+			}
+		}
+		
+		for (FavArticle a: articles) {
+			if (a.getOnProfile() == 1) {
+				postedArticles.add(a);
+				areArticles = true;
+			}
+		}
+		
+		//Now add elements to profile page
+		model.addAttribute("records", postedRecords);
+		model.addAttribute("affirmations", postedAffirmations);
+		model.addAttribute("exercises", postedExercises);
+		model.addAttribute("articles", postedArticles);
+		
+		model.addAttribute("arerecords", areRecords);
+		model.addAttribute("areaffirmations", areAffirmations);
+		model.addAttribute("areexercises", areExercises);
+		model.addAttribute("arearticles", areArticles
+				
+				
+				);
+		
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
@@ -794,7 +862,121 @@ public class UserController {
 		return "user-page";
 	}
 	
-
+	//Post item to profile
+	@RequestMapping("/post")
+	public String postFavorite(
+			@RequestParam("type") String type,
+			@RequestParam("id") Long id,
+			Model model
+			) {
+		
+		
+		//figure out what type it is
+		if (type.equals("record")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Record> r= recordRepo.findById(id);
+			Record record = r.get();
+			//Change onProfile to 1 to represent yes
+			record.setOnProfile(1);
+			//Now save it to database
+			recordRepo.save(record);
+			
+		} else if (type.equals("affirmation")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavAffirmation> a = affirmationRepo.findById(id);
+			FavAffirmation affirmation = a.get();
+			//Change onProfile to 1 to represent yes
+			affirmation.setOnProfile(1);
+			//Now save it to database
+			affirmationRepo.save(affirmation);
+			
+		} else if (type.equals("exercise")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavExercises> e = exerciseRepo.findById(id);
+			FavExercises exercise = e.get();
+			//Change onProfile to 1 to represent yes
+			exercise.setOnProfile(1);
+			//Now save it to database
+			exerciseRepo.save(exercise);
+			
+		} else if (type.equals("article")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavArticle> a = articleRepo.findById(id);
+			FavArticle article = a.get();
+			//Change onProfile to 1 to represent yes
+			article.setOnProfile(1);
+			//Now save it to database
+			articleRepo.save(article);
+			
+		}
+		
+		return "redirect:/user";
+	}
+	
+	
+	//Remove post item from profile
+	@RequestMapping("/post/remove")
+	public String postRemove(
+			@RequestParam("type") String type,
+			@RequestParam("id") Long id,
+			Model model
+			) {
+		
+		
+		//figure out what type it is
+		if (type.equals("record")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Record> r= recordRepo.findById(id);
+			Record record = r.get();
+			//Change onProfile to 1 to represent yes
+			record.setOnProfile(0);
+			//Now save it to database
+			recordRepo.save(record);
+			
+		} else if (type.equals("affirmation")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavAffirmation> a = affirmationRepo.findById(id);
+			FavAffirmation affirmation = a.get();
+			//Change onProfile to 1 to represent yes
+			affirmation.setOnProfile(0);
+			//Now save it to database
+			affirmationRepo.save(affirmation);
+			
+		} else if (type.equals("exercise")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavExercises> e = exerciseRepo.findById(id);
+			FavExercises exercise = e.get();
+			//Change onProfile to 1 to represent yes
+			exercise.setOnProfile(0);
+			//Now save it to database
+			exerciseRepo.save(exercise);
+			
+		} else if (type.equals("article")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavArticle> a = articleRepo.findById(id);
+			FavArticle article = a.get();
+			//Change onProfile to 1 to represent yes
+			article.setOnProfile(0);
+			//Now save it to database
+			articleRepo.save(article);
+			
+		}
+			
+			return "redirect:/user";
+		}
+	
+	
+	
+	//form for submitting achievements to be displayed
+	//TO DO add points and credit system
 	//Expanded list - can be multiple things, like on pizza lab
 	@RequestMapping("/list/affirmations")
 	public String list(Model model) {
