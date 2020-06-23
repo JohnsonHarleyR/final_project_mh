@@ -795,6 +795,65 @@ public class UserController {
 		return "user-page";
 	}
 	
+	//Post item to profile
+	@RequestMapping("/post")
+	public String postFavorite(
+			@RequestParam("type") String type,
+			@RequestParam("id") Long id,
+			Model model
+			) {
+		//Grab user from session
+		User user = (User)session.getAttribute("user");
+		
+		
+		//figure out what type it is
+		if (type.equals("record")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Record> r= recordRepo.findById(id);
+			Record record = r.get();
+			//Change onProfile to 1 to represent yes
+			record.setOnProfile(1);
+			//Now save it to database
+			recordRepo.save(record);
+			
+		} else if (type.equals("affirmation")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavAffirmation> a = affirmationRepo.findById(id);
+			FavAffirmation affirmation = a.get();
+			//Change onProfile to 1 to represent yes
+			affirmation.setOnProfile(1);
+			//Now save it to database
+			affirmationRepo.save(affirmation);
+			
+		} else if (type.equals("exercise")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavExercises> e = exerciseRepo.findById(id);
+			FavExercises exercise = e.get();
+			//Change onProfile to 1 to represent yes
+			exercise.setOnProfile(1);
+			//Now save it to database
+			exerciseRepo.save(exercise);
+			
+		} else if (type.equals("article")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavArticle> a = articleRepo.findById(id);
+			FavArticle article = a.get();
+			//Change onProfile to 1 to represent yes
+			article.setOnProfile(1);
+			//Now save it to database
+			articleRepo.save(article);
+			
+		}
+		
+		return "redirect:/user";
+	}
+	
+	
+	
 	//form for submitting achievements to be displayed
 	//TO DO add points and credit system
 	@RequestMapping("/submit/achievement")
