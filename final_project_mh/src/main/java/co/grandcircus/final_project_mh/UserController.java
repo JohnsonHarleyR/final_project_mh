@@ -433,12 +433,20 @@ public class UserController {
 		//Turn list into list of their friends
 		List<User> friends = new ArrayList<>();
 		for (String s: friendIds) {
-			long num = Long.parseLong(s);
+			if (!friends.isEmpty() || friends != null || !friends.get(0).equals("")) {
+				try {
+					long num = Long.parseLong(s);
+					
+					Optional<User> opt = userRepo.findById(num);
+					User temp = opt.get();
+					
+					friends.add(temp);
+				} catch (Exception e) {
+					
+				}
+				
+			}
 			
-			Optional<User> opt = userRepo.findById(num);
-			User temp = opt.get();
-			
-			friends.add(temp);
 		}
 		
 		//See if session user is in friend list
@@ -449,7 +457,7 @@ public class UserController {
 		}
 		
 		//Tell jsp whether or not profile user has friends
-		if (friends.isEmpty() || friends == null) {
+		if (friends.isEmpty() || friends == null || friends.get(0).equals("")) {
 			model.addAttribute("friends", false);
 		} else {
 			model.addAttribute("friends", true);
