@@ -38,10 +38,14 @@
 			<br>
 			<br>
 			<label>What should the thread be called?</label><br>
+<<<<<<< HEAD
 			<input type="text" size="50" placeholder="Topic Title" name="threadTitle"/><br>
+=======
+			<input type="text" class="postwidth" placeholder="Topic Title" name="topic"/><br>
+>>>>>>> 8deb68cfe2a8f6f03205e28cdf114a3fc07b75b5
 			<br>
 			<label>What should the first post say?</label><br>
-			<textarea name="comment" rows="7" cols="52" maxlength="1000" 
+			<textarea name="comment" rows="7" class="postwidth" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
 			<input type="hidden" name="discussionId" value="${discussion.id }">

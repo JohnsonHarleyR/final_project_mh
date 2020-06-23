@@ -2,6 +2,9 @@ package co.grandcircus.final_project_mh;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -58,6 +61,9 @@ public class SoulController {
 		
 		User user = (User)session.getAttribute("user");
 		//adds progress bar line
+		
+		if(loggedIn == true) {
+		
 				String names = Methods.getRank(user, userRepo).getName();
 				double maxD = Methods.getRank(user, userRepo).getMaxSoulPoints();
 				double minD = Methods.getRank(user, userRepo).getMinSoulPoints();
@@ -77,10 +83,7 @@ public class SoulController {
 				model.addAttribute("max", max);
 				model.addAttribute("min", min);
 				model.addAttribute("names", names);
-		
-		
-		
-		
+		}
 		
 		//Get an affirmation
 		String affirmation = affirmationsService.getAffirmation();

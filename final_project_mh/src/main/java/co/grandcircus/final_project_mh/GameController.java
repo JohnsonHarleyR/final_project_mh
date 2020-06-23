@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,13 @@ public class GameController {
 	public String challengeForm(Model model) {
 		
 		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		model.addAttribute("loggedin", loggedIn);
+		
 		List<co.grandcircus.final_project_mh.Gamification.Challenge> challenge;
 		
-		User user;
-		
-		user=(User)session.getAttribute("user");
 	    //adds total points of users accomplishments
 		if(user != null) {
 		

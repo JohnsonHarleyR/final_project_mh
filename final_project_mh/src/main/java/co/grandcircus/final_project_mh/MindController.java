@@ -78,6 +78,10 @@ public class MindController {
 		HashMap<String, PickedArticle> pickedArticles = articleObject.getMap();
 		
 		User user = (User)session.getAttribute("user");
+	
+		boolean loggedIn = Methods.checkLogin(session);
+		
+		if(loggedIn == true) {
 		
 		//adds progress bar line
 		String names = Methods.getRank(user, userRepo).getName();
@@ -99,7 +103,8 @@ public class MindController {
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
 		model.addAttribute("names", names);
-
+		}
+		
 		//Get list of their favorite Articles
 		List<FavArticle> articles = new ArrayList<>();
 		
@@ -107,8 +112,6 @@ public class MindController {
 			articles = articleRepo.findByUserId(user.getId());
 		}
 						
-		
-		boolean loggedIn = Methods.checkLogin(session);
 		Integer keywordIndex = (Integer)session.getAttribute("keyword");
 		
 		//Set a default for when session is empty
@@ -153,7 +156,6 @@ public class MindController {
 				}
 			}
 		}
-		
 		model.addAttribute("exists3", exists3);
 		
 	    Article article2 = null;

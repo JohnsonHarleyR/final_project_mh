@@ -22319,4 +22319,15 @@ main {
 	justify-content: center;
 }
 
+.postwidth {
+  width: 400px;   
+}
+
+.messagewidth {
+  width: 700px;   
+}
+
+#messagewidth {
+  width: 700px;   
+}
  

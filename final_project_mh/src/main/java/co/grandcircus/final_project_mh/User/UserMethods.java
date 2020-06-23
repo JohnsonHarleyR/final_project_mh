@@ -1,14 +1,38 @@
 package co.grandcircus.final_project_mh.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import co.grandcircus.final_project_mh.Methods;
 
 public class UserMethods {
 	
 	
+	
 	//Methods for connecting with friends
+	
+	
+	//Create/get conversation ref for user messaging
+	public static String getConversationRef(User user1, User user2) {
+		
+		//Declare ref string
+		String ref = "";
+		//Create list that can be sorted alphabetically
+		List<String> names = new ArrayList<>();
+		
+		//Add usernames to list in lowercase
+		names.add(user1.getUsername().toLowerCase());
+		names.add(user2.getUsername().toLowerCase());
+		
+		//sort the names alphabetically
+		Collections.sort(names);
+		
+		//Create ref string
+		ref = names.get(0) + "-" + names.get(1);
+		
+		return ref;
+	}
+	
+	
 	
 	//Delete a friend
 	public static void deleteFriend(User user, User friend, UserDao repo) {

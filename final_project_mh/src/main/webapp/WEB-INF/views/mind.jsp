@@ -24,6 +24,10 @@ function addPoints() {
 <main class="container">
 <h1>Mind</h1>
 
+
+<!-- test for users -->
+   <c:if test = "${loggedin == null}">
+
 <div>
 <div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>
@@ -35,7 +39,7 @@ function addPoints() {
 		<p> Total Mind Points: <c:out value = "${total}"/></p>
 		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
 </div>
-
+  </c:if>
 
 <section id="game">
 	<div style="width:55%;height:55%;float:right;padding:10px;">

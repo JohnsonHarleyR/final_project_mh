@@ -2,10 +2,15 @@ package co.grandcircus.final_project_mh;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,8 +32,13 @@ import co.grandcircus.final_project_mh.Favorites.FavArticle;
 import co.grandcircus.final_project_mh.Favorites.FavExercises;
 import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
+import co.grandcircus.final_project_mh.Gamification.Achievements;
+import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
+import co.grandcircus.final_project_mh.User.Conversation;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.User.UserMessage;
+import co.grandcircus.final_project_mh.User.UserMessageDao;
 import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 
@@ -53,6 +63,12 @@ public class UserController {
 	@Autowired
 	private RecordDao recordRepo;
 	
+	@Autowired 
+	private AchievementsRepo achievementsRepo;
+	
+	@Autowired
+	private UserMessageDao userMessageRepo;
+	
 	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
 	
@@ -60,6 +76,256 @@ public class UserController {
 	private String signUpMessage = "Please enter the following information.";
 	private String infoMessage = "Here is your user information.";
 	private String editMessage = "Edit your user info here.";
+	
+	
+	
+	//MESSAGING (2 person)
+	
+	//See all your messages
+	@RequestMapping("/messages")
+	public String messages(Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		
+		if (!loggedIn) {
+			return "redirect:/login";
+		}
+		//Get list of messages connected to user
+		//First get list of all
+		List<UserMessage> allMessages = userMessageRepo.findAll();
+		//Now search list for user id and add to new message set
+		//First start with storing messages, then compare them to each other to make conversations
+		List<Conversation> conversations = new ArrayList<>();
+		for (UserMessage message: allMessages) {
+			if (message.getReceiverId() == user.getId() ||
+					message.getSenderId() == user.getId()) {
+				User f = null;
+				if (message.getReceiverId() == user.getId()) {
+					Optional<User> temp = userRepo.findById(message.getSenderId());
+					f = temp.get();
+				} else {
+					Optional<User> temp = userRepo.findById(message.getReceiverId());
+					f = temp.get();
+				}
+				
+				boolean exists = false;
+				int isRead = 1;
+				if (message.getIsRead() ==0) {
+					isRead = 0;
+				}
+				
+				System.out.println(isRead);
+				
+				Conversation newConvo = new Conversation(message.getId(), f, message.getReceiverId(), message.getMessage(),
+						message.getDatetime(), isRead);
+				
+				
+				for (Conversation con: conversations) {
+					if (con.getFriend().getId() == f.getId()) {
+						exists = true;
+					}
+				}
+				if (!exists) {
+					conversations.add(newConvo);
+				} else {
+					for (Conversation con: conversations) {
+						if (con.getFriend().getId() == f.getId() &&
+								con.getNewestDatetime().isBefore(message.getDatetime())) {
+							conversations.remove(con);
+							conversations.add(newConvo);
+						}
+					}
+					
+					
+				}
+				
+			}
+			
+		}
+		
+		//Add length of conversation list to model
+		model.addAttribute("length", conversations.size());
+		
+		//Add conversation list to page
+		model.addAttribute("conversations", conversations);
+		
+		
+		model.addAttribute("loggedin", loggedIn);
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		return "user-messages";
+		
+	}
+	
+	//See messages between you and a friend/mutual friend
+	@RequestMapping("/message")
+	public String messageFriend(
+			@RequestParam(value = "id") Long id,
+			@RequestParam(value="begin", required=false) Integer begin,
+			@RequestParam(value="end", required=false) Integer end,
+			Model model) {
+		
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		//if they're not logged in, redirect to login page
+		if (!loggedIn) {
+			return "login";
+		}
+		boolean areMessages = false;
+		
+		//Get other user by id
+		Optional<User> temp = userRepo.findById(id);
+		User friend = temp.get();
+		
+		//Check if friends with them
+		boolean areFriends = UserMethods.checkIfFriends(user, friend);
+		
+		//Get messageRef
+		String convoRef = UserMethods.getConversationRef(user, friend);
+		
+		//Get list of messages between users
+		List<UserMessage> messages = userMessageRepo.findByConversationRef(convoRef);
+		
+		//list length
+		int length = 0;
+		
+		//TODO When there's a chance, sort messages in reverse order by date
+		//Create duplicate page where you can see all messages, or more messages
+		
+		//if list is not empty or null, then areMessages is true
+		if (!messages.isEmpty() && messages != null) {
+			areMessages = true;
+			length = messages.size();
+			
+			for (UserMessage message: messages) {
+				if (message.getReceiverId() == user.getId()) {
+					message.setIsRead(1);
+					userMessageRepo.save(message);
+				}
+				
+			}
+			
+		}
+		
+		//Determine if user has unread messages or not
+		//loop through messages, if there is anything unread besides this one, have user unread
+		//otherwise, read
+		List<UserMessage> all = userMessageRepo.findAll();
+		int unread = 1;
+		for (UserMessage m: all) {
+			if (m.getIsRead() == 0 && 
+					m.getReceiverId() == user.getId()) {
+				unread = 0;
+			}
+			
+		}
+		//Set user to unread int
+		user.setUnreadMessages(unread);
+		userRepo.save(user);
+		
+		model.addAttribute("loggedin", loggedIn);
+		//Add info about if they're friends
+		model.addAttribute("arefriends", areFriends);
+		//Add messages to page
+		model.addAttribute("convo", messages);
+		//Tell page if there are messages yet
+		model.addAttribute("aremessages", areMessages);
+		//Add friend to page
+		model.addAttribute("friend", friend);
+		//Add conversation length
+		model.addAttribute("length", length);
+		
+		//if logged in, add user to page
+		if (loggedIn) {
+			model.addAttribute("user", user);
+		}
+		
+		
+		//Determine the page numbers
+		//if the parameters are null, then set them to end
+		if (end == null) {
+			end = messages.size();
+		}
+		
+		if (begin == null) {
+			begin = messages.size() -5;
+		}
+		
+		//if begin is less than 0, set it to 0
+		if (begin < 0) {
+			begin = 0;
+		}
+		
+		//Add to model
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
+		
+		
+		return "message-user";
+	}
+	
+	
+	//Send message
+	@PostMapping("/message/send")
+	public String sendMessage(
+			@RequestParam("message") String message,
+			@RequestParam("user") Long senderId,
+			@RequestParam("friend") Long receiverId
+			) {
+		
+		//get user by id
+		Optional<User> temp1 = userRepo.findById(senderId);
+		User user = temp1.get();
+		
+		//get friend by id
+		Optional<User> temp2 = userRepo.findById(receiverId);
+		User friend = temp2.get();
+		
+		//get conversation ref
+		String ref = UserMethods.getConversationRef(user, friend);
+		
+		//Create datetime
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
+		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
+		
+		//create new user message
+		UserMessage newMessage = new UserMessage(ref, senderId, receiverId, localDateTime, message);
+		
+		//save message to repo
+		userMessageRepo.save(newMessage);
+		
+		//set user to unread messages
+		friend.setUnreadMessages(0);
+		userRepo.save(friend);
+		
+		//loop through messages, if there is anything unread besides this one, have user unread
+		//otherwise, read
+		List<UserMessage> messages = userMessageRepo.findByConversationRef(UserMethods.getConversationRef(user, friend));
+		int unread = 1;
+		for (UserMessage m: messages) {
+			if (m.getIsRead() == 0 && 
+					m.getReceiverId() == user.getId()) {
+				unread = 0;
+			}
+			
+		}
+		//Set user to unread int
+		user.setUnreadMessages(unread);
+		userRepo.save(user);
+		
+		
+		return "redirect:/message?id=" + receiverId;
+	}
+	
 	
 	
 	// PROFILE AND FRIEND PAGES
@@ -167,12 +433,20 @@ public class UserController {
 		//Turn list into list of their friends
 		List<User> friends = new ArrayList<>();
 		for (String s: friendIds) {
-			long num = Long.parseLong(s);
+			if (!friends.isEmpty() || friends != null || !friends.get(0).equals("")) {
+				try {
+					long num = Long.parseLong(s);
+					
+					Optional<User> opt = userRepo.findById(num);
+					User temp = opt.get();
+					
+					friends.add(temp);
+				} catch (Exception e) {
+					
+				}
+				
+			}
 			
-			Optional<User> opt = userRepo.findById(num);
-			User temp = opt.get();
-			
-			friends.add(temp);
 		}
 		
 		//See if session user is in friend list
@@ -183,7 +457,7 @@ public class UserController {
 		}
 		
 		//Tell jsp whether or not profile user has friends
-		if (friends.isEmpty() || friends == null) {
+		if (friends.isEmpty() || friends == null || friends.get(0).equals("")) {
 			model.addAttribute("friends", false);
 		} else {
 			model.addAttribute("friends", true);
@@ -224,8 +498,76 @@ public class UserController {
 		boolean isFriend = false;
 		boolean isRequested = false;
 		boolean acceptRequested = false;
-		Boolean canComment=false;
+		boolean canComment=false;
 		boolean areComments = false;
+		
+		
+		
+		
+		
+		//get all saved items to put on profile, along with boolean on whether it exists
+		
+		//set booleans to false, will later determine if any category is posted on profile
+		boolean areRecords = false;
+		boolean areAffirmations = false;
+		boolean areExercises = false;
+		boolean areArticles = false;
+		
+		//Create Lists
+		List<Record> records = recordRepo.findByUserId(id);
+		List<FavAffirmation> affirmations = affirmationRepo.findByUserId(id);
+		List<FavExercises> exercises = exerciseRepo.findByUserId(id);
+		List<FavArticle> articles = articleRepo.findByUserId(id);
+		
+		//Create empty lists to store posted items
+		List<Record> postedRecords = new ArrayList<>();
+		List<FavAffirmation> postedAffirmations = new ArrayList<>();
+		List<FavExercises> postedExercises = new ArrayList<>();
+		List<FavArticle> postedArticles = new ArrayList<>();
+		
+		//Now loop through all beginning lists, store anything in new list that has onProfile = 1
+		for (Record r: records) {
+			if (r.getOnProfile() == 1) {
+				postedRecords.add(r);
+				areRecords = true;
+			}
+		}
+		
+		for (FavAffirmation a: affirmations) {
+			if (a.getOnProfile() == 1) {
+				postedAffirmations.add(a);
+				areAffirmations = true;
+			}
+		}
+		
+		for (FavExercises e: exercises) {
+			if (e.getOnProfile() == 1) {
+				postedExercises.add(e);
+				areExercises = true;
+			}
+		}
+		
+		for (FavArticle a: articles) {
+			if (a.getOnProfile() == 1) {
+				postedArticles.add(a);
+				areArticles = true;
+			}
+		}
+		
+		//Now add elements to profile page
+		model.addAttribute("records", postedRecords);
+		model.addAttribute("affirmations", postedAffirmations);
+		model.addAttribute("exercises", postedExercises);
+		model.addAttribute("articles", postedArticles);
+		
+		model.addAttribute("arerecords", areRecords);
+		model.addAttribute("areaffirmations", areAffirmations);
+		model.addAttribute("areexercises", areExercises);
+		model.addAttribute("arearticles", areArticles
+				
+				
+				);
+		
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
@@ -269,6 +611,10 @@ public class UserController {
 			areComments = true;
 		}
 		
+		List<Achievements> achieve = achievementsRepo.findAchievementsByUserId(loggedUser.getId());
+		
+	
+		model.addAttribute("achieve",achieve);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
@@ -516,6 +862,151 @@ public class UserController {
 		
 		return "user-page";
 	}
+	
+	//Post item to profile
+	@RequestMapping("/post")
+	public String postFavorite(
+			@RequestParam("type") String type,
+			@RequestParam("id") Long id,
+			Model model
+			) {
+		
+		
+		//figure out what type it is
+		if (type.equals("record")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Record> r= recordRepo.findById(id);
+			Record record = r.get();
+			//Change onProfile to 1 to represent yes
+			record.setOnProfile(1);
+			//Now save it to database
+			recordRepo.save(record);
+			
+		} else if (type.equals("affirmation")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavAffirmation> a = affirmationRepo.findById(id);
+			FavAffirmation affirmation = a.get();
+			//Change onProfile to 1 to represent yes
+			affirmation.setOnProfile(1);
+			//Now save it to database
+			affirmationRepo.save(affirmation);
+			
+		} else if (type.equals("exercise")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavExercises> e = exerciseRepo.findById(id);
+			FavExercises exercise = e.get();
+			//Change onProfile to 1 to represent yes
+			exercise.setOnProfile(1);
+			//Now save it to database
+			exerciseRepo.save(exercise);
+			
+		} else if (type.equals("article")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavArticle> a = articleRepo.findById(id);
+			FavArticle article = a.get();
+			//Change onProfile to 1 to represent yes
+			article.setOnProfile(1);
+			//Now save it to database
+			articleRepo.save(article);
+			
+		}
+		
+		return "redirect:/user";
+	}
+	
+	
+	//Remove post item from profile
+	@RequestMapping("/post/remove")
+	public String postRemove(
+			@RequestParam("type") String type,
+			@RequestParam("id") Long id,
+			Model model
+			) {
+		
+		
+		//figure out what type it is
+		if (type.equals("record")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Record> r= recordRepo.findById(id);
+			Record record = r.get();
+			//Change onProfile to 1 to represent yes
+			record.setOnProfile(0);
+			//Now save it to database
+			recordRepo.save(record);
+			
+		} else if (type.equals("affirmation")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavAffirmation> a = affirmationRepo.findById(id);
+			FavAffirmation affirmation = a.get();
+			//Change onProfile to 1 to represent yes
+			affirmation.setOnProfile(0);
+			//Now save it to database
+			affirmationRepo.save(affirmation);
+			
+		} else if (type.equals("exercise")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavExercises> e = exerciseRepo.findById(id);
+			FavExercises exercise = e.get();
+			//Change onProfile to 1 to represent yes
+			exercise.setOnProfile(0);
+			//Now save it to database
+			exerciseRepo.save(exercise);
+			
+		} else if (type.equals("article")) {
+			
+			//If it's this type, locate it by its id
+			Optional<FavArticle> a = articleRepo.findById(id);
+			FavArticle article = a.get();
+			//Change onProfile to 1 to represent yes
+			article.setOnProfile(0);
+			//Now save it to database
+			articleRepo.save(article);
+			
+		}
+			
+			return "redirect:/user";
+		}
+	
+	
+	
+	//form for submitting achievements to be displayed
+	//TO DO add points and credit system
+	@RequestMapping("/submit/achievement")
+	public String achievements(@RequestParam("achievementName") String achievementName,
+			@RequestParam("achievementDescription") String achievementDescription,
+			@RequestParam("achievementDate") Date achievementDate,
+			Model model) 
+	{
+		
+		User user = (User)session.getAttribute("user");
+		Achievements achievements = new Achievements();
+		achievements.setUser(user);
+		achievements.setDate(achievementDate);
+		achievements.setDescription(achievementDescription);
+		achievements.setName(achievementName);		
+
+		achievementsRepo.save(achievements); 
+		Methods.addPoints(-10,user, userRepo);
+		
+		return "redirect:/user";
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	//Expanded list - can be multiple things, like on pizza lab
 	@RequestMapping("/list/affirmations")
@@ -776,6 +1267,12 @@ public class UserController {
 		// tell nav bar whether user is logged in
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("message", loginMessage);
+		
+		model.addAttribute("loggedin", loggedIn);
+		if (loggedIn) {
+			User user = (User)session.getAttribute("user");
+			model.addAttribute("user", user);
+		}
 
 		return "login";
 	}
@@ -819,6 +1316,8 @@ public class UserController {
 		
 		//set whether user is logged in or not
 		session.setAttribute("loggedIn", loggedIn);
+		
+		
 
 		return "redirect:/dailycheckin";
 	}

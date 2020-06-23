@@ -22,6 +22,8 @@ package co.grandcircus.final_project_mh.Favorites;
 		private Long userId;
 		private Double nf_calories;
 		private Double duration_min;
+		@Column(name = "on_profile")
+		private int onProfile;
 		
 		public FavExercises() {}
 		
@@ -31,6 +33,8 @@ package co.grandcircus.final_project_mh.Favorites;
 			this.duration_min = duration_min;
 			this.name = name;
 			this.userId = userId;
+			
+			onProfile = 0;
 			
 		}
 		
@@ -86,10 +90,21 @@ package co.grandcircus.final_project_mh.Favorites;
 		
 		
 
+		public int getOnProfile() {
+			return onProfile;
+		}
+
+		public void setOnProfile(int onProfile) {
+			this.onProfile = onProfile;
+		}
+
+		
+
 		@Override
 		public String toString() {
 			return "FavExercises [id=" + id + ", datetime=" + datetime + ", name=" + name + ", userId=" + userId
-					+ ", nf_calories=" + nf_calories + ", duration_min=" + duration_min + "]";
+					+ ", nf_calories=" + nf_calories + ", duration_min=" + duration_min + ", onProfile=" + onProfile
+					+ "]";
 		}
 
 		//Compare by date. If they're the same, compare by id order.

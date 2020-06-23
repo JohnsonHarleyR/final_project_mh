@@ -21,8 +21,10 @@ import co.grandcircus.final_project_mh.Forum.Discussion;
 import co.grandcircus.final_project_mh.Forum.DiscussionDao;
 import co.grandcircus.final_project_mh.Forum.PostsDao;
 import co.grandcircus.final_project_mh.Forum.ThreadDao;
+
 import co.grandcircus.final_project_mh.Forum.Posts;
 import co.grandcircus.final_project_mh.Forum.Thread;
+
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 
@@ -218,8 +220,10 @@ public class ForumController {
 		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
 		LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(timestampString));
 		
+
 		//Create new thread, put into thread table
 		Thread thread = new Thread(threadTitle,discussionId,user.getUsername(), localDateTime);
+		
 		//save to thread repo
 		threadRepo.save(thread);
 		
