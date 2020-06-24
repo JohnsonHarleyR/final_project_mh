@@ -78,6 +78,71 @@ public class UserController {
 	
 	
 	
+	//Choose user avatar
+	@RequestMapping("/avatar")
+	public String avatars(Model model) {
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		if (loggedIn) {
+			//get number of unlocked avatars based on general points
+			int count = UserMethods.getNumberOfAvatars(user.getGeneralpoints());
+			List<String> avatarUrls = UserMethods.getAvatars(count);
+			
+			//add to choose avatar page
+			model.addAttribute("avatars", avatarUrls);
+			
+			//add user
+			model.addAttribute("user", user);
+		}
+		
+		//add logged in
+		model.addAttribute("loggedin", loggedIn);
+		
+		return "choose-avatar";
+		
+	}
+	
+	
+	
+	//Submit avatar chose
+	@RequestMapping("/avatar/choose")
+	public String pickAvatar(
+			@RequestParam("av") String url,
+			Model model) {
+		boolean loggedIn = Methods.checkLogin(session);
+		User user = (User)session.getAttribute("user");
+		
+		//check if they have default user image
+		boolean avDefault = false;
+		
+		//default url
+		String urlDefault = "/settings";
+		
+		if (loggedIn) {
+			
+			//check for default, which means they are new
+			if (user.getAvatar().equals("https://i.imgur.com/wtdETC3.png")) {
+				urlDefault ="/questionaire";
+			}
+			
+			user.setAvatar(url);
+			//save user
+			userRepo.save(user);
+		}
+		
+		//add logged in
+		model.addAttribute("loggedin", loggedIn);
+		
+		
+		//if their avatar was a default to start, take them to questionaire page
+		
+		return "redirect:" + urlDefault;
+		
+	}
+	
+	
+	
 	//MESSAGING (2 person)
 	
 	//See all your messages
@@ -1364,6 +1429,8 @@ public class UserController {
 		} else {
 			// make it so the email has to match a regex too
 			User user = new User(username, email, password1, name);
+			//set default image url:
+			user.setAvatar("https://i.imgur.com/wtdETC3.png");
 			userRepo.save(user);
 			session.setAttribute("user", user);
 			loggedIn = true;
@@ -1375,7 +1442,7 @@ public class UserController {
 			session.setAttribute("user", user);
 			Methods.addPoints(10, user, userRepo);
 			
-			return "redirect:/questionaire";
+			return "redirect:/avatar";
 
 		}
 	}

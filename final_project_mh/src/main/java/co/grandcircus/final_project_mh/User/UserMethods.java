@@ -7,6 +7,93 @@ import java.util.List;
 public class UserMethods {
 	
 	
+	//Avatar methods
+	
+	//Get number of avatars unlocked based on user points
+	public static int getNumberOfAvatars(int points) {
+		
+		//Start the counter at 5, which is default
+		int counter = 5;
+		
+		//Add a point to counter for each milestone
+		if (points >= 25) {
+			counter++;
+		}
+		if (points >= 50) {
+			counter++;
+		}
+		if (points >= 100) {
+			counter++;
+		}
+		if (points >= 200) {
+			counter++;
+		}
+		if (points >= 400) {
+			counter++;
+		}
+		if (points >= 800) {
+			counter++;
+		}
+		if (points >= 1000) {
+			counter++;
+		}
+		if (points >= 1500) {
+			counter++;
+		}
+		if (points >= 2000) {
+			counter++;
+		}
+		
+		//test
+		System.out.println(counter);
+		
+		/*Current Guide:
+		 * <li>25 pts</li>
+			<li>50 pts</li>
+			<li>100 pts</li>
+			<li>200 pts</li>
+			<li>400 pts</li>
+			<li>800 pts</li>
+			<li>1,000 pts</li>
+			<li>1,500 pts</li>
+			<li>2,000 pts</li>
+			Be sure to add another avatar if this list changes
+		 */
+		
+		//return result;
+		return counter;
+	}
+	
+	//Get array of avatar urls based on number of avatars
+	public static List<String> getAvatars(int count) {
+		
+		List<String> unlocked = new ArrayList<>();
+		//now store all the url links
+		String[] urls = {
+				"https://i.imgur.com/Rxa4UkM.jpg",
+				"https://i.imgur.com/tpGs5RO.jpg",
+				"https://i.imgur.com/VmPz0nh.jpg",
+				"https://i.imgur.com/PjDvwbw.jpg",
+				"https://i.imgur.com/HRcdhfu.jpg",
+				"https://i.imgur.com/tgrY67M.png",
+				"https://i.imgur.com/liUQQrU.jpg",
+				"https://i.imgur.com/JJkGo5J.jpg",
+				"https://i.imgur.com/8Y7NppB.jpg",
+				"https://i.imgur.com/RtQGloj.jpg",
+				"https://i.imgur.com/iOr3R9m.png",
+				"https://i.imgur.com/Une5Urp.jpg",
+				"https://i.imgur.com/ZCIhZFD.jpg",
+				"https://i.imgur.com/7Oby9xh.png",
+		};
+		
+		//now loop through unlocked to store urls
+		for (int i = 0; i < count; i++) {
+			unlocked.add(urls[i]);
+		}
+		
+		return unlocked;
+	}
+	
 	
 	//Methods for connecting with friends
 	

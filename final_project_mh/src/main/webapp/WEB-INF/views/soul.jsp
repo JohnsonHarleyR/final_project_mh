@@ -51,7 +51,7 @@ function addPoints() {
 </c:if>
 
 <!-- Let's try baby animals - Harley's API-->
-<img id="baby" style="float: right; width: 500px;" src="${baby}" />
+<img id="baby" style="padding: 15px;float: right; width: 500px;" src="${baby}" />
 
 <br>
 

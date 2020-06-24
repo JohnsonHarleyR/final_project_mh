@@ -35,6 +35,11 @@
 			<i>${message}</i>
 			</p>
 			<p>
+			<img width="100px" style="border:1px solid black;" src="${user.avatar}">
+			<br>
+			<a href="/avatar">Choose avatar</a>
+			</p>
+			<p>
 			<form action="/user/edit/submit" method="post">
 			<input type="hidden" class="edit" name="userid" value="${user.id}"/>
 
