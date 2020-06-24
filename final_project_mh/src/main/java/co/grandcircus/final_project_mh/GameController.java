@@ -1,21 +1,26 @@
 package co.grandcircus.final_project_mh;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.final_project_mh.Gamification.Achievements;
 import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
+import co.grandcircus.final_project_mh.Gamification.Challenge;
 import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
 import co.grandcircus.final_project_mh.Gamification.ChallengeList;
 import co.grandcircus.final_project_mh.Gamification.ChallengeListDao;
@@ -50,7 +55,7 @@ public class GameController {
 		if(user != null) {
 		
 		challenge = ChallengeRepo.findChallengeByUserId(user.getId());
-		int points = 0;
+		long points = 0;
 		for(int i =0; i < challenge.size(); i++)
 		{points = points + challenge.get(i).getPoints();
 		System.out.print(points);
@@ -59,6 +64,7 @@ public class GameController {
 		
 	return "invest-points";
 	}
+	
 	
 	@RequestMapping("/submit-challenge")
 	
@@ -117,6 +123,95 @@ public class GameController {
 			model.addAttribute("enoughPoints", enoughPoints);
 			return "redirect:/invest-points";
 		}	
+		
+		
+		@RequestMapping("/challenges")
+		
+		public String challengeList(Model model) {
+			
+			    User user;
+			    user=(User)session.getAttribute("user");
+			    Long user_id = user.getId(); 
+			   
+			   // List<ChallengeList> challengeList = ChallengeListRepo.findChallengeListByUserId(user_id);
+			    List<Challenge> userChallengeList = ChallengeRepo.findChallengeByUserId(user_id);
+			    List<ChallengeList> challengeList = ChallengeListRepo.findAll();            
+			       
+			    //need to include user into the challenge as created by
+	
+			    model.addAttribute("userChallengeList",userChallengeList);
+			    model.addAttribute("challengeList",challengeList);
+//			    String category = challengeList.getCategory();
+//			    Date datetime = challengeList.getDatetime();
+//			    String Description = challengeList.getDescription();
+//			    String Name = challengeList.getName();
+//			    Long pointsReq  =  challengeList.getPointsReq();
+//			    String prizeUrl =  challengeList.getPrizeUrl(); 
+			
+			return "challenges";
+		}
+		
+@RequestMapping("/challenge-complete")
+		
+		public String challengeComplete(@RequestParam("complete") boolean complete,
+				@RequestParam("id") Long id, Model model){
+	
+			    User user;
+			    user=(User)session.getAttribute("user");
+			    Long user_id = user.getId(); 
+
+			  //completed challenge List per user
+			  //refer to ChallengeDao and Challenge POJO
+			  //List<Challenge> userCompleteList = ChallengeRepo.findCompleteByUserId(user_id);
+			    
+			  Challenge userchallenge = ChallengeRepo.findCompleteBychallengeid(id);
+			  userchallenge.setComplete(complete);    
+			  ChallengeRepo.save(userchallenge);
+			   
+			return "redirect:/challenges";
+		}
+		
+		
+		@RequestMapping("/select-challenge")
+		public String challengeList(@RequestParam("id") Long id,
+				Model model) {
+			
+			User user;
+		    user=(User)session.getAttribute("user");
+		    Long user_id = user.getId();
+			
+		ChallengeList challengeList = ChallengeListRepo.findByChallengeListId(id);
+			
+		 Challenge challenge =  new Challenge();
+		 
+		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		 Date date=new Date(timestamp.getTime()); 
+		 boolean complete = false;
+		 
+		 Long challengelistid = challengeList.getChallengeListId();
+		 Long points = challengeList.getPointsReq();              	
+		 String category = challengeList.getCategory();         
+		 String prizeUrl = challengeList.getPrizeUrl();              
+		 String name = challengeList.getName();
+		 String description = challengeList.getDescription();
+		    
+		    challenge.setDate(date);
+		    challenge.setComplete(complete);
+		    challenge.setChallengelistid(challengelistid);
+		    challenge.setName(name);
+		    challenge.setDescription(description);
+		    challenge.setCategory(category);
+		    challenge.setPoints(points);
+		    challenge.setPrizeUrl(prizeUrl);
+		    challenge.setUser(user);
+		    
+		    System.out.println(prizeUrl);
+		    
+		    ChallengeRepo.save(challenge);
+		    
+			return "redirect:/challenges";
+		}
+		
 		//Delete Achievement
 		//pass in Achievement Id to param for deletion
 		
