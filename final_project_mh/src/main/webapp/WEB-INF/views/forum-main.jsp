@@ -56,15 +56,16 @@
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads yet.
+		      	No threads.
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
-		      	<c:if test="${lastTopicPostId == post.id}">
-		      	*<a href="/thread?id=${post.threadId}">${post.title}</a>,<br>
-		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a>
-		      	 , ${post.datetime}</sup>
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
 		      	 </c:if>
+		      	 
 		      	 </c:forEach>
 		      	 </c:otherwise>
 		      	 </c:choose>
@@ -116,21 +117,22 @@
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads yet.
+		      	No threads.
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
-		      	<c:if test="${lastTopicPostId == post.id}">
-		      	*<a href="/thread?id=${post.threadId}">${post.title}</a>,<br>
-		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a>
-		      	 , ${post.datetime}</sup>
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
 		      	 </c:if>
+		      	 
 		      	 </c:forEach>
 		      	 </c:otherwise>
 		      	 </c:choose>
 		      </td>
 		    </tr>
-		   </c:if>
+		    </c:if>
 		   </c:forEach>
 		  
 		  </tbody>
@@ -177,15 +179,16 @@
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads yet.
+		      	No threads.
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
-		      	<c:if test="${lastTopicPostId == post.id}">
-		      	*<a href="/thread?id=${post.threadId}">${post.title}</a>,<br>
-		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a>
-		      	 , ${post.datetime}</sup>
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
 		      	 </c:if>
+		      	 
 		      	 </c:forEach>
 		      	 </c:otherwise>
 		      	 </c:choose>

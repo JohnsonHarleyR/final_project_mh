@@ -86,7 +86,7 @@ public class ForumController {
 					"Life Issues & Advice", "mental health", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "A safe place to talk about a diagnosis. You might find someone"
 					+ " else with the same thing.",
-					"Diagnoses", "general", "JohnsonHarleyR"));
+					"Diagnoses", "mental health", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "One of the hardest things to deal with is stigma. How has "
 					+ "stigma affected you, and how have you learned to cope with it?",
 					"Stigma", "mental health", "JohnsonHarleyR"));
@@ -103,7 +103,9 @@ public class ForumController {
 			
 		}
 		
-		
+		//Get list of all posts for the jsp
+		List<Posts> allPosts = postsRepo.findAll();
+		model.addAttribute("posts", allPosts);
 		
 		
 		
@@ -115,6 +117,8 @@ public class ForumController {
 		
 		return "forum-main";
 	}
+	
+	
 	
 	//individual discussion and it's threads 
 	@RequestMapping("/forum/discussion")
@@ -387,6 +391,22 @@ public class ForumController {
 		//set number of posts for the thread
 		Long num = (long)posts.size();
 		thread.setNumberOfPosts(num);
+		
+		//Also save to latest in discussion
+		Optional<Discussion> discuss = discussionRepo.findById(discussionId);
+		Discussion discussion = discuss.get();
+		discussion.setLastTopicPostId(post.getId());
+		
+		//Get list of all posts connected to discussion
+		List<Thread> allThreads = threadRepo.findAll();
+		Long counter = (long)0;
+		for (Thread t: allThreads) {
+			if (t.getDiscussionId() == discussion.getId()) {
+				counter ++;
+			}
+		}
+		discussion.setNumberOfTopics(counter);
+		discussionRepo.save(discussion);
 		
 		
 		//save to repo

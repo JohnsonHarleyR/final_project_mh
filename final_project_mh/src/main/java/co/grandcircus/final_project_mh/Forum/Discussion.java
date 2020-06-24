@@ -9,10 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 @Entity
 @Table(name="discussions")
 public class Discussion {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +32,7 @@ public class Discussion {
 	
 	//to determine who posted the discussion to start 
 	private String username;
+	
 	
 	
 	
@@ -106,6 +110,9 @@ public class Discussion {
 
 	public void setLastTopicPostId(Long lastTopicPostId) {
 		this.lastTopicPostId = lastTopicPostId;
+		
+		//Set post info into post variable
+		
 	}
 
 	@Override
