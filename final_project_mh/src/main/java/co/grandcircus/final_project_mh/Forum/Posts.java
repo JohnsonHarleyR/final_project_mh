@@ -22,19 +22,35 @@ public class Posts {
 	private LocalDateTime datetime;
 	private String message;
 	private Long discussionId;
+	@Column(name="user_id")
+	private Long userId;
+	
+	
+	//This is extra for the sake of the forum
+	private String abridgedMsg;
 	
 	public Posts() {
 		
 	}
 	
-	
-	public Posts( String username, Long threadId, LocalDateTime datetime, String message, Long discussionId) {
+	//a couple of these are left out of the constructor on purpose
+	public Posts( String username, Long threadId, LocalDateTime datetime, String message,
+			Long discussionId, Long userId) {
 		super();
 		this.username = username;
 		this.threadId = threadId;
 		this.datetime = datetime;
 		this.message = message;
 		this.discussionId = discussionId;
+		this.userId = userId;
+		
+		if (message.length() > 40) {
+			abridgedMsg = message.substring(0, 39);
+		} else {
+			abridgedMsg = message;
+		}
+		
+		
 	}
 
 
@@ -81,6 +97,42 @@ public class Posts {
 	public void setMessege(String message) {
 		this.message = message;
 	}
+
+
+	public Long getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	
+	
+
+	public String getAbridgedMsg() {
+		return abridgedMsg;
+	}
+
+
+	public void setAbridgedMsg(String abridgedMsg) {
+		this.abridgedMsg = abridgedMsg;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Posts [id=" + id + ", username=" + username + ", threadId=" + threadId + ", datetime=" + datetime
+				+ ", message=" + message + ", discussionId=" + discussionId + ", userId=" + userId + "]";
+	}
+	
 	
 	
 }

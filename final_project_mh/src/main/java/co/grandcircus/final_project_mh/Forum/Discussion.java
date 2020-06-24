@@ -22,6 +22,10 @@ public class Discussion {
 	private String description;
 	private String topic;
 	private String tag;
+	@Column(name="number_of_topics")
+	private Long numberOfTopics;
+	@Column(name="last_topic_post_id")
+	private Long lastTopicPostId;
 	
 	//to determine who posted the discussion to start 
 	private String username;
@@ -33,10 +37,9 @@ public class Discussion {
 		
 	}
 	
-	
-	public Discussion(Long id, String postType, String description, String topic, String tag, String username) {
+	//intentionally leaving a couple variables out of parameters
+	public Discussion(String postType, String description, String topic, String tag, String username) {
 		super();
-		this.id = id;
 		this.postType = postType;
 		this.description = description;
 		this.topic = topic;
@@ -85,6 +88,24 @@ public class Discussion {
 
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	
+	
+
+	public Long getNumberOfTopics() {
+		return numberOfTopics;
+	}
+
+	public void setNumberOfTopics(Long numberOfTopics) {
+		this.numberOfTopics = numberOfTopics;
+	}
+
+	public Long getLastTopicPostId() {
+		return lastTopicPostId;
+	}
+
+	public void setLastTopicPostId(Long lastTopicPostId) {
+		this.lastTopicPostId = lastTopicPostId;
 	}
 
 	@Override

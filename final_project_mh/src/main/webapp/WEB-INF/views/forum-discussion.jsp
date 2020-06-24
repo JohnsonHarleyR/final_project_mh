@@ -29,7 +29,7 @@
 
 	<a href="/forum">Back to Main Forum</a>
 	
-	<article class="card" id="threads" style="width: 50rem;">
+	<article class="card" id="threads" style="width: 65rem;">
 		
 		<section class="card-header">
 			<h1>${discussion.topic}</h1>
@@ -46,7 +46,7 @@
 			  <thead>
 			    <tr>
 			      <th scope="col">Topic</th>
-			      <th scope="col">Replies</th>
+			      <th scope="col">Posts</th>
 			      <th scope="col">Author</th>
 			      <th scope="col">Latest Post</th>
 			    </tr>
@@ -58,16 +58,18 @@
 			  	<c:forEach var= "thread" items="${threads }">
 			  	<c:if test="${thread.discussionId == discussion.id }">
 			    <tr>
-			      <td>
+			      <td width="35%">
 			      	<a href="/thread?id=${thread.id}"><c:out value="${thread.threadTitle }"></c:out></a>
 			      </td>
-			      <td>*number of posts*</td>
-			      <td><c:out value="${thread.username }" /></td>
-			      <c:forEach end= "1" var = "post" items="${ posts}">
-			      <c:if test="${post.threadId == thread.id }">
+			      <td>${thread.numberOfPosts}</td>
+			      <td><a href="/profile?id=${thread.userId}"><c:out value="${thread.username }" /></a></td>
+			      
+			      <c:forEach var = "post" items="${ posts}">
+			      <c:if test="${post.id == thread.lastPostId}">
 			      <td>
-			      	*<a href=""></a>*add post title*<br>
-			      	 <sup><a href=""><c:out value="${post.username }" /></a>${post.datetime}</sup>
+			      	<a href="thread?id=${thread.id}&d=${discussion.id}"></a>${post.abridgedMsg}<br>
+			      	 <sup><a href="/profile?"><c:out value="${post.username }" />
+			      	 </a></sup><br><sup>${post.datetime}</sup>
 			      </td>
 			      </c:if>
 			      </c:forEach>

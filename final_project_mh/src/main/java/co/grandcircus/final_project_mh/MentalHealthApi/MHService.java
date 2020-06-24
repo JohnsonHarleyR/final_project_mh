@@ -44,10 +44,43 @@ public class MHService {
 	}
 	
 	// /quote/random/{tag} - Get random quote by tag
+		public MHQuote getRandomQuoteByTag(String tag) {
+			
+			String url = beginUrl + "/quote/random{tag}";
+			
+			MHQuote quote = rest.getForObject(url, MHQuote.class, tag);
+			
+			return quote;
+			
+		}
+		
 	// /animal/random/{type} - Get random baby animal pic by animal type
 	// /quote/authors - Get list of quote authors
+		
 	// /quote/tags - Get list of quote tags
+		public String[] getQuoteTags() {
+			
+			String url = beginUrl + "/quote/tags";
+			
+			MHTagResponse response = rest.getForObject(url, MHTagResponse.class);
+			
+			String[] tags = response.getTags();
+			
+			return tags;
+			
+		}
+		
 	// /animal/types - Get list of animal types
-	
+public String[] getAnimalTypes() {
+			
+			String url = beginUrl + "/animal/types";
+			
+			MHTypeResponse response = rest.getForObject(url, MHTypeResponse.class);
+			
+			String[] types = response.getTypes();
+			
+			return types;
+			
+		}
 	
 }

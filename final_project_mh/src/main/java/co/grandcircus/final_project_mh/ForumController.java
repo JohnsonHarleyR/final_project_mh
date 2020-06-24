@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +65,49 @@ public class ForumController {
 		
 		//creating a list of discussions and adding it to the model
 		List<Discussion> allDiscussions = discussionRepo.findAll();
+		
+		if (allDiscussions == null || allDiscussions.size() == 0) {
+			//If list is empty, pre-populate with the following:
+			allDiscussions.add(new Discussion("announcement", "All the latest news from the admins about this site.",
+					"Announcements", "welcome", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "A great place to say hello and meet other users.",
+					"Introduce Yourself", "welcome", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "What do you like to do in your free time?",
+					"Hobbies", "general", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "Discuss music, movies, books, games, etc.",
+					"Entertainment", "general", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "Talk about what's happening in the news today.",
+					"Current Events", "general", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "Talk about anything that "
+					+ "doesn't fall under any other discussion topic.",
+					"Miscellaneous", "general", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "We all need help sometimes. This is a safe place"
+					+ " to talk about your struggles and help other people who might be going through the same thing.",
+					"Life Issues & Advice", "mental health", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "A safe place to talk about a diagnosis. You might find someone"
+					+ " else with the same thing.",
+					"Diagnoses", "general", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "One of the hardest things to deal with is stigma. How has "
+					+ "stigma affected you, and how have you learned to cope with it?",
+					"Stigma", "mental health", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "What helps you get through when the going gets rough?",
+					"Strategies to Cope", "mental health", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "Sometimes, what a person really needs is hope from know seeing "
+					+ "that someone else struggled like them and managed to survive. Hold up a candle in the darkness.",
+					"Stories of Recovery", "mental health", "JohnsonHarleyR"));
+			
+			//save all these discussions to the repo
+			for (Discussion discuss: allDiscussions) {
+				discussionRepo.save(discuss);
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
 		model.addAttribute("discussions", allDiscussions);
 		
 		//for the header
@@ -84,6 +128,8 @@ public class ForumController {
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
 		
+		
+		
 		//for the id
 		model.addAttribute("id",id);
 		
@@ -101,6 +147,15 @@ public class ForumController {
 		List<Posts> allPosts = postsRepo.findAll();
 		model.addAttribute("posts",allPosts);
 		
+		//temporary
+		for (Posts post: allPosts) {
+			if (post.getMessage().length() > 40) {
+				post.setAbridgedMsg(post.getMessage().substring(0, 39));
+			} else {
+				post.setAbridgedMsg(post.getMessage());
+			}
+		}
+		
 		//also need to figure out how to get the latest thread or post to appear
 		//for the header
 		model.addAttribute("loggedin", loggedIn);
@@ -108,6 +163,17 @@ public class ForumController {
 		
 		return "forum-discussion";
 	}
+	
+	//For the admin to create a discussion
+	@RequestMapping("/discussion/create") 
+	public String createDiscussion() {
+		//double check here for security, make sure logged in user is an admin
+		
+		
+		
+		return "create-discussion";
+	}
+	
 	
 	//individual threads inside discussion
 	@RequestMapping("/thread")
@@ -131,15 +197,29 @@ public class ForumController {
 		
 		//Get Main thread and add model
 		Thread thread = threadRepo.findById(threadId).orElse(null);
-		model.addAttribute("thread",thread);
+		
 		
 		// adding discussion to the model
 		Discussion discussion = discussionRepo.findById(thread.getDiscussionId()).orElse(null);
-		model.addAttribute("discussion",discussion);
+		
 		
 		
 		List<Posts> posts = postsRepo.findByThreadId(threadId);
+		
+		
+		//set number of posts for the thread
+		Long num = (long)posts.size();
+		thread.setNumberOfPosts(num);
+		threadRepo.save(thread);
+		
+		//Store number of posts, add to jsp
+		int numPosts = posts.size();
+		
+		model.addAttribute("num", numPosts);
+		model.addAttribute("thread",thread);
 		model.addAttribute("posts",posts);
+		model.addAttribute("discussion",discussion);
+		
 		
 		return "forum-thread";
 	}
@@ -223,16 +303,52 @@ public class ForumController {
 		
 
 		//Create new thread, put into thread table
-		Thread thread = new Thread(threadTitle,discussionId,user.getUsername(), localDateTime);
+		Thread thread = new Thread(threadTitle,discussionId,user.getUsername(),
+				localDateTime, user.getId());
 		
-		//save to thread repo
-		threadRepo.save(thread);
+		//save to thread and post repos
+				threadRepo.save(thread);
+				
+		//Grab the discussion too
+		Optional<Discussion> discuss = discussionRepo.findById(thread.getDiscussionId());
+		Discussion discussion = discuss.get();
+		
+		//Figure out how many threads are in the discussion
+		List<Thread> t = threadRepo.findAll();
+		List<Thread> threads = new ArrayList<>();
+		for (Thread th: t) {
+			if (th.getDiscussionId() == discussion.getId()) {
+				threads.add(th);
+			}
+		}
+		Long numOfThreads = (long)threads.size();
+		//save that number to discussion
+		discussion.setNumberOfTopics(numOfThreads);
 		
 		//creating new post to show on the thread
 		Posts post = new Posts(user.getUsername(), thread.getId(), localDateTime,
-				message, discussionId);
+				message, discussionId, user.getId());
 		
 		postsRepo.save(post);
+		
+		//set latest post id of discussion to new post
+		discussion.setLastTopicPostId(post.getId());
+		
+		//now save discussion to the repo
+		discussionRepo.save(discussion);
+		
+		
+		System.out.println("Post id: " + post.getId());
+		
+		
+		//now add the new post id to the thread's latest post id
+		thread.setLastPostId(post.getId());
+		
+		//save to thread and post repos
+				threadRepo.save(thread);
+		
+		
+		
 		
 		return "redirect:/thread?id=" + thread.getId() ;
 		
@@ -259,9 +375,22 @@ public class ForumController {
 		Thread thread = threadRepo.findById(threadId).orElse(null);
 		Long discussionId = thread.getDiscussionId();
 		//Create new thread, put into discussion table
-		Posts post  = new Posts(user.getUsername(), threadId, localDateTime, message, discussionId);
-		//save to post to repo
+		Posts post  = new Posts(user.getUsername(), threadId, localDateTime, message,
+				discussionId, user.getId());
+		
+		
 		postsRepo.save(post);
+		//now add the new post id to the thread's latest post id
+		thread.setLastPostId(post.getId());
+		
+		List<Posts> posts = postsRepo.findByThreadId(thread.getId());
+		//set number of posts for the thread
+		Long num = (long)posts.size();
+		thread.setNumberOfPosts(num);
+		
+		
+		//save to repo
+		threadRepo.save(thread);
 		
 		return "redirect:/thread?id=" + threadId ;
 		
@@ -278,8 +407,109 @@ public class ForumController {
 		
 		Long threadId = post.getThreadId();
 		postsRepo.deleteById(postId);
+		
+		//now we have to make sure the discussion won't show that thread booo
+		
+		//Get the thread
+		Optional<Thread> t = threadRepo.findById(post.getThreadId());
+		Thread thread = t.get();
+		
+		//Now get the discussion
+		Optional<Discussion> di = discussionRepo.findById(thread.getDiscussionId());
+		Discussion discussion = di.get();
+		
+		//Now get list of all posts
+		List <Posts> allPosts = postsRepo.findAll();
+		List<Posts> posts = new ArrayList<>();
+		//Now loop through to find relevant posts
+		for (Posts p: allPosts) {
+			if (p.getDiscussionId() == discussion.getId()) {
+				posts.add(p);
+			}
+		}
+		//now figure out the largest post id
+		Long largest = (long)0;
+		for (Posts p: posts) {
+			if (p.getId() > largest) {
+				largest = p.getId();
+			}
+		}
+		//store result inside discussion
+		discussion.setLastTopicPostId(largest);
+		
+		//Now we need a list of all Threads by discussion id
+		//(this sure is a lot just to display a little info in the forum lol)
+		List<Thread> threads = threadRepo.findByDiscussionId(discussion.getId());
+		//Count number of topics
+		Long numTopics = (long)threads.size();
+		//Add that number to discussion
+		
+		discussion.setNumberOfTopics(numTopics);
+		//Save discussion
+		discussionRepo.save(discussion);
+		
+		
 	return "redirect:/thread?id=" + threadId ;	
 	}
+	
+	//delete thread
+		@RequestMapping("/thread/delete")
+		public String deleteThread(@RequestParam("id") Long threadId,
+				@RequestParam("d") Long discussId) {
+			
+			threadRepo.deleteById(threadId);
+			
+			//also delete all related posts from database
+			List<Posts>posts = postsRepo.findByThreadId(threadId);
+			for (Posts post: posts) {
+				postsRepo.delete(post);
+			}
+			
+			
+			//now we have to make sure the discussion won't show that thread booo
+			
+			//Get the thread
+			Optional<Thread> t = threadRepo.findById(threadId);
+			Thread thread = t.get();
+			
+			//Now get the discussion
+			Optional<Discussion> di = discussionRepo.findById(thread.getDiscussionId());
+			Discussion discussion = di.get();
+			
+			//Now get list of all posts
+			List <Posts> allPosts = postsRepo.findAll();
+			List<Posts> dPosts = new ArrayList<>();
+			//Now loop through to find relevant posts
+			for (Posts p: allPosts) {
+				if (p.getDiscussionId() == discussion.getId()) {
+					dPosts.add(p);
+				}
+			}
+			//now figure out the largest post id
+			Long largest = (long)0;
+			for (Posts p: dPosts) {
+				if (p.getId() > largest) {
+					largest = p.getId();
+				}
+			}
+			//store result inside discussion
+			discussion.setLastTopicPostId(largest);
+			
+			//Now we need a list of all Threads by discussion id
+			//(this sure is a lot just to display a little info in the forum lol)
+			List<Thread> threads = threadRepo.findByDiscussionId(discussion.getId());
+			//Count number of topics
+			Long numTopics = (long)threads.size();
+			//Add that number to discussion
+			
+			discussion.setNumberOfTopics(numTopics);
+			//Save discussion
+			discussionRepo.save(discussion);
+			
+			
+			
+		return "redirect:/forum/discussion?id=" + discussId;	
+		}
 	
 	
 
