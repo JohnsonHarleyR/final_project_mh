@@ -157,45 +157,40 @@
 		      <tr class = "trnutrition">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Calories</b>
-		          ${foods.nf_calories}
+		         
 		        </th>
 		        <td class = "tdnutrition">
-		          Calories from Fat
-		          130
+		          <b class = "bodynutrition">${foods.nf_calories}</b>
 		        </td>
 		      </tr>
 		      <tr class="thick-row">
 		      
 		        <td colspan="2" class="small-info">
-		          <b class = "bodynutrition" >		% Daily Value*</b>
+		          <b class = "bodynutrition" ></b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Total Fat</b>
-		          ${foods.nf_total_fat}
 		        </th>
 		        <td class = "tdnutrition">
-		          <b class = "bodynutrition">22%</b>
+		          <b class = "bodynutrition"> ${foods.nf_total_fat}</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <td class="blank-cell">
 		        </td>
 		        <th class = "thnutrition">
-		          Saturated Fat
-		          ${foods.nf_saturated_fat}
+		         <b class = "bodynutrition">Saturated Fat</b>
 		        </th>
 		        <td class = "tdnutrition">
-		          <b>22%</b>
+		          <b>${foods.nf_saturated_fat}</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <td class="blank-cell">
 		        </td>
 		        <th class = "thnutrition">
-		          Trans Fat
-		          0
 		        </th>
 		        <td class = "tdnutrition">
 		        </td>
@@ -203,57 +198,56 @@
 		      <tr class = "trnutrition">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Cholesterol</b>
-		          ${foods.nf_cholesterol}
 		        </th>
 		        <td class = "tdnutrition">
-		          <b class = "bodynutrition">18%</b>
+		          <b class = "bodynutrition">${foods.nf_cholesterol}</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Sodium</b>
-		          ${foods.nf_sodium}
+		     
 		        </th>
 		        <td class = "tdnutrition">
-		          <b class = "bodynutrition">2%</b>
+		          <b class = "bodynutrition">${foods.nf_sodium}</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Total Carbohydrate</b>
-		          ${foods.nf_total_carbohydrate}
+		         
 		        </th>
 		        <td class = "tdnutrition">
-		          <b class = "bodynutrition">6%</b>
+		          <b class = "bodynutrition">${foods.nf_total_carbohydrate} </b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <td class="blank-cell">
 		        </td>
 		        <th class = "thnutrition">
-		          Dietary Fiber
-		          ${foods.nf_dietary_fiber}
+		        <b class = "bodynutrition">Dietary Fiber</b>
 		        </th>
 		        <td class = "tdnutrition">
-		          <b class = "bodynutrition">4%</b>
+		          <b class = "bodynutrition">${foods.nf_dietary_fiber}</b>
 		        </td>
 		      </tr>
 		      <tr class = "trnutrition">
 		        <td class="blank-cell">
 		        </td>
 		        <th class = "thnutrition">
-		          Sugars
-		          ${foods.nf_sugars}
+		        <b class = "bodynutrition">Sugars</b>
+		          
 		        </th>
 		        <td class = "tdnutrition">
+		        <b class = "bodynutrition">${foods.nf_sugars}</b>
 		        </td>
 		      </tr>
 		      <tr class="thick-end">
 		        <th colspan="2" class = "thnutrition">
 		          <b class = "bodynutrition">Protein</b>
-		          ${foods.nf_protein}
 		        </th>
 		        <td class = "tdnutrition">
+		        <b class = "bodynutrition">${foods.nf_protein}</b>
 		        </td>
 		      </tr>
 		    </tbody>
