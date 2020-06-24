@@ -85,8 +85,9 @@ public class UserController {
 		User user = (User)session.getAttribute("user");
 		
 		if (loggedIn) {
+			int totalPoints = Methods.getTotalPoint(user);
 			//get number of unlocked avatars based on general points
-			int count = UserMethods.getNumberOfAvatars(user.getGeneralpoints());
+			int count = UserMethods.getNumberOfAvatars(totalPoints);
 			List<String> avatarUrls = UserMethods.getAvatars(count);
 			
 			//add to choose avatar page
@@ -113,8 +114,6 @@ public class UserController {
 		boolean loggedIn = Methods.checkLogin(session);
 		User user = (User)session.getAttribute("user");
 		
-		//check if they have default user image
-		boolean avDefault = false;
 		
 		//default url
 		String urlDefault = "/settings";
@@ -222,6 +221,8 @@ public class UserController {
 		//if logged in, add user to page
 		if (loggedIn) {
 			model.addAttribute("user", user);
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		}
 		
 		return "user-messages";
@@ -310,6 +311,8 @@ public class UserController {
 		//if logged in, add user to page
 		if (loggedIn) {
 			model.addAttribute("user", user);
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		}
 		
 		
@@ -372,21 +375,9 @@ public class UserController {
 		//set user to unread messages
 		friend.setUnreadMessages(0);
 		userRepo.save(friend);
-		
-		//loop through messages, if there is anything unread besides this one, have user unread
-		//otherwise, read
-		List<UserMessage> messages = userMessageRepo.findByConversationRef(UserMethods.getConversationRef(user, friend));
-		int unread = 1;
-		for (UserMessage m: messages) {
-			if (m.getIsRead() == 0 && 
-					m.getReceiverId() == user.getId()) {
-				unread = 0;
-			}
-			
-		}
 		//Set user to unread int
-		user.setUnreadMessages(unread);
-		userRepo.save(user);
+		//set unread
+		UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		
 		
 		return "redirect:/message?id=" + receiverId;
@@ -417,6 +408,8 @@ public class UserController {
 		
 		boolean areRequests = false;
 		
+		
+		
 		model.addAttribute("loggedin", loggedIn);
 		
 		if (user != null) {
@@ -425,6 +418,10 @@ public class UserController {
 			if (!user.getRequests().equals("")) {
 				userIds = UserMethods.idStringToList(user.getRequests());
 			}
+			
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+			
 			//Create list to store users
 			List<User> users = new ArrayList<>();
 			//turn it into a list of users
@@ -637,6 +634,10 @@ public class UserController {
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
+			
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+			
 			model.addAttribute("user", loggedUser);
 			isFriend = UserMethods.checkIfFriends(profileUser, loggedUser);
 			isRequested = UserMethods.checkIfRequested(profileUser, loggedUser);
@@ -1479,6 +1480,11 @@ public class UserController {
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 		
+		if (loggedIn) {
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+		}
+		
 		String hiddenPass = "";
 
 		// redirect to login if not logged in
@@ -1543,11 +1549,19 @@ public class UserController {
 		
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
+		
+		
+		
 
 		List<User> users = userRepo.findAll();
 		User us = (User) session.getAttribute("user");
 		User user = userRepo.findByUsername(us.getUsername()); // unnecessary steps - fix
-
+		
+		if (loggedIn) {
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, us);
+		}
+		
 		for (User u : users) {
 			if (u.getUsername().equals(username) && u.getId() != user.getId()) {
 				editMessage = "New username is unavailable. Please choose another.";
