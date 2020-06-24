@@ -34,13 +34,16 @@
 	<a href="/profile?id=${user.id}">See profile</a>
 	<br>
 	
+		<form action="/challenges" method="post">
+	<button class="btn btn-info" type="submit">Accept new Challenges</button>
+	</form>
+	<br>
 	<p>
 	<b>Instructions:</b> Clicking "<u>Post</u>" next to a saved item will post it to your public profile. 
 	Once it is posted, clicking "<u>Remove</u>" will remove it from your profile.
 	 (Post as many as you'd like, although less is probably more.)
 	<br>Click "<u>Delete</u>" to delete it from your user page altogether. 
 	To see this option, the item must not be on your profile.
-	<br>
 	</p>
 
 	<b>Points:</b> ${user.points}
@@ -52,7 +55,6 @@
 	<button class="btn btn-info" type="submit">Invest your Pts.</button>
 	</form>
 	<br>
-	
 </section>
 
 <!-- put challenge badges here -->

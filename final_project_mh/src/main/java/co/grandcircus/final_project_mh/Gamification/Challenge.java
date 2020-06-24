@@ -1,6 +1,9 @@
 package co.grandcircus.final_project_mh.Gamification;
 
 import javax.persistence.Column;
+
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,12 +22,17 @@ public class Challenge {
 	private Long challengeid;
 	private boolean complete;
 	private Long challengelistid;
-	private Integer points;
+	private Long points;
+	private String category;
+	private String prizeUrl;
+	private String name;
+	private String description;
 	@ManyToOne
 	private User user;
-	private String date;
+	private Date date;
 	@Column(name="on_profile")
 	private int onProfile;
+	
 	
 	public Challenge() {		
 	}
@@ -32,8 +40,8 @@ public class Challenge {
 	public Long getChallengeListId() {
 		return challengelistid;
 	}
-	public void setChallengeListId(Long challengeListId) {
-		this.challengelistid = challengeListId;
+	public void setChallengeListId(ChallengeList challengeListId) {
+		this.challengelistid = challengeListId.getChallengeListId();
 	}
 	public boolean isComplete() {
 		return complete;
@@ -47,17 +55,17 @@ public class Challenge {
 	public void setChallengeId(Long challengeId) {
 		this.challengeid = challengeId;
 	}
-	public Integer getPoints() {
+	public Long getPoints() {
 		return points;
 	}
-	public void setPoints(Integer points) {
+	public void setPoints(Long points) {
 		this.points = points;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -68,7 +76,6 @@ public class Challenge {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 	public Long getChallengeid() {
 		return challengeid;
 	}
@@ -93,14 +100,43 @@ public class Challenge {
 		this.onProfile = onProfile;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getPrizeUrl() {
+		return prizeUrl;
+	}
+
+	public void setPrizeUrl(String prizeUrl) {
+		this.prizeUrl = prizeUrl;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	@Override
 	public String toString() {
 		return "Challenge [challengeid=" + challengeid + ", complete=" + complete + ", challengelistid="
 				+ challengelistid + ", points=" + points + ", user=" + user + ", date=" + date + ", onProfile="
 				+ onProfile + "]";
 	}
-	
-	
-
 	
 }

@@ -1,6 +1,8 @@
 package co.grandcircus.final_project_mh.Gamification;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

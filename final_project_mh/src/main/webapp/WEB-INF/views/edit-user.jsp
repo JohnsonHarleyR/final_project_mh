@@ -62,6 +62,14 @@
 			<label id="i5">First name: </label><br>
 			<input id="t5" type="text" name="name" value="${user.name}" required/>
 			</p>
+			<p>
+			<label id="i5">Current Weight: </label><br>
+			<input id="t5" type="text" name="weight" value="${userPreferences.userWeight}" required/>
+			</p>
+			<p>
+			<label id="i5">Goal Weight: </label><br>
+			<input id="t5" type="text" name="goalWeight" value="${userPreferences.userGoalWeight}" required/>
+			</p>
 			<p  id="sub">
 			<button id="btnsub" type="submit" class="btn btn-info btn-lg">Submit Changes</button>
 			</p>

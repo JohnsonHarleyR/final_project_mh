@@ -53,7 +53,7 @@ public class ForumController {
 		
 		//Get session user
 		User user = (User)session.getAttribute("user");
-		
+		model.addAttribute("user", user);
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
 		
@@ -170,15 +170,44 @@ public class ForumController {
 	
 	//For the admin to create a discussion
 	@RequestMapping("/discussion/create") 
-	public String createDiscussion() {
+	public String createDiscussion(Model model) {
+		boolean canAdd = false;
 		//double check here for security, make sure logged in user is an admin
+		//Get session user
+		User user = (User)session.getAttribute("user");
+		String userStatus = user.getStatus();	
+		
+		//adding the user to the model
+		model.addAttribute("user",user);
+		//for the header
+		boolean loggedIn = Methods.checkLogin(session);
+		
+		if (loggedIn = true && userStatus.equalsIgnoreCase("admin")) {
+			canAdd = true;
+		}
+		model.addAttribute("canAdd", canAdd);
 		
 		
-		
-		return "create-discussion";
+		return "forum-add-discussion";
 	}
 	
 	
+	@PostMapping("/discussion/create")
+	public String submitDiscussion(@RequestParam(value = "post-type") String postType,
+			@RequestParam(value="description") String description, @RequestParam(value="topic") String topic,
+			@RequestParam(value="username") String username, @RequestParam(value = "tag") String tag) {
+		
+		if (!postType.equalsIgnoreCase("admin")){
+			postType = "normal";
+		}
+		
+		Discussion discussion = new Discussion(postType, description, topic, tag, username);
+		discussionRepo.save(discussion);
+		
+		
+		return "redirect:/forum"; 
+		
+	}
 	//individual threads inside discussion
 	@RequestMapping("/thread")
 	public String forumThread(
