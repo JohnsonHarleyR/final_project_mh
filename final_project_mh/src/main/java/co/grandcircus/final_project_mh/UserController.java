@@ -34,6 +34,8 @@ import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
 import co.grandcircus.final_project_mh.Gamification.Achievements;
 import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
+import co.grandcircus.final_project_mh.Gamification.Challenge;
+import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
 import co.grandcircus.final_project_mh.User.Conversation;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
@@ -59,12 +61,16 @@ public class UserController {
 	
 	@Autowired
 	private ExerciseDao exerciseRepo;
+
 	
 	@Autowired
 	private RecordDao recordRepo;
 	
 	@Autowired
 	private UserMessageDao userMessageRepo;
+	
+	@Autowired
+	private ChallengeDao challengeRepo;
 	
 	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
@@ -575,18 +581,24 @@ public class UserController {
 		boolean areAffirmations = false;
 		boolean areExercises = false;
 		boolean areArticles = false;
+		boolean areAchieves = false;
+		boolean areChallenges = false;
 		
 		//Create Lists
 		List<Record> records = recordRepo.findByUserId(id);
 		List<FavAffirmation> affirmations = affirmationRepo.findByUserId(id);
 		List<FavExercises> exercises = exerciseRepo.findByUserId(id);
 		List<FavArticle> articles = articleRepo.findByUserId(id);
+		List<Achievements> achieves = achievementsRepo.findAchievementsByUserId(id);
+		List<Challenge> challenges = challengeRepo.findChallengeByUserId(id);
 		
 		//Create empty lists to store posted items
 		List<Record> postedRecords = new ArrayList<>();
 		List<FavAffirmation> postedAffirmations = new ArrayList<>();
 		List<FavExercises> postedExercises = new ArrayList<>();
 		List<FavArticle> postedArticles = new ArrayList<>();
+		List<Achievements> postedAchieves = new ArrayList<>();
+		List<Challenge> postedChallenges = new ArrayList<>();
 		
 		//Now loop through all beginning lists, store anything in new list that has onProfile = 1
 		for (Record r: records) {
@@ -617,23 +629,40 @@ public class UserController {
 			}
 		}
 		
+		for (Achievements a: achieves) {
+			if (a.getOnProfile() == 1) {
+				postedAchieves.add(a);
+				areAchieves = true;
+				System.out.println(a.getOnProfile());
+			}
+		}
+		
+		for (Challenge c: challenges) {
+			if (c.getOnProfile() == 1) {
+				postedChallenges.add(c);
+				areChallenges = true;
+			}
+		}
+		
 		//Now add elements to profile page
 		model.addAttribute("records", postedRecords);
 		model.addAttribute("affirmations", postedAffirmations);
 		model.addAttribute("exercises", postedExercises);
 		model.addAttribute("articles", postedArticles);
+		model.addAttribute("achieves", postedAchieves);
+		model.addAttribute("challenges", postedChallenges);
 		
 		model.addAttribute("arerecords", areRecords);
 		model.addAttribute("areaffirmations", areAffirmations);
 		model.addAttribute("areexercises", areExercises);
-		model.addAttribute("arearticles", areArticles
-				
-				
-				);
+		model.addAttribute("arearticles", areArticles);
+		model.addAttribute("areachieves", areAchieves);
+		model.addAttribute("arechallenges", areChallenges);
 		
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
+			User user = (User)session.getAttribute("user");
 			
 			//set unread
 			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
@@ -879,7 +908,27 @@ public class UserController {
 		
 		User user = (User)session.getAttribute("user");
 		
+		//get a list of user's completed challenges
+		List<Challenge> completes = 
+				UserMethods.getCompleteChallenges(user, challengeRepo);
+		//boolean about if there are complete challenges
+		boolean areCompletes = true;
+		if (completes == null || completes.isEmpty()) {
+			areCompletes = false;
+		}
 		
+		//get a list of user's completed challenges
+		List<Achievements> achieves = 
+				achievementsRepo.findAchievementsByUserId(user.getId());
+		//boolean about if there are achievements
+		boolean areAchieves  = true;
+		if (achieves == null || achieves.isEmpty()) {
+			areAchieves = false;
+		}
+		
+		//add to model
+		model.addAttribute("achieves", achieves);
+		model.addAttribute("areachieves", areAchieves);
 		
 		//Get list of their favorite Affirmations
 		List<FavAffirmation> affirmations =
@@ -982,6 +1031,24 @@ public class UserController {
 			//Now save it to database
 			articleRepo.save(article);
 			
+		} else if (type.equals("achieve")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Achievements> a = achievementsRepo.findById(id);
+			Achievements achieve = a.get();
+			//Change onProfile to 1 to represent yes
+			achieve.setOnProfile(1);
+			//Now save it to database
+			achievementsRepo.save(achieve);
+		} else if (type.equals("challenge")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Challenge> c = challengeRepo.findById(id);
+			Challenge challenge = c.get();
+			//Change onProfile to 1 to represent yes
+			challenge.setOnProfile(1);
+			//Now save it to database
+			challengeRepo.save(challenge);
 		}
 		
 		return "redirect:" + url;
@@ -1039,6 +1106,25 @@ public class UserController {
 			//Now save it to database
 			articleRepo.save(article);
 			
+		} else if (type.equals("achieve")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Achievements> a = achievementsRepo.findById(id);
+			Achievements achieve = a.get();
+			//Change onProfile to 0 to represent yes
+			achieve.setOnProfile(0);
+			//Now save it to database
+			achievementsRepo.save(achieve);
+			
+		} else if (type.equals("challenge")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Challenge> c = challengeRepo.findById(id);
+			Challenge challenge = c.get();
+			//Change onProfile to 1 to represent yes
+			challenge.setOnProfile(0);
+			//Now save it to database
+			challengeRepo.save(challenge);
 		}
 			
 			return "redirect:" + url;

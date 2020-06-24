@@ -4,7 +4,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import co.grandcircus.final_project_mh.Gamification.Challenge;
+import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
+
 public class UserMethods {
+	
+	
+	//Get completed challenges by user
+	public static List<Challenge> getCompleteChallenges(User user,
+			ChallengeDao repo) {
+		//get user's challenge
+		List<Challenge> challenges = repo.findChallengeByUserId(user.getId());
+		
+		//get list of complete challenges
+		List<Challenge> completes = new ArrayList<>();
+		
+		for (Challenge c: challenges) {
+			if (c.isComplete()) {
+				completes.add(c);
+			}
+		}
+		
+		return completes;
+		
+	}
+	
 	
 	
 	//set unread messages

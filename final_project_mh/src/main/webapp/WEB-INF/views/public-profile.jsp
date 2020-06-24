@@ -100,19 +100,54 @@
 			<b>Name: </b> ${profileuser.name} <br> <b>Points: </b>
 			${profileuser.points} <br><br>
 		</section>
-
-		<section>
-
-		<c:forEach items = "${achieve}" var = "achievement">
-
-			<div class="card" style="width: 36rem;">
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<section id="achievements">
+		
+		<div class="card" style="width: 50%;">
+				<c:if test="${areachieves}">
+				<h2>Achievements</h2>
+				</c:if>
 				<ul class="list-group list-group-flush">
-					<li class="list-group-item"><b>${achievement.name}</b> : ${achievement.description} <small>${achievement.date}</small> </li>
-				</ul>
-			</div>
+					
+		<c:forEach items = "${achieves}" var = "achievement">
+			
+			
+					<li class="list-group-item"><b>${achievement.name}</b><br>${achievement.description} <small>${achievement.date}</small> </li>
+				
 		</c:forEach>
+		</ul>
+			</div>
 		</section>
 		</td>
+		
+		<!-- 
+		<td>
+		<section id="challenges">
+		
+		
+		<div class="card" style="width: 50%;">
+			<c:if test="${arechallenges}">
+					<h2>Challenges</h2>
+					</c:if>
+				<ul class="list-group list-group-flush">
+		<c:forEach items = "${challenges}" var = "c">
+			
+			
+					<li class="list-group-item"><b>${c.name}</b><br>${c.description} <small>${c.date}</small> </li>
+				
+		</c:forEach>
+		</ul>
+			</div>
+			
+		</section>
+		-->
+		
+		</td>
+		
+		
 		</tr>
 		</table>
 

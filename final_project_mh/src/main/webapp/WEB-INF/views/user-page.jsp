@@ -33,25 +33,116 @@
 	/ 
 	<a href="/profile?id=${user.id}">See profile</a>
 	<br>
-
-	<b>Points:</b> ${user.points}
-	<br>
-
-	<b>Username:</b> ${user.username}
-	<br>
-	<b>Points:</b> ${user.points}
-	<form action="/invest-points" method="post">
-	<button class="btn btn-info" type="submit">Invest your Pts.</button>
-	</form>
-	<br>
+	
 	<p>
 	<b>Instructions:</b> Clicking "<u>Post</u>" next to a saved item will post it to your public profile. 
 	Once it is posted, clicking "<u>Remove</u>" will remove it from your profile.
 	 (Post as many as you'd like, although less is probably more.)
 	<br>Click "<u>Delete</u>" to delete it from your user page altogether. 
 	To see this option, the item must not be on your profile.
+	<br>
 	</p>
+
+	<b>Points:</b> ${user.points}
+	<br>
+
+	<b>Username:</b> ${user.username}
+	<br>
+	<form action="/invest-points" method="post">
+	<button class="btn btn-info" type="submit">Invest your Pts.</button>
+	</form>
+	<br>
+	
 </section>
+
+<!-- put challenge badges here -->
+<section id="badges">
+	
+	<h2>Badges</h2>
+	Click on a badge to put it on your profile.<br>
+	It will be in orange if it's on your profile. 
+	Click it again to remove from your profile.
+	<br>
+	<br>
+	<c:if test="${areachieves}">
+		<c:set var="count" value="0"/>
+		
+		<c:forEach var="a" items="${achieves}">
+			<c:choose>
+				<c:when test="${count % 2 == 0 }">
+					<c:set var="type" value="badge-success"/>
+				</c:when>
+				<c:when test="${count % 5 == 0 }">
+					<br>
+				</c:when>
+				<c:otherwise>
+					<c:set var="type" value="badge-info"/>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:if test="${a.onProfile == 1 }">
+				<c:set var="type" value="badge-danger"/>
+			</c:if>
+			
+			<c:choose>
+				<c:when test="${a.onProfile == 0}">
+					<a href="/post?type=achieve&id=${a.achievementsId}&url=/user">
+						<span class="badge ${type}">${a.name}</span>
+					</a>
+				</c:when>
+				<c:otherwise>
+					<a href="/post/remove?type=achieve&id=${a.achievementsId}&url=/user">
+						<span class="badge ${type}">${a.name}</span>
+					</a>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:set var="count" value="${count + 1}"/>
+		</c:forEach>
+		<br>
+	</c:if>
+
+	<c:if test="${arecompletes}">
+		<c:set var="count" value="0"/>
+		
+		<c:forEach var="c" items="${completes}">
+			<c:choose>
+				<c:when test="${count % 2 == 0 }">
+					<c:set var="type" value="badge-success"/>
+				</c:when>
+				<c:when test="${count % 5 == 0 }">
+					<br>
+				</c:when>
+				<c:otherwise>
+					<c:set var="type" value="badge-info"/>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:if test="${c.onProfile == 1 }">
+				<c:set var="type" value="badge-danger"/>
+			</c:if>
+			
+			<c:choose>
+				<c:when test="${c.onProfile == 0}">
+					<a href="/post?type=challenge&id=${c.challengeid}&url=/user">
+						<span class="badge ${type}">${c.name}</span>
+					</a>
+				</c:when>
+				<c:otherwise>
+					<a href="/post/remove?type=challenge&id=${c.challengeid}&url=/user">
+						<span class="badge ${type}">${c.name}</span>
+					</a>
+				</c:otherwise>
+			</c:choose>
+			
+			
+			
+			<c:set var="count" value="${count + 1}"/>
+		</c:forEach>
+	</c:if>
+	<br>
+</section>
+
 
 <section id="record-events">
 	<h2>Happy Reminders</h2>

@@ -2,6 +2,7 @@ package co.grandcircus.final_project_mh.Gamification;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Achievements {
 	private String name;
 	private Date date;
 	private String description;
+	@Column(name="on_profile")
+	private int onProfile;
 	
 	@ManyToOne
 	private User user;
@@ -69,6 +72,21 @@ public class Achievements {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public int getOnProfile() {
+		return onProfile;
+	}
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
+	}
+
+	@Override
+	public String toString() {
+		return "Achievements [achievementsId=" + achievementsId + ", name=" + name + ", date=" + date + ", description="
+				+ description + ", onProfile=" + onProfile + ", user=" + user + "]";
+	}
+	
 	
 	
 }

@@ -1,5 +1,6 @@
 package co.grandcircus.final_project_mh.Gamification;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Challenge {
 	@ManyToOne
 	private User user;
 	private String date;
+	@Column(name="on_profile")
+	private int onProfile;
 	
 	public Challenge() {		
 	}
@@ -65,6 +68,39 @@ public class Challenge {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Long getChallengeid() {
+		return challengeid;
+	}
+
+	public void setChallengeid(Long challengeid) {
+		this.challengeid = challengeid;
+	}
+
+	public Long getChallengelistid() {
+		return challengelistid;
+	}
+
+	public void setChallengelistid(Long challengelistid) {
+		this.challengelistid = challengelistid;
+	}
+
+	public int getOnProfile() {
+		return onProfile;
+	}
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
+	}
+
+	@Override
+	public String toString() {
+		return "Challenge [challengeid=" + challengeid + ", complete=" + complete + ", challengelistid="
+				+ challengelistid + ", points=" + points + ", user=" + user + ", date=" + date + ", onProfile="
+				+ onProfile + "]";
+	}
+	
+	
 
 	
 }
