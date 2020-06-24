@@ -119,6 +119,8 @@ public class UserController {
 				
 				Conversation newConvo = new Conversation(message.getId(), f, message.getReceiverId(), message.getMessage(),
 						message.getDatetime(), isRead);
+				System.out.println("Test message: " + message.getMessage());
+				System.out.println("Test new convo: " + newConvo.getAbridgedMsg());
 				
 				
 				for (Conversation con: conversations) {

@@ -36,11 +36,14 @@ public class Conversation implements Comparable<Conversation> {
         		newestDatetime.format(formatter2);
         
         //Create abridged message
-        if (newestMessage.length() > 29) {
-        	abridgedMsg = newestMessage.substring(0, 29);
+        System.out.println("sentence length: " + newestMessage.length());
+        if (newestMessage.length() > 60) {
+        	
+        	abridgedMsg = newestMessage.substring(0, 59);
         } else {
         	abridgedMsg = newestMessage;
         }
+        System.out.println("Abridged: " + abridgedMsg);
         
 		
 	}
@@ -79,13 +82,6 @@ public class Conversation implements Comparable<Conversation> {
 	
 	
 	public String getAbridgedMsg() {
-		//Create abridged message
-        if (newestMessage.length() > 29) {
-        	abridgedMsg = newestMessage.substring(0, 29);
-        } else {
-        	abridgedMsg = newestMessage.substring(0, newestMessage.length() - 1);
-        }
-		
 		return abridgedMsg;
 	}
 
