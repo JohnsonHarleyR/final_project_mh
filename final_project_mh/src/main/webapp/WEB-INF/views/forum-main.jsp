@@ -199,7 +199,7 @@
 		   </c:forEach>
 		  </tbody>
 		</table>
-		<c:if test="${ loggedin && user.status == 'admin' }" >
+		<c:if test="${ user.status == 'admin' }" >
 		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
 		</c:if>
 	</section>

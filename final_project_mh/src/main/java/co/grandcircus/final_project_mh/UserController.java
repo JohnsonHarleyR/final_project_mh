@@ -41,6 +41,7 @@ import co.grandcircus.final_project_mh.User.UserMessage;
 import co.grandcircus.final_project_mh.User.UserMessageDao;
 import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
+import co.grandcircus.final_project_mh.UserPreferences.UserPreferencesDao;
 
 @Controller
 public class UserController {
@@ -69,7 +70,11 @@ public class UserController {
 	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
 	
-	@Autowired private AchievementsRepo achievementsRepo;
+	@Autowired 
+	private AchievementsRepo achievementsRepo;
+	
+	@Autowired
+	private UserPreferencesDao userPreferencesRepo;
 	
 	private String loginMessage = "Please enter your username or e-mail and password.";
 	private String signUpMessage = "Please enter the following information.";
@@ -1510,7 +1515,7 @@ public class UserController {
 	public String editUser(Model model) {
 
 		User user = (User) session.getAttribute("user");
-		
+		UserPreferences userPreferences = (UserPreferences)session.getAttribute("userPreferences");
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 
@@ -1523,7 +1528,7 @@ public class UserController {
 			model.addAttribute("user", user);
 			model.addAttribute("loggedin", loggedIn);
 			model.addAttribute("message", editMessage);
-			
+			model.addAttribute("userPreferences",userPreferences);
 			session.setAttribute("loggedIn", loggedIn);
 			
 			//Add user to session
@@ -1539,6 +1544,7 @@ public class UserController {
 	public String edit(@RequestParam(value = "userid") Long userId, @RequestParam(value = "username") String username,
 			@RequestParam(value = "email") String email, @RequestParam(value = "password1") String password1,
 			@RequestParam(value = "password2") String password2, @RequestParam(value = "name") String name,
+			@RequestParam(value = "weight") Integer currentWeight, @RequestParam(value = "goalWeight") Integer goalWeight,
 			Model model) {
 		
 		//Check if user is logged in, set as variable
@@ -1547,7 +1553,8 @@ public class UserController {
 		List<User> users = userRepo.findAll();
 		User us = (User) session.getAttribute("user");
 		User user = userRepo.findByUsername(us.getUsername()); // unnecessary steps - fix
-
+		
+		UserPreferences userPreferences = (UserPreferences)session.getAttribute("userPreferences");
 		for (User u : users) {
 			if (u.getUsername().equals(username) && u.getId() != user.getId()) {
 				editMessage = "New username is unavailable. Please choose another.";
@@ -1577,6 +1584,9 @@ public class UserController {
 			user.setEmail(email);
 			user.setPassword(password1);
 			user.setName(name);
+			userPreferences.setUserGoalWeight(goalWeight);
+			userPreferences.setUserWeight(currentWeight);
+			userPreferencesRepo.save(userPreferences);
 			userRepo.save(user);
 			session.setAttribute("user", user);
 			loggedIn = true;
