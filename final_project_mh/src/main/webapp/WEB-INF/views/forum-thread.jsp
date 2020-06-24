@@ -59,7 +59,7 @@
 						<tr>
 							<td>
 								
-								*profile pic later*<br>
+								<img src="${user.avatar}" height="100px" width="100px"><br>
 								<a href="/profile?id=${post.userId}"><c:out value="${post.username}"/></a>
 							</td>
 							
@@ -71,7 +71,8 @@
 								<!-- only if user is logged in 
 								& login user matches post author -->
 								<c:if test="${loggedin}">
-									<c:if test="${user.username == post.username}">
+									<c:choose>
+									<c:when test="${user.username == post.username}">
 										<c:choose>
 											<c:when test="${count == 1}">
 												<br>
@@ -85,7 +86,23 @@
 												</sub>
 											</c:otherwise>
 										</c:choose>
-									</c:if>
+									</c:when >
+									<c:when test="${user.status == 'admin' }">
+									<c:choose>
+											<c:when test="${count == 1}">
+												<br>
+												<sub><a href="/thread/delete?id=${post.threadId}&d=${discussion.id}">Delete Thread</a>
+												</sub>
+											</c:when>
+											<c:otherwise>
+												<br>
+												<sub>
+												<a href="/post/delete?id=${post.id }">Delete</a> 
+												</sub>
+											</c:otherwise>
+										</c:choose>
+									</c:when>		
+										</c:choose>
 								</c:if>
 							</td>
 						</tr>

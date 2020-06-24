@@ -104,9 +104,13 @@ public class BodyController {
 		boolean loggedIn = Methods.checkLogin(session);
 
 		ExcerciseTracker excerciseTracker = excerciseService.getTest(userInput);
-
 		List<Exercises> exercises = excerciseTracker.getExercises();
 
+		if(exercises == null) {
+			return "body-page";
+		}
+		
+		
 		Integer category = (Integer) session.getAttribute("category");
 
 		if (category == null) {
@@ -116,6 +120,7 @@ public class BodyController {
 		List<Results> resultList = workoutService.getWorkout(category);
 
 		User user = (User) session.getAttribute("user");
+		if(loggedIn) {
 		String names = Methods.getRank(user, userRepo).getName();
 		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
 		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
@@ -136,6 +141,7 @@ public class BodyController {
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
 		model.addAttribute("names", names);
+		}
 		model.addAttribute("resultList", resultList);
 
 		model.addAttribute("exercises", exercises);
@@ -148,20 +154,20 @@ public class BodyController {
 	public String foodWithInput(Model model, @RequestParam(required = false) String userInput) {
 
 		boolean loggedIn = Methods.checkLogin(session);
-
-
 		Nutrients foodTracker = foodService.getTest(userInput);
-
 		List<Foods> food = foodTracker.getFoods();
-
+		if(food == null) {
+			return "body-page";
+		}
+		
 		Integer category = (Integer) session.getAttribute("category");
 		if (category == null) {
 			category = 10;
 		}
 
 		List<Results> resultList = workoutService.getWorkout(category);
-
 		User user = (User) session.getAttribute("user");
+		if(loggedIn) {
 		String names = Methods.getRank(user, userRepo).getName();
 		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
 		double minD = Methods.getRank(user, userRepo).getMinBodyPoints();
@@ -183,6 +189,7 @@ public class BodyController {
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
 		model.addAttribute("names", names);
+		}
 		model.addAttribute("food", food);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("resultList", resultList);
