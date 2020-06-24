@@ -263,11 +263,9 @@ public class SoulController {
 		 }
 		 
 		 
-		 
-		 
+	
 		 List<FavAffirmation> affirmations =
 					affirmationRepo.findByUserId(user.getId());
-		 
 		 boolean qExists = false;
 			for (FavAffirmation a: affirmations) {
 				if (a.getAffirmation().equals(quoteString)) {
@@ -275,7 +273,7 @@ public class SoulController {
 				}
 			}
 			model.addAttribute("qexists", qExists);
-		 
+
 		//Loop through favorites to see if quote exists already
 			
 			

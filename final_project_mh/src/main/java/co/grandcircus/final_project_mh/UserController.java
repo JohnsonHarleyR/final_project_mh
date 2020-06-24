@@ -682,6 +682,7 @@ public class UserController {
 			areComments = true;
 		}
 		
+		//Are we including Achievements still in the Use Profile?
 		List<Achievements> achieve = achievementsRepo.findAchievementsByUserId(loggedUser.getId());
 		
 	
