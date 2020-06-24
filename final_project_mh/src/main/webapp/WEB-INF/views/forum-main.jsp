@@ -27,7 +27,7 @@
 
 
 <div id="forum-main">
-<article class="card" id="welcome" style="width: 50rem;">
+<article class="card" id="welcome" style="width: 65rem;">
 	<section class="card-header">
 		<h1>Welcome to the Forum</h1>
 		
@@ -45,33 +45,42 @@
 		  </thead>
 		  
 		  <tbody>
-		  
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'welcome' }">
 		    <tr>
-		      <td>
-		      	<a href="">Announcements</a>
+		      <td style='width:18%;'>
+		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
 		      </td>
-		      <td>*describe here*</td>
-		      <td>*number of posts*</td>
+		      <td style='width:50%;'><c:out value="${discussion.description}"></c:out></td>
+		      <td style='width:13%;'>${discussion.numberOfTopics }</td>
 		      <td>
-		      	*<a href="">post title</a>,<br>
-		      	 <sup><a href="">author</a>, datetime*</sup>
+		      	<c:choose>
+		      	<c:when test="${discussion.numberOfTopics == 0}">
+		      	No threads.
+		      	</c:when>
+		      	<c:otherwise>
+		      	<c:forEach var="post" items="${posts}">
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
+		      	 </c:if>
+		      	 
+		      	 </c:forEach>
+		      	 </c:otherwise>
+		      	 </c:choose>
 		      </td>
 		    </tr>
+		    </c:if>
+		    </c:forEach>
 		    
-		    <tr>
-		      <td>
-		      	<a href="">Introductions</a>
-		      </td>
-		      <td>*describe here*</td>
-		      <td>*# of posts*</td>
-		      <td>
-		      	*<a href="">post title</a>,<br>
-		      	 <sup><a href="">author</a>, datetime*</sup>
-		      </td>
-		    </tr>
+		    <!-- if user is an admin, allow them to create a new discussion -->
 		    
 		  </tbody>
 		</table>
+		<c:if test="${ loggedin && user.status == 'admin' }" >
+		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		</c:if>
 	
 		
 	</section>
@@ -80,7 +89,7 @@
 
 
 
-<article class="card" id="general" style="width: 50rem;">
+<article class="card" id="general" style="width: 65rem;">
 	<section class="card-header">
 		<h1>General</h1>
 	</section>
@@ -97,27 +106,48 @@
 		  </thead>
 		  
 		  <tbody>
-		  
-		    <tr>
-		      <td>
-		      	<a href="">*discussion name*</a>
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'general' }">
+		   <tr>
+		      <td style='width:18%;'>
+		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
 		      </td>
-		      <td>*describe here*</td>
-		      <td>*# of posts*</td>
+		      <td style='width:50%;'><c:out value="${discussion.description}"></c:out></td>
+		      <td style='width:13%;'>${discussion.numberOfTopics }</td>
 		      <td>
-		      	*<a href="">post title</a>,<br>
-		      	 <sup><a href="">author</a>, datetime*</sup>
+		      	<c:choose>
+		      	<c:when test="${discussion.numberOfTopics == 0}">
+		      	No threads.
+		      	</c:when>
+		      	<c:otherwise>
+		      	<c:forEach var="post" items="${posts}">
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
+		      	 </c:if>
+		      	 
+		      	 </c:forEach>
+		      	 </c:otherwise>
+		      	 </c:choose>
 		      </td>
 		    </tr>
-		    
+		    </c:if>
+		   </c:forEach>
+		  
 		  </tbody>
 		</table>
+		
+		<c:if test="${ loggedin && user.status == 'admin' }" >
+		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		</c:if>
 	</section>
+	
 </article>
 
 
 
-<article class="card" id="mental-health" style="width: 50rem;">
+<article class="card" id="mental-health" style="width: 65rem;">
 	<section class="card-header">
 		<h1>Mental Health</h1>
 		
@@ -125,6 +155,9 @@
 	<section class="card-body">
 	
 		<table  id="table3" class="table table-borderless">
+		
+		<!-- Format the width of the columns somehow. -->
+   		
 		  <thead>
 		    <tr>
 		      <th scope="col">Discussion</th>
@@ -135,22 +168,39 @@
 		  </thead>
 		  
 		  <tbody>
-		  
-		    <tr>
-		      <td>
-		      	<a href="">*discussion name*</a>
+		  <c:forEach var="discussion" items="${discussions}">
+		  <c:if test="${discussion.tag == 'mental health' }">
+		  <tr>
+		      <td style='width:18%;'>
+		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
 		      </td>
-		      <td>*describe here*</td>
-		      <td>*# of posts*</td>
+		      <td style='width:50%;'><c:out value="${discussion.description}"></c:out></td>
+		      <td style='width:13%;'>${discussion.numberOfTopics }</td>
 		      <td>
-		      	*<a href="">post title</a>,<br>
-		      	 <a href="">author</a>, datetime*
+		      	<c:choose>
+		      	<c:when test="${discussion.numberOfTopics == 0}">
+		      	No threads.
+		      	</c:when>
+		      	<c:otherwise>
+		      	<c:forEach var="post" items="${posts}">
+		      	<c:if test="${discussion.lastTopicPostId == post.id}">
+		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br>
+		      	 ${post.datetime}</sup>
+		      	 </c:if>
+		      	 
+		      	 </c:forEach>
+		      	 </c:otherwise>
+		      	 </c:choose>
 		      </td>
 		    </tr>
-		    
+		    </c:if>
+		   </c:forEach>
 		  </tbody>
 		</table>
-	
+		<c:if test="${ loggedin && user.status == 'admin' }" >
+		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		</c:if>
 	</section>
 </article>
 		

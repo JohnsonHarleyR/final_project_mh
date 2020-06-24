@@ -29,6 +29,7 @@
 <!-- Eventually only show last few messages, add next page -->
 
 <!-- if there are messages, show them. Otherwise say there are no messages yet -->
+<a href="/messages">Back to all messages</a>
 <c:choose>
 	<c:when test="${aremessages}">
 	

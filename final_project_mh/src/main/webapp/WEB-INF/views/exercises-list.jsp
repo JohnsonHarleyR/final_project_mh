@@ -38,7 +38,19 @@
 		<br>
 		Duration: ${item.duration_min} minutes
 		<br>
-		<i>${item.datetime}</i> <a href="/delete/exercise?id=${item.id}&url=/list/exercises">Delete</a>
+		<i>${item.datetime}</i> 
+		<c:choose>
+			<c:when test="${item.onProfile == 0}">
+				<a href="/post?type=exercise&id=${item.id}&url=/list/records">Post</a> / 
+				<a href="/delete/exercise?id=${item.id}&url=/list/exercises">
+				Delete</a>
+				<br>
+			</c:when>
+			<c:otherwise>
+				<a href="/post/remove?type=exercise&id=${item.id}&url=/list/records">Remove</a>
+				<br>
+			</c:otherwise>
+		</c:choose>
 		<br>
 	</c:forEach>
 

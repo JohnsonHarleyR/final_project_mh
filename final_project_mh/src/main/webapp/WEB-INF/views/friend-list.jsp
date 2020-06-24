@@ -26,7 +26,16 @@
 <main class="container">
 
 <h1>${profile.name}'s Friend List</h1>
-
+<p>
+<c:choose>
+<c:when test="${user.id == profile.id}">
+<a href="/user">Go to your page</a>
+</c:when>
+<c:otherwise>
+<a href="/profile?id=${profile.id}">Back to profile</a>
+</c:otherwise>
+</c:choose>
+</p>
 <c:choose>
 <c:when test="${friends}">
 <ul>
@@ -39,8 +48,7 @@
 </ul>
 </c:when>
 <c:otherwise>
-Everyone needs friends.
-<br>Let's go find some!
+No friends yet.<br>
 </c:otherwise>
 </c:choose>
 

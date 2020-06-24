@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestions;
 import co.grandcircus.final_project_mh.DailyQuestions.DailyUserQuestionsDao;
+import co.grandcircus.final_project_mh.MentalHealthApi.MHQuote;
+import co.grandcircus.final_project_mh.MentalHealthApi.MHService;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
@@ -42,6 +44,8 @@ public class HomeController {
 	
 	@Autowired
 	private UserDao userRepo;
+	
+	
 
 
 	@RequestMapping("/")

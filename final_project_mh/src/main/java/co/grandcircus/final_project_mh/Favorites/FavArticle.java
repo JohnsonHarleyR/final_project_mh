@@ -19,6 +19,8 @@ public class FavArticle implements Comparable<FavArticle>{
 	private String url;
 	@Column(name = "user_id")
 	private Long userId;
+	@Column(name = "on_profile")
+	private int onProfile;
 	
 	public FavArticle() {}
 
@@ -29,6 +31,8 @@ public FavArticle(Date datetime, String title, String description, String url, L
 		this.description = description;
 		this.url = url;
 		this.userId = userId;
+		
+		onProfile = 0;
 	}
 
 public Long getId() {
@@ -78,6 +82,24 @@ public Long getId() {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	
+
+public int getOnProfile() {
+		return onProfile;
+	}
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
+	}
+	
+	
+
+@Override
+	public String toString() {
+		return "FavArticle [id=" + id + ", datetime=" + datetime + ", title=" + title + ", description=" + description
+				+ ", url=" + url + ", userId=" + userId + ", onProfile=" + onProfile + "]";
 	}
 
 @Override

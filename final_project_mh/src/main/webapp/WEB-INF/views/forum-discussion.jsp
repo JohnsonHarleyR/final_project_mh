@@ -29,24 +29,24 @@
 
 	<a href="/forum">Back to Main Forum</a>
 	
-	<article class="card" id="threads" style="width: 50rem;">
+	<article class="card" id="threads" style="width: 65rem;">
 		
 		<section class="card-header">
-			<h1>*Discussion Name* ${discussion}</h1>
+			<h1>${discussion.topic}</h1>
 			
 		</section>
 		<section class="card-body">
 		
 			<!-- If logged in, let them create new thread -->
 			<c:if test="${loggedin}">
-				<a href="/thread/add?d=${d}">Create a New Thread</a>
+				<a href="/thread/add?id=${discussion.id}">Create a New Thread</a>
 			</c:if>
 		
 			<table  id="table2" class="table table-hover">
 			  <thead>
 			    <tr>
 			      <th scope="col">Topic</th>
-			      <th scope="col">Replies</th>
+			      <th scope="col">Posts</th>
 			      <th scope="col">Author</th>
 			      <th scope="col">Latest Post</th>
 			    </tr>
@@ -55,43 +55,29 @@
 			  <tbody>
 			  
 			  	<!-- For Each loop here, connect to thread database -->
+			  	<c:forEach var= "thread" items="${threads }">
+			  	<c:if test="${thread.discussionId == discussion.id }">
 			    <tr>
-			      <td>
-			      	<a href="">*thread topic title*</a>
+			      <td width="35%">
+			      	<a href="/thread?id=${thread.id}"><c:out value="${thread.threadTitle }"></c:out></a>
 			      </td>
-			      <td>*# of replies*</td>
-			      <td>*number of posts*</td>
+			      <td>${thread.numberOfPosts}</td>
+			      <td><a href="/profile?id=${thread.userId}"><c:out value="${thread.username }" /></a></td>
+			      
+			      <c:forEach var = "post" items="${ posts}">
+			      <c:if test="${post.id == thread.lastPostId}">
 			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
+			      	<a href="thread?id=${thread.id}&d=${discussion.id}"></a>${post.abridgedMsg}<br>
+			      	 <sup><a href="/profile?"><c:out value="${post.username }" />
+			      	 </a></sup><br><sup>${post.datetime}</sup>
 			      </td>
+			      </c:if>
+			      </c:forEach>
 			    </tr>
-			    
+			    </c:if>
+			    </c:forEach>
 			    
 			    <!-- for the sake of an example, take this out later -->
-			    <tr>
-			      <td>
-			      	<a href="">*thread topic title*</a>
-			      </td>
-			      <td>*# of replies*</td>
-			      <td>*number of posts*</td>
-			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
-			      </td>
-			    </tr>
-			    <tr>
-			      <td>
-			      	<a href="">*thread topic title*</a>
-			      </td>
-			      <td>*# of replies*</td>
-			      <td>*number of posts*</td>
-			      <td>
-			      	*<a href="">thread/topic author</a>,<br>
-			      	 <sup><a href="">post author</a>, datetime*</sup>
-			      </td>
-			    </tr>
-	
 			    
 			  </tbody>
 			</table>

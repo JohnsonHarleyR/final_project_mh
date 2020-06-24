@@ -44,7 +44,7 @@ public class UserMessage {
 		this.datetime = datetime;
 		this.message = message;
 		
-		isRead = 0;
+		isRead = 0; //0 means not read yet
 		
 		
 		//Store cleanDatetime as string from datetime

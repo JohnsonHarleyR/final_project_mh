@@ -38,8 +38,19 @@
 		<br>
 		<a href="${item.url}">Read Article</a>
 		<br>
-		<i>${item.datetime}</i> <a href="/delete/article?id=${item.id}&url=/user">
-		Delete</a>
+		<i>${item.datetime}</i>
+		<c:choose>
+			<c:when test="${item.onProfile == 0}">
+				<a href="/post?type=article&id=${item.id}&url=/list/records">Post</a> / 
+				<a href="/delete/article?id=${item.id}&url=/list/records">
+				Delete</a>
+				<br>
+			</c:when>
+			<c:otherwise>
+				<a href="/post/remove?type=article&id=${item.id}&url=/list/records">Remove</a>
+				<br>
+			</c:otherwise>
+		</c:choose>
 		<br>
 		<br>
 	</c:forEach>

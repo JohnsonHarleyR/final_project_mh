@@ -35,12 +35,17 @@
 	</script>
 
 	<!-- MainBody -->
-	<main class="container">
+	<main class="container" style="display:flex;flex-direction:column;
+	text-align:center;margin:auto;justify-content:center;">
+	
+		<table class="table">
+		<tr>
+		<td width="100%" style="text-align:left;content:left;">
 
-		<h1>${profileuser.username}'sProfile</h1>
+		<h1 >${profileuser.username}'sProfile</h1>
 
 
-		<section id="add-friend"">
+		<section id="add-friend">
 			<!-- Check if user is friends with them - if user is logged in -->
 			<c:if test="${loggedin}">
 				<c:choose>
@@ -83,13 +88,17 @@
 			<br>
 
 		</section>
-
-		<section id="info" style="padding-top: 15px">
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+		<section id="info" style="padding-top:15px;text-align:left;content:left;">
 
 
 			<!-- User info -->
 			<b>Name: </b> ${profileuser.name} <br> <b>Points: </b>
-			${profileuser.points} <br>
+			${profileuser.points} <br><br>
 		</section>
 
 		<section>
@@ -103,10 +112,135 @@
 			</div>
 		</c:forEach>
 		</section>
+		</td>
+		</tr>
+		</table>
 
+
+		<!-- Favorites Display Section -->
+		<br>
+		<table class="table">
+		<section id="favorites" style="display:flex;">
+			
+			<tr>
+			<td>
+			
+			<div id="records" style="text-align:left;content:left;">
+				<h2>Happy Reminders</h2>
+				<p>
+				<c:choose>
+				<c:when test="${arerecords}">
+				<c:forEach var="record" items="${records}">
+					
+					
+					${record.text}
+					<br>
+					<sup><i>${record.datetime}</i></sup>
+					<br>
+				</c:forEach>
+				</c:when>
+				<c:otherwise>
+					There is nothing here yet.
+				</c:otherwise>
+				</c:choose>
+				</p>
+			</div>
+			</td>
+			
+			
+			<td>
+			<div id="affirmations" style="text-align:left;content:left;">
+				<h2>Favorite Affirmations</h2>
+				<p>
+				<c:choose>
+				<c:when test="${areaffirmations}">
+				<c:forEach var="affirmation" items="${affirmations}">
+					
+					
+					${affirmation.affirmation}
+					<br>
+					<sup><i>${affirmation.datetime}</i></sup>
+					<br>
+				</c:forEach>
+				</c:when>
+				<c:otherwise>
+					There is nothing here yet.
+				</c:otherwise>
+				</c:choose>
+				</p>
+			</div>
+			</td>
+			
+			</tr>
+			
+			<tr>
+			<td>
+			<div id="exercises" style="text-align:left;content:left;">
+				<h2>Completed Exercises</h2>
+				<p>
+				<c:choose>
+				<c:when test="${areexercises}">
+				<c:forEach var="item" items="${exercises}">
+					<b>${item.name}</b>
+					<br>
+					Calories: ${item.nf_calories}
+					<br>
+					Duration: ${item.duration_min} minutes
+					<br>
+					<sup><i>${item.datetime}</i></sup>
+				</c:forEach>
+				</c:when>
+				<c:otherwise>
+					There is nothing here yet.
+				</c:otherwise>
+				</c:choose>
+				</p>
+			</div>
+			</td>
+			
+			<td>
+			<div id="articles" style="text-align:left;content:left;">
+				<h2>Favorite Articles</h2>
+
+				
+				<p>
+				<c:choose>
+				<c:when test="${arearticles}">
+				<c:forEach var="item" items="${articles}">
+					<b>${item.title}</b>
+					<br>
+					${item.description}
+					<br>
+					<a href="${item.url}">Read Article</a>
+					<br>
+					<sup><i>${item.datetime}</i></sup>
+				</c:forEach>
+				</c:when>
+				<c:otherwise>
+					There is nothing here yet.
+				</c:otherwise>
+				</c:choose>
+				</p>
+			</div>
+			</td>
+			</tr>
+			
+		
+		</section>
+		
+
+		
 		<!--Comment Section -->
-		<section id="comment">
+		
+		<section id="comment" style="text-align:left;content:left;padding-top:15px;">
 			<c:if test="${canComment}">
+			<tr style="text-align:left;content:left;padding-top:15px;">
+			
+			<td width="50%">
+			<br>
+			<br>
+		
+			
 				<h2>Comments</h2>
 				<c:if test="${!arecomments}">
 		There are no comments yet.
@@ -127,6 +261,14 @@
 							</c:if></sup>
 					</p>
 				</c:forEach>
+				</td>
+			
+			</tr>
+			<tr>
+			
+			<td width="50%">
+				<div  style="text-align:left;content:left;">
+				
 				<h2>Leave a comment</h2>
 				<form action="comment" method="post">
 					<textarea name="comment" rows="5" cols="50" maxlength="500"
@@ -137,9 +279,19 @@
 					<button class="btn btn-info" type="submit">Add Comment</button>
 				</form>
 				<br>
-			</c:if>
-		</section>
+			</div>
+			</td>
+			
+			
+			
+				
 
+				
+		</tr>
+		</c:if>
+		
+		</section>
+		</table>
 
 
 

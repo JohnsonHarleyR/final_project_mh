@@ -34,6 +34,9 @@ function addPoints() {
 }
 </script>
 
+<!-- test for users -->
+   <c:if test = "${loggedin == true}">
+
 <div>
         <h3>Your Rank is: <c:out value = "${names}"/></h3>
         </div>
@@ -45,19 +48,24 @@ function addPoints() {
 		<p> Points till the Next Rank: <c:out value = "${nextRank}"/></p>
 </div>
 
-<!-- Let's try kittens - kitten api -->
-<img id="kitten" style="float: right;" src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
+</c:if>
+
+<!-- Let's try baby animals - Harley's API-->
+<img id="baby" style="float: right; width: 500px;" src="${baby}" />
 
 <br>
+
 
 <!-- If user is logged in, show option to save -->
 <section id="affirmation" style="font-size:larger" >
 <c:choose>
 	<c:when test="${!loggedin}">
 		${affirmation}
+		<br>
 	</c:when>
 	<c:when test="${exists}">
 		${affirmation}
+		<br>
 	</c:when>
 	<c:otherwise>
 		<form action="/save/affirmation" method="post">
@@ -74,6 +82,38 @@ function addPoints() {
 <br>
 <br>
 
+<!-- Do it mental health quote now -->
+<!-- If user is logged in, show option to save -->
+<section id="mquote" style="font-size:larger">
+
+<c:choose>
+	<c:when test="${loggedin == false}">
+		${mquote.quote}
+		-${mquote.author}
+		<br>
+	</c:when>
+	<c:when test="${mexists == true}">
+		${mquote.quote}
+		-${mquote.author}
+		<br>
+	</c:when>
+	<c:otherwise>
+		<form action="/save/affirmation" method="post">
+			${mquote.quote}
+			-${mquote.author}
+			<br>
+			<input type="hidden" name="affirmation" 
+			value="${mquotestring}"/>
+			<button class="btn btn-info" onclick="addPoints()" type="submit">Save</button>
+		</form>
+	</c:otherwise>
+</c:choose>
+</section>
+
+
+<br>
+<br>
+
 <!-- Do it with the quote nows -->
 <!-- If user is logged in, show option to save -->
 <section id="quote" style="font-size:larger">
@@ -81,10 +121,12 @@ function addPoints() {
 	<c:when test="${loggedin == false}">
 		${quote.quote}
 		${quote.author}
+		<br>
 	</c:when>
 	<c:when test="${qexists == true}">
 		${quote.quote}
 		${quote.author}
+		<br>
 	</c:when>
 	<c:otherwise>
 		<form action="/save/affirmation" method="post">
@@ -99,14 +141,35 @@ function addPoints() {
 </c:choose>
 </section>
 
+
+
+
 <br>
 <br>
 
+
+
+
 <%--Start of YouTube Player  --%>
-<section >
+<section  style="display: inline-flex;space-evenly; width:100%; align-items:flex-start;
+flex-direction: row;align-self: auto;;overflow: hidden;">
+
+<table >
+<tr>
+<td style="margin-top:0px;">
+<img id="kitten" style="object-fit: cover;" 
+src="http://placekitten.com/${wi}/${he}" alt="Place Kitten" />
+</td>
+
+
+<c:if test="${goahead}">
+<td style="margin-top:0px;">
+
+
+
 <input type="hidden" id="custId" name="custId" value="${videoId}">
 <input type="hidden" name="vehicle" value="Bike" onclick="javascript:selectVideo();">
-<div id="player"></div>
+<div style="height: 350px; width: 500px; object-fit: cover;margin-top:0px;" id="player"></div>
 
     <script>
       // 2. This code loads the IFrame Player API code asynchronously.
@@ -153,8 +216,14 @@ function addPoints() {
       
     </script>
     
+    </td>
+    </c:if>
+    </tr>
+</table>
+    
  </section>
-
+ 
+ 
 </main>
 
 </body>

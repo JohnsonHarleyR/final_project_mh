@@ -9,20 +9,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 @Entity
-@Table(name="discussion")
+@Table(name="discussions")
 public class Discussion {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="discussion_id")
-	private Long discussionId;
 	@Column(name="post_type")
 	private String postType;
+	private String description;
 	private String topic;
+	private String tag;
+	@Column(name="number_of_topics")
+	private Long numberOfTopics;
+	@Column(name="last_topic_post_id")
+	private Long lastTopicPostId;
+	
+	//to determine who posted the discussion to start 
 	private String username;
+	
 	
 	
 	
@@ -31,28 +41,24 @@ public class Discussion {
 		
 	}
 	
-	public Discussion( Long threadId, String postType, String topic, String username
-			) {
+	//intentionally leaving a couple variables out of parameters
+	public Discussion(String postType, String description, String topic, String tag, String username) {
 		super();
-		
-		this.discussionId = threadId;
 		this.postType = postType;
+		this.description = description;
 		this.topic = topic;
+		this.tag = tag;
 		this.username = username;
-		
 	}
+
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getThreadId() {
-		return discussionId;
-	}
-	public void setThreadId(Long threadId) {
-		this.discussionId = threadId;
-	}
+
 	public String getPostType() {
 		return postType;
 	}
@@ -71,10 +77,47 @@ public class Discussion {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
+	
+
+	public Long getNumberOfTopics() {
+		return numberOfTopics;
+	}
+
+	public void setNumberOfTopics(Long numberOfTopics) {
+		this.numberOfTopics = numberOfTopics;
+	}
+
+	public Long getLastTopicPostId() {
+		return lastTopicPostId;
+	}
+
+	public void setLastTopicPostId(Long lastTopicPostId) {
+		this.lastTopicPostId = lastTopicPostId;
+		
+		//Set post info into post variable
+		
+	}
+
 	@Override
 	public String toString() {
-		return "Discussion [id=" + id + ", threadId=" + discussionId + ", postType=" + postType + ", topic=" + topic
-				+ ", username=" + username + "]";
+		return "Discussion [id=" + id + ", postType=" + postType + ", topic=" + topic + ", username=" + username + "]";
 	}
 	
 	

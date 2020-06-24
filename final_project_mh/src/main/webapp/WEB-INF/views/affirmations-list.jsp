@@ -34,9 +34,19 @@
 		<h2></h2>
 		${item.affirmation}
 		<br>
-		<i>${item.datetime}</i> <a href="/delete/affirmation?id=${item.id}&url=/list/affirmations">
-		Delete</a>
-		
+		<i>${item.datetime}</i>
+		<c:choose>
+			<c:when test="${item.onProfile == 0}">
+				<a href="/post?type=affirmation&id=${item.id}&url=/list/affirmations">Post</a> / 
+				<a href="/delete/affirmation?id=${item.id}&url=/list/affirmations">
+				Delete</a>
+				<br>
+			</c:when>
+			<c:otherwise>
+				<a href="/post/remove?type=affirmation&id=${item.id}&url=/list/affirmations">Remove</a>
+				<br>
+			</c:otherwise>
+		</c:choose>
 		<br>
 	</c:forEach>
 

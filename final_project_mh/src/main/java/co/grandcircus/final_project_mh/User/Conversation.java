@@ -11,18 +11,20 @@ public class Conversation implements Comparable<Conversation> {
 	
 	private Long id;
 	private User friend;
+	private Long receiverId;
 	private String newestMessage;
 	private String abridgedMsg;
 	private LocalDateTime newestDatetime;
 	private String cleanDatetime;
-	private boolean isRead;
+	private int isRead;
 	
 	
 	
-	public Conversation(Long id, User friend, String newestMessage, LocalDateTime newestDatetime, boolean isRead) {
+	public Conversation(Long id, User friend, Long receiverId, String newestMessage, LocalDateTime newestDatetime, int isRead) {
 		super();
 		this.id = id;
 		this.friend = friend;
+		this.receiverId = receiverId;
 		this.newestMessage = newestMessage;
 		this.newestDatetime = newestDatetime;
 		this.isRead = isRead;
@@ -34,11 +36,14 @@ public class Conversation implements Comparable<Conversation> {
         		newestDatetime.format(formatter2);
         
         //Create abridged message
-        if (newestMessage.length() > 29) {
-        	abridgedMsg = newestMessage.substring(0, 29);
+        System.out.println("sentence length: " + newestMessage.length());
+        if (newestMessage.length() > 60) {
+        	
+        	abridgedMsg = newestMessage.substring(0, 59);
         } else {
-        	abridgedMsg = newestMessage.substring(0, newestMessage.length() - 1);
+        	abridgedMsg = newestMessage;
         }
+        System.out.println("Abridged: " + abridgedMsg);
         
 		
 	}
@@ -67,28 +72,32 @@ public class Conversation implements Comparable<Conversation> {
 	public void setNewestDatetime(LocalDateTime newestDatetime) {
 		this.newestDatetime = newestDatetime;
 	}
-	public boolean getIsRead() {
+	public int getIsRead() {
 		return isRead;
 	}
-	public void setIsRead(boolean isRead) {
+	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
 	
 	
 	
 	public String getAbridgedMsg() {
-		//Create abridged message
-        if (newestMessage.length() > 29) {
-        	abridgedMsg = newestMessage.substring(0, 29);
-        } else {
-        	abridgedMsg = newestMessage.substring(0, newestMessage.length() - 1);
-        }
-		
 		return abridgedMsg;
 	}
 
 	public void setAbridgedMsg(String abridgedMsg) {
 		this.abridgedMsg = abridgedMsg;
+	}
+	
+	
+	
+
+	public Long getReceiverId() {
+		return receiverId;
+	}
+
+	public void setReceiverId(Long receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public String getCleanDatetime() {
@@ -109,7 +118,7 @@ public class Conversation implements Comparable<Conversation> {
 
 	@Override
 	public String toString() {
-		return "Conversation [friend=" + friend + ", newestMessage=" + newestMessage + ", newestDatetime="
+		return "Conversation [friend=" + friend + ", receiverId=" + receiverId + ", newestMessage=" + newestMessage + ", newestDatetime="
 				+ newestDatetime + ", read=" + isRead + "]";
 	}
 	
@@ -117,8 +126,12 @@ public class Conversation implements Comparable<Conversation> {
 	
 	@Override
 	public int compareTo(Conversation o) {
-
+		
+		if (newestDatetime == o.getNewestDatetime()) {
+			return id.compareTo(o.getId());
+		} else {
 			return newestDatetime.compareTo(o.getNewestDatetime());
+		}
 		
 	}
 	

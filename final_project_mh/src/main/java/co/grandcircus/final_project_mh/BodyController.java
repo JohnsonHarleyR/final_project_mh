@@ -59,11 +59,18 @@ public class BodyController {
 
 		boolean loggedIn = Methods.checkLogin(session);
 		Integer category = (Integer) session.getAttribute("category");
-
+        
+		System.out.print(loggedIn);
+		
+		//used to remove logged in status on JSP
+		model.addAttribute("loggedin", loggedIn);
+		
 		if (category == null) {
 			category = 10;
 		}
-
+        
+		
+		if(loggedIn == true) {
 		List<Results> resultList = workoutService.getWorkout(category);
 		User user = (User) session.getAttribute("user");
 		String names = Methods.getRank(user, userRepo).getName();
@@ -87,8 +94,7 @@ public class BodyController {
 		model.addAttribute("min", min);
 		model.addAttribute("names", names);
 		model.addAttribute("resultList", resultList);
-		model.addAttribute("loggedin", loggedIn);
-
+		}
 		return "body-page";
 	}
 

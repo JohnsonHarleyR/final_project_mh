@@ -34,22 +34,22 @@
 		<c:when test="${loggedin}">
 	
 			<form action="/thread/add/submit" method="post">
-			Discussion: *discussion name here*
+			Discussion: <c:out value="${discussion.topic}"/>
 			<br>
 			<br>
 			<label>What should the thread be called?</label><br>
-			<input type="text" class="postwidth" placeholder="Topic Title" name="topic"/><br>
+			<input type="text" class="postwidth" placeholder="Topic Title" name="threadTitle"/><br>
 			<br>
 			<label>What should the first post say?</label><br>
 			<textarea name="comment" rows="7" class="postwidth" maxlength="1000" 
 			placeholder="Write post here." required></textarea>
 			<br>
-			<input type="hidden" name="discussion" value="${discussion }">
+			<input type="hidden" name="discussionId" value="${discussion.id }">
 			<button class="btn btn-info" type="submit">Create Thread</button>
-			<a href="/forum/discussion?id=${discussion}" 
+			<a href="/forum/discussion?id=${discussion.id}" 
 			style="color: #ffffff;" class="btn btn-info">Cancel</a>
 			</form>
-		
+
 		</c:when>
 		<c:otherwise>
 			Sorry, you must be logged in to create a thread.
