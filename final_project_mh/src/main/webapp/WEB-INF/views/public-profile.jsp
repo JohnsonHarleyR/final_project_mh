@@ -105,7 +105,7 @@
 
 		<c:forEach items = "${achieve}" var = "achievement">
 
-			<div class="card" style="width: 36rem;">
+			<div class="card" style="width: 100%;">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item"><b>${achievement.name}</b> : ${achievement.description} <small>${achievement.date}</small> </li>
 				</ul>

@@ -12,6 +12,11 @@ public interface ChallengeDao extends JpaRepository <Challenge, Long>{
 	
 	List<Challenge> findChallengeByUserId(Long id);
 	
+	Challenge findCompleteBychallengeid(Long id);
+	
 	public void deleteById(Long id);
+
+	//completed challenges User
+	List<Challenge> findCompleteByUserId(Long user_id);
 	
 }

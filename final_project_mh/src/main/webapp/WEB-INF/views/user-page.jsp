@@ -44,6 +44,11 @@
 	<button class="btn btn-info" type="submit">Invest your Pts.</button>
 	</form>
 	<br>
+	
+	<form action="/challenges" method="post">
+	<button class="btn btn-info" type="submit">Accept new Challenges</button>
+	</form>
+	<br>
 	<p>
 	<b>Instructions:</b> Clicking "<u>Post</u>" next to a saved item will post it to your public profile. 
 	Once it is posted, clicking "<u>Remove</u>" will remove it from your profile.
