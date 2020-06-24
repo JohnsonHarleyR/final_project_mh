@@ -12,7 +12,7 @@
 <link href="/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
-<title>User Page</title>
+<title>Challenge Page</title>
 </head>
 <body>
 

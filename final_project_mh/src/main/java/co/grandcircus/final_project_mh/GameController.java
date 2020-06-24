@@ -73,8 +73,8 @@ public class GameController {
 			@RequestParam(value="name")String name, @RequestParam(value = "points_req") Long points_req, 
 			@RequestParam(value = "prize_url")String prize_url, Model model){
 		
-		    User user;
-		    user=(User)session.getAttribute("user");
+		    boolean loggedIn = Methods.checkLogin(session);
+		    User user=(User)session.getAttribute("user");
 		   // Long user_id = user.getId(); 
 		
 		    ChallengeList challengeList = new ChallengeList();
@@ -130,6 +130,7 @@ public class GameController {
 		public String challengeList(Model model) {
 			
 			    User user;
+			    boolean loggedIn = Methods.checkLogin(session);
 			    user=(User)session.getAttribute("user");
 			    Long user_id = user.getId(); 
 			   
@@ -138,7 +139,7 @@ public class GameController {
 			    List<ChallengeList> challengeList = ChallengeListRepo.findAll();            
 			       
 			    //need to include user into the challenge as created by
-	
+	            model.addAttribute("loggedin",loggedIn);
 			    model.addAttribute("userChallengeList",userChallengeList);
 			    model.addAttribute("challengeList",challengeList);
 //			    String category = challengeList.getCategory();
@@ -158,13 +159,38 @@ public class GameController {
 	
 			    User user;
 			    user=(User)session.getAttribute("user");
-			    Long user_id = user.getId(); 
-
+			   // Long user_id = user.getId();
+			    
 			  //completed challenge List per user
 			  //refer to ChallengeDao and Challenge POJO
 			  //List<Challenge> userCompleteList = ChallengeRepo.findCompleteByUserId(user_id);
 			    
 			  Challenge userchallenge = ChallengeRepo.findCompleteBychallengeid(id);
+			  String category = userchallenge.getCategory();
+			 
+			  Integer bodyPoints = user.getBodypoints();
+			  Integer mindPoints = user.getMindpoints();
+			  Integer soulPoints = user.getSoulpoints();
+			  Integer userPoints = user.getPoints();
+			  Integer points = (int) (long) userchallenge.getPoints();
+			  
+			  System.out.print(points);
+			  System.out.print(complete);
+			  System.out.print(userPoints);
+			  
+			  String body = "body";
+			  String mind = "mind";
+			  String soul = "soul";
+			  if (complete == true && category.equals(body)) {user.setBodypoints(bodyPoints + points);user.setPoints(userPoints + points);}
+			  else if (complete == true && category.equals(mind)) {user.setMindpoints(mindPoints + points); user.setPoints(userPoints + points);}
+			  else if (complete == true && category.equals(soul)) {user.setSoulpoints(soulPoints + points); user.setPoints(userPoints + points);} 
+			  else if (complete == false && category.equals(body) && (user.getPoints()- points) >=0) {user.setBodypoints(bodyPoints - points);user.setPoints(userPoints - points);}
+			  else if (complete == false && category.equals(mind) && (user.getPoints()- points) >=0) {user.setMindpoints(mindPoints - points);user.setPoints(userPoints - points);}
+			  else if (complete == false && category.equals(soul) && (user.getPoints()- points) >=0) {user.setSoulpoints(soulPoints - points);user.setPoints(userPoints - points);}
+			  else {System.out.print("broke");}
+			  
+			  
+			  userRepo.save(user);
 			  userchallenge.setComplete(complete);    
 			  ChallengeRepo.save(userchallenge);
 			   
