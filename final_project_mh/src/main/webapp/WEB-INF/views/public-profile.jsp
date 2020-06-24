@@ -188,10 +188,12 @@
 					Duration: ${item.duration_min} minutes
 					<br>
 					<sup><i>${item.datetime}</i></sup>
+					<br>
 				</c:forEach>
 				</c:when>
 				<c:otherwise>
 					There is nothing here yet.
+					<br>
 				</c:otherwise>
 				</c:choose>
 				</p>
@@ -214,10 +216,12 @@
 					<a href="${item.url}">Read Article</a>
 					<br>
 					<sup><i>${item.datetime}</i></sup>
+					<br>
 				</c:forEach>
 				</c:when>
 				<c:otherwise>
 					There is nothing here yet.
+					<br>
 				</c:otherwise>
 				</c:choose>
 				</p>
@@ -259,6 +263,7 @@
 									href="/delete/comment?id=${comment.id}&profileuserId=${profileuser.id}">
 									Delete</a>
 							</c:if></sup>
+							<br>
 					</p>
 				</c:forEach>
 				</td>

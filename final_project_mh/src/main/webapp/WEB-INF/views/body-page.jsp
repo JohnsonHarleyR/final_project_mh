@@ -31,7 +31,7 @@
 	}
 	</script>
 
-	<main class="container">
+<main class="container">
 <h1>Body</h1>
 
 

@@ -31,6 +31,7 @@ public class User implements Serializable {
 	private String status;
 	@Column(name="unread_messages")
 	private int unreadMessages;
+	private String avatar; //doesn't need to be in controller
 	
 	public User() {
 		unreadMessages = 0;
@@ -168,6 +169,24 @@ public class User implements Serializable {
 
 
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
 	public int getGeneralpoints() {
 		return generalpoints;
 	}
@@ -185,8 +204,13 @@ public class User implements Serializable {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
 				+ name + ", points=" + points + ", bodypoints=" + bodypoints + ", mindpoints=" + mindpoints
 				+ ", soulpoints=" + soulpoints + ", generalpoints=" + generalpoints + ", friends=" + friends
-				+ ", requests=" + requests + ", status=" + status + ", unreadMessages=" + unreadMessages + "]";
+				+ ", requests=" + requests + ", status=" + status + ", unreadMessages=" + unreadMessages + ", avatar="
+				+ avatar + "]";
 	}
+
+
+
+	
 
 	
 	

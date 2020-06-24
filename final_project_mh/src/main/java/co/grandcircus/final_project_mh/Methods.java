@@ -248,9 +248,10 @@ public class Methods {
 		int bodyPoints = user.getBodypoints();
 		int mindPoints = user.getMindpoints();
 		int soulPoints = user.getSoulpoints();
+        int generalPoints = user.getGeneralpoints();
+        
 
-
-		int totalPoints  = bodyPoints + mindPoints + soulPoints;
+		int totalPoints  = bodyPoints + mindPoints + soulPoints + generalPoints;
 		String name = "";
 
 		int minBodyPoints = 0;
@@ -279,7 +280,7 @@ public class Methods {
 
 
 		if(soulPoints >= 0 && soulPoints <= 10) {
-			name += " Shaman";
+			name += " Apprentice";
 			minSoulPoints = 0;
 			maxSoulPoints = 10;
 		}
@@ -316,5 +317,19 @@ public class Methods {
 
 		return rank;
 	}
+	
+	public static int getTotalPoint(User user) {
+		
+		int bodyPoints = user.getBodypoints();
+		int mindPoints = user.getMindpoints();
+		int soulPoints = user.getSoulpoints();
+        int generalPoints = user.getGeneralpoints();
+        
+        int totalPoints  = bodyPoints + mindPoints + soulPoints + generalPoints;
+        return totalPoints;
+	}
+	
+	
+	
 
 }
