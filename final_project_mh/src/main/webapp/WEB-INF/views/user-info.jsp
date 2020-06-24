@@ -44,6 +44,9 @@
 </p>
 
 <p>
+<img width="100px" style="border:1px solid black;" src="${user.avatar}">
+</p>
+<p>
 <b>Username: </b> ${user.username}
 </p>
 <p>
