@@ -151,7 +151,7 @@
 		</c:forEach>
 	</c:if>
 	<br>
-
+<br>
 	
 	
 	<c:if test="${areachieves}">
