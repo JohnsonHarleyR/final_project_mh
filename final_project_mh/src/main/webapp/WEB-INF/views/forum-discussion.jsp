@@ -84,7 +84,7 @@
 			      <c:if test="${post.id == thread.lastPostId}">
 			      <td>
 			      	<a href="thread?id=${thread.id}&d=${discussion.id}"></a>${post.abridgedMsg}<br>
-			      	 <sup><a href="/profile?"><c:out value="${post.username }" />
+			      	 <sup><a href="/profile?id=${thread.userId}"><c:out value="${post.username }" />
 			      	 </a></sup><br><sup>${post.datetime}</sup>
 			      </td>
 			      </c:if>

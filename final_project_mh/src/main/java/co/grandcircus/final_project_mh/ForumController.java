@@ -81,7 +81,7 @@ public class ForumController {
 			allDiscussions.add(new Discussion("regular", "Talk about what's happening in the news today.",
 					"Current Events", "general", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "Talk about anything that "
-					+ "doesn't fall under any other discussion topic.",
+					+ "doesn't fall under any other discussion topics.",
 					"Miscellaneous", "general", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "We all need help sometimes. This is a safe place"
 					+ " to talk about your struggles and help other people who might be going through the same thing.",
