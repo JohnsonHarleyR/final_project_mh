@@ -89,7 +89,7 @@
 		  </tbody>
 		</table>
 		<c:if test="${ loggedin && user.status == 'admin' }" >
-		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		    	<a href="/discussion/create"><button class="btn btn-info">Create Discussion</button></a>
 		</c:if>
 	
 		
@@ -150,7 +150,7 @@
 		</table>
 		
 		<c:if test="${ loggedin && user.status == 'admin' }" >
-		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		    	<a href="/discussion/create"><button class="btn btn-info">Create Discussion</button></a>
 		</c:if>
 	</section>
 	
@@ -223,7 +223,7 @@
 		  </tbody>
 		</table>
 		<c:if test="${ user.status == 'admin' }" >
-		    	<a href=""><button class="btn btn-info">Create Discussion</button></a>
+		    	<a href="/discussion/create"><button class="btn btn-info">Create Discussion</button></a>
 		</c:if>
 	</section>
 </article>
