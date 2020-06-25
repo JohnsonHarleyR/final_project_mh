@@ -21,6 +21,8 @@ import co.grandcircus.final_project_mh.MentalHealthApi.MHQuote;
 import co.grandcircus.final_project_mh.MentalHealthApi.MHService;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
+import co.grandcircus.final_project_mh.User.UserMessageDao;
+import co.grandcircus.final_project_mh.User.UserMethods;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferences;
 import co.grandcircus.final_project_mh.UserPreferences.UserPreferencesDao;
 
@@ -44,6 +46,9 @@ public class HomeController {
 	
 	@Autowired
 	private UserDao userRepo;
+	
+	@Autowired
+	private UserMessageDao messageRepo;
 	
 	
 
@@ -121,6 +126,8 @@ public class HomeController {
 		//loggedIn session method for JSP Header
 		boolean loggedIn = Methods.checkLogin(session);
 		
+		User user = (User) session.getAttribute("user");
+		
 		// creating a string to store in the database, separated by ,
 		String allMentalIlnesses = "";
 		String allMusicGenrePreferences = "";
@@ -148,6 +155,9 @@ public class HomeController {
 			allMusicGenrePreferences += musicGenres[i]+ ",";
 		}
 		}
+		
+		//make sure it doesn't say you have new messages
+		UserMethods.setUnreadMessages(messageRepo, userRepo, user);
 			
 		userPreferences.setMusicGenrePreferences(allMusicGenrePreferences);
 		

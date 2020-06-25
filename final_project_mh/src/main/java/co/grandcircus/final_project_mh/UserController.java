@@ -1644,25 +1644,30 @@ public class UserController {
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 		
-		
+		if (!loggedIn) {
+			return "redirect:/";
+		}
 		
 
 		List<User> users = userRepo.findAll();
-		User us = (User) session.getAttribute("user");
-		User user = userRepo.findByUsername(us.getUsername()); // unnecessary steps - fix
 		
+		
+		User us = (User) session.getAttribute("user");
 
 		if (loggedIn) {
 			//set unread
 			UserMethods.setUnreadMessages(userMessageRepo, userRepo, us);
 		}
 		
+		
 
-		UserPreferences userPreferences = (UserPreferences)session.getAttribute("userPreferences");
+		
+
+		UserPreferences userPreferences = userPreferencesRepo.findUserPreferencesByUserId(us.getId());
 		for (User u : users) {
-			if (u.getUsername().equals(username) && u.getId() != user.getId()) {
+			if (u.getUsername().equals(username) && u.getId() != us.getId()) {
 				editMessage = "New username is unavailable. Please choose another.";
-				model.addAttribute("user", user);
+				model.addAttribute("user", us);
 				model.addAttribute("loggedin", loggedIn);
 				model.addAttribute("message", infoMessage);
 				
@@ -1672,27 +1677,27 @@ public class UserController {
 		
 		session.setAttribute("loggedIn", loggedIn);
 		
-		//Add user to session
-		//Doing this repeatedly to make session last longer
-		session.setAttribute("user", user);
 
 		if (!password1.equals(password2)) {
 			editMessage = "Passwords did not match. Please try again.";
-			model.addAttribute("user", user);
+			model.addAttribute("user", us);
 			model.addAttribute("loggedin", loggedIn);
 			model.addAttribute("message", editMessage);
 			return "redirect:/user/edit";
 		} else {
+			
+			//test
+			
+			
 			// make it so the email has to match a regex too
-			user.setUsername(username);
-			user.setEmail(email);
-			user.setPassword(password1);
-			user.setName(name);
+			us.setUsername(username);
+			us.setEmail(email);
+			us.setPassword(password1);
+			us.setName(name);
 			userPreferences.setUserGoalWeight(goalWeight);
 			userPreferences.setUserWeight(currentWeight);
 			userPreferencesRepo.save(userPreferences);
-			userRepo.save(user);
-			session.setAttribute("user", user);
+			userRepo.save(us);
 			loggedIn = true;
 			infoMessage = "Information was successfully edited.";
 			

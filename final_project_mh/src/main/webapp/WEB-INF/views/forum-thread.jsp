@@ -39,7 +39,7 @@
 					<tr>
 					<th width="20%">
 					<a href="#post">
-					<button class="btn btn-info">Add to Thread</button></a>
+					<button class="btn btn-info btn-sm">Add to Thread</button></a>
 					</th>
 					
 					<th style="text-align:left;">
