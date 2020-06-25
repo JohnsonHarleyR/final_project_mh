@@ -114,8 +114,8 @@ public class GameController {
 				@RequestParam("achievementDate") String achievementDate,
 				Model model) 
 		{
+
 			 boolean loggedIn = Methods.checkLogin(session);
-			
 			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 			  try {
 		            Date date = formatter.parse(achievementDate);

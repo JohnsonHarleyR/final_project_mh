@@ -57,7 +57,7 @@
 <h3>Challenge Others</h3>
  <p>Create a positive challenge for others in the community. Reward a fair amount of points based upon the difficulty.
  Come up with challenges that promote happiness, growth, and connection. Reward those who complete your challenge with 
- a custom image. 
+ a custom image. Add the image as a URL Link. 
  <br>
 
 <form action="/submit-challenge">
