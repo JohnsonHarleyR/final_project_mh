@@ -39,7 +39,7 @@
 		
 			<!-- If logged in, let them create new thread -->
 			<c:choose>
-			<c:when test="${loggedin && discussion.postType == 'general'}">
+			<c:when test="${loggedin && discussion.postType == 'regular'}">
 				<a href="/thread/add?id=${discussion.id}">Create a New Thread</a>
 			</c:when>
 			<c:when test="${loggedin && user.status == 'admin'}">
