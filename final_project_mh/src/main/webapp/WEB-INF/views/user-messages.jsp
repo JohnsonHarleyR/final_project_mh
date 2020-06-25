@@ -30,7 +30,7 @@
 <c:choose>
 <c:when test="${length == 0}">
 <i style="font-size:larger;">You have no messages yet.</i><br>
-<a href="/friend?id=${user.id}">See Friend</a>
+<a href="/friends?id=${user.id}">See Friends</a>
 </c:when>
 
 <c:otherwise>
