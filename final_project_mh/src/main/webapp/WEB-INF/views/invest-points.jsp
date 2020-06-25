@@ -28,6 +28,7 @@
 <c:if test = "${enoughPoints == true}">
 
 <h3>Achievement List</h3>
+	<a href="/user">Go back</a><br>
  Spend your earned points to post on your profile page an achievement you are proud of.
  <br>
 	<section>

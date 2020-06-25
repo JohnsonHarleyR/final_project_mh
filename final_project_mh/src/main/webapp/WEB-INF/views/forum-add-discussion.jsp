@@ -35,7 +35,6 @@
 	
 			<form action="/discussion/create" method="post">
 			<br>
-			<br>
 			<label>What should the discussion be called?</label><br>
 			<input type="text" class="postwidth" placeholder="Discussion Title" name="topic"/><br>
 			<br>
@@ -43,12 +42,14 @@
 			<textarea name="comment" rows="7" class="postwidth" maxlength="100" 
 			placeholder="Write description here." required></textarea>
 			<br>
-			<label for="tag">Choose a tag...</label>
-    		<select class="form-control" id="tag" name="tag">
+			<br>
+			<label for="tag">Choose a tag...</label><br>
+    		<select class="postwidth" id="tag" name="tag">
       			<option value="welcome">Welcome</option>
       			<option value="general">General</option>
       			<option value="mental health">Mental Health</option>
     		</select>
+			<br>
 			<br>
 			<input type="hidden" name="username" value="${user.username}">
 			<input type="hidden" name="post-type" value = "${user.status }">

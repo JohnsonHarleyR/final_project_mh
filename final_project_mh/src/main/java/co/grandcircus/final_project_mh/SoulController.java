@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -261,20 +262,20 @@ public class SoulController {
 			 model.addAttribute("quotestring", quoteString);
 			 
 		 }
-		 
-		 
-	
-		 List<FavAffirmation> affirmations =
-					affirmationRepo.findByUserId(user.getId());
-		 boolean qExists = false;
-			for (FavAffirmation a: affirmations) {
-				if (a.getAffirmation().equals(quoteString)) {
-					qExists = true;
+		 List<FavAffirmation> affirmations = new ArrayList<>();
+		 if (loggedIn) {
+			 
+			affirmations = affirmationRepo.findByUserId(user.getId());
+			 boolean qExists = false;
+				for (FavAffirmation a: affirmations) {
+					if (a.getAffirmation().equals(quoteString)) {
+						qExists = true;
+					}
 				}
-			}
-			model.addAttribute("qexists", qExists);
+				model.addAttribute("qexists", qExists);
 
-		//Loop through favorites to see if quote exists already
+			//Loop through favorites to see if quote exists already
+		 }
 			
 			
 			
@@ -306,8 +307,6 @@ public class SoulController {
 			//knows whether to show the save button
 			model.addAttribute("mexists", mExists);
 		}
-		
-		
 		
 		 
 		

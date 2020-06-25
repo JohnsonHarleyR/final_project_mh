@@ -139,7 +139,8 @@ public class GameController {
 			    List<ChallengeList> challengeList = ChallengeListRepo.findAll();            
 			       
 			    //need to include user into the challenge as created by
-	            model.addAttribute("loggedin",loggedIn);
+			    model.addAttribute("loggedin",loggedIn);
+
 			    model.addAttribute("userChallengeList",userChallengeList);
 			    model.addAttribute("challengeList",challengeList);
 //			    String category = challengeList.getCategory();

@@ -4,8 +4,69 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import co.grandcircus.final_project_mh.Gamification.Challenge;
+import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
+
 public class UserMethods {
 	
+	
+	//Get completed challenges by user
+	public static List<Challenge> getCompleteChallenges(User user,
+			ChallengeDao repo) {
+		//get user's challenge
+		List<Challenge> challenges = repo.findChallengeByUserId(user.getId());
+		
+		//get list of complete challenges
+		List<Challenge> completes = new ArrayList<>();
+		
+		for (Challenge c: challenges) {
+			if (c.isComplete()) {
+				completes.add(c);
+			}
+			System.out.println(c.getName()); //test
+		}
+		
+		for (Challenge c: completes) { //test
+			System.out.println(c.getName());
+		}
+		
+		return completes;
+		
+	}
+	
+	
+	
+	//set unread messages
+	//since there's some bug I can't find
+	public static void setUnreadMessages(UserMessageDao messageRepo,
+			UserDao userRepo, User user) {
+		
+		//Get list of all messages
+		List<UserMessage> allMessages = messageRepo.findAll();
+		//Create new list for user messages
+		List<UserMessage> messages = new ArrayList<>();
+		//loop through messages to determine which belong to user
+		for (UserMessage m: allMessages) {
+			if (m.getReceiverId() == user.getId()) {
+				messages.add(m);
+			}
+		}
+		
+		//create int to determine unread
+		int unread = 1;
+		//if isRead == 0, make unread = 0 for yes;
+		for (UserMessage m: messages) {
+			if (m.getIsRead() == 0) {
+				unread = 0;
+			}
+		}
+		
+		//now save the user
+		user.setUnreadMessages(unread);
+		userRepo.save(user);
+		
+		
+	}
 	
 	//Avatar methods
 	

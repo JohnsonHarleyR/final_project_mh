@@ -70,6 +70,8 @@ public class ForumController {
 			//If list is empty, pre-populate with the following:
 			allDiscussions.add(new Discussion("announcement", "All the latest news from the admins about this site.",
 					"Announcements", "welcome", "JohnsonHarleyR"));
+			allDiscussions.add(new Discussion("regular", "Experiencing any bugs or problems on the site? Tell us here!",
+					"Site Feedback", "welcome", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "A great place to say hello and meet other users.",
 					"Introduce Yourself", "welcome", "JohnsonHarleyR"));
 			allDiscussions.add(new Discussion("regular", "What do you like to do in your free time?",
@@ -107,7 +109,9 @@ public class ForumController {
 		List<Posts> allPosts = postsRepo.findAll();
 		model.addAttribute("posts", allPosts);
 		
-		
+		if (loggedIn) {
+			model.addAttribute("user");
+		}
 		
 		
 		model.addAttribute("discussions", allDiscussions);
@@ -178,7 +182,7 @@ public class ForumController {
 		String userStatus = user.getStatus();	
 		
 		//adding the user to the model
-		model.addAttribute("user",user);
+		model.addAttribute("user", user);
 		//for the header
 		boolean loggedIn = Methods.checkLogin(session);
 		
@@ -186,6 +190,7 @@ public class ForumController {
 			canAdd = true;
 		}
 		model.addAttribute("canAdd", canAdd);
+		model.addAttribute("loggedin", loggedIn);
 		
 		
 		return "forum-add-discussion";
@@ -320,6 +325,7 @@ public class ForumController {
 	public String submitThread(
 			@RequestParam ("discussionId") Long discussionId,
 			@RequestParam ("threadTitle") String threadTitle,
+			@RequestParam(name="type", required=false) String postType,
 			@RequestParam ("comment") String message,
 			Model model) {
 		
@@ -360,7 +366,19 @@ public class ForumController {
 		
 		//creating new post to show on the thread
 		Posts post = new Posts(user.getUsername(), thread.getId(), localDateTime,
-				message, discussionId, user.getId());
+				message, discussionId, user);
+		
+		try {
+			post.setPostType(postType);
+			
+			if (postType.equals("announcement")) {
+				thread.setThreadTitle("Announcement: " + thread.getThreadTitle());
+			}
+			
+			
+		} catch (Exception e) {
+			
+		}
 		
 		postsRepo.save(post);
 		
@@ -409,7 +427,7 @@ public class ForumController {
 		Long discussionId = thread.getDiscussionId();
 		//Create new thread, put into discussion table
 		Posts post  = new Posts(user.getUsername(), threadId, localDateTime, message,
-				discussionId, user.getId());
+				discussionId, user);
 		
 		
 		postsRepo.save(post);
@@ -506,7 +524,7 @@ public class ForumController {
 		public String deleteThread(@RequestParam("id") Long threadId,
 				@RequestParam("d") Long discussId) {
 			
-			threadRepo.deleteById(threadId);
+			
 			
 			//also delete all related posts from database
 			List<Posts>posts = postsRepo.findByThreadId(threadId);
@@ -554,6 +572,8 @@ public class ForumController {
 			discussion.setNumberOfTopics(numTopics);
 			//Save discussion
 			discussionRepo.save(discussion);
+			
+			threadRepo.deleteById(threadId);
 			
 			
 			

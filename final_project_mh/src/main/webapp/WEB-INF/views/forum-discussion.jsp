@@ -38,9 +38,14 @@
 		<section class="card-body">
 		
 			<!-- If logged in, let them create new thread -->
-			<c:if test="${loggedin}">
+			<c:choose>
+			<c:when test="${loggedin && discussion.postType == 'general'}">
 				<a href="/thread/add?id=${discussion.id}">Create a New Thread</a>
-			</c:if>
+			</c:when>
+			<c:when test="${loggedin && user.status == 'admin'}">
+				<a href="/thread/add?id=${discussion.id}">Create a New Thread</a>
+			</c:when>
+			</c:choose>
 		
 			<table  id="table2" class="table table-hover">
 			  <thead>

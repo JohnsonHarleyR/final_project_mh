@@ -34,6 +34,8 @@ import co.grandcircus.final_project_mh.Favorites.Record;
 import co.grandcircus.final_project_mh.Favorites.RecordDao;
 import co.grandcircus.final_project_mh.Gamification.Achievements;
 import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
+import co.grandcircus.final_project_mh.Gamification.Challenge;
+import co.grandcircus.final_project_mh.Gamification.ChallengeDao;
 import co.grandcircus.final_project_mh.User.Conversation;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
@@ -60,12 +62,16 @@ public class UserController {
 	
 	@Autowired
 	private ExerciseDao exerciseRepo;
+
 	
 	@Autowired
 	private RecordDao recordRepo;
 	
 	@Autowired
 	private UserMessageDao userMessageRepo;
+	
+	@Autowired
+	private ChallengeDao challengeRepo;
 	
 	@Autowired
 	private ProfileCommentsDao profileCommentsRepo;
@@ -90,8 +96,9 @@ public class UserController {
 		User user = (User)session.getAttribute("user");
 		
 		if (loggedIn) {
+			int totalPoints = Methods.getTotalPoint(user);
 			//get number of unlocked avatars based on general points
-			int count = UserMethods.getNumberOfAvatars(user.getGeneralpoints());
+			int count = UserMethods.getNumberOfAvatars(totalPoints);
 			List<String> avatarUrls = UserMethods.getAvatars(count);
 			
 			//add to choose avatar page
@@ -118,8 +125,6 @@ public class UserController {
 		boolean loggedIn = Methods.checkLogin(session);
 		User user = (User)session.getAttribute("user");
 		
-		//check if they have default user image
-		boolean avDefault = false;
 		
 		//default url
 		String urlDefault = "/settings";
@@ -227,6 +232,8 @@ public class UserController {
 		//if logged in, add user to page
 		if (loggedIn) {
 			model.addAttribute("user", user);
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		}
 		
 		return "user-messages";
@@ -315,6 +322,8 @@ public class UserController {
 		//if logged in, add user to page
 		if (loggedIn) {
 			model.addAttribute("user", user);
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		}
 		
 		
@@ -377,21 +386,9 @@ public class UserController {
 		//set user to unread messages
 		friend.setUnreadMessages(0);
 		userRepo.save(friend);
-		
-		//loop through messages, if there is anything unread besides this one, have user unread
-		//otherwise, read
-		List<UserMessage> messages = userMessageRepo.findByConversationRef(UserMethods.getConversationRef(user, friend));
-		int unread = 1;
-		for (UserMessage m: messages) {
-			if (m.getIsRead() == 0 && 
-					m.getReceiverId() == user.getId()) {
-				unread = 0;
-			}
-			
-		}
 		//Set user to unread int
-		user.setUnreadMessages(unread);
-		userRepo.save(user);
+		//set unread
+		UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
 		
 		
 		return "redirect:/message?id=" + receiverId;
@@ -422,6 +419,8 @@ public class UserController {
 		
 		boolean areRequests = false;
 		
+		
+		
 		model.addAttribute("loggedin", loggedIn);
 		
 		if (user != null) {
@@ -430,6 +429,10 @@ public class UserController {
 			if (!user.getRequests().equals("")) {
 				userIds = UserMethods.idStringToList(user.getRequests());
 			}
+			
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+			
 			//Create list to store users
 			List<User> users = new ArrayList<>();
 			//turn it into a list of users
@@ -583,18 +586,24 @@ public class UserController {
 		boolean areAffirmations = false;
 		boolean areExercises = false;
 		boolean areArticles = false;
+		boolean areAchieves = false;
+		boolean areChallenges = false;
 		
 		//Create Lists
 		List<Record> records = recordRepo.findByUserId(id);
 		List<FavAffirmation> affirmations = affirmationRepo.findByUserId(id);
 		List<FavExercises> exercises = exerciseRepo.findByUserId(id);
 		List<FavArticle> articles = articleRepo.findByUserId(id);
+		List<Achievements> achieves = achievementsRepo.findAchievementsByUserId(id);
+		List<Challenge> challenges = challengeRepo.findChallengeByUserId(id);
 		
 		//Create empty lists to store posted items
 		List<Record> postedRecords = new ArrayList<>();
 		List<FavAffirmation> postedAffirmations = new ArrayList<>();
 		List<FavExercises> postedExercises = new ArrayList<>();
 		List<FavArticle> postedArticles = new ArrayList<>();
+		List<Achievements> postedAchieves = new ArrayList<>();
+		List<Challenge> postedChallenges = new ArrayList<>();
 		
 		//Now loop through all beginning lists, store anything in new list that has onProfile = 1
 		for (Record r: records) {
@@ -625,23 +634,44 @@ public class UserController {
 			}
 		}
 		
+		for (Achievements a: achieves) {
+			if (a.getOnProfile() == 1) {
+				postedAchieves.add(a);
+				areAchieves = true;
+				System.out.println(a.getOnProfile());
+			}
+		}
+		
+		for (Challenge c: challenges) {
+			if (c.getOnProfile() == 1) {
+				postedChallenges.add(c);
+				areChallenges = true;
+			}
+		}
+		
 		//Now add elements to profile page
 		model.addAttribute("records", postedRecords);
 		model.addAttribute("affirmations", postedAffirmations);
 		model.addAttribute("exercises", postedExercises);
 		model.addAttribute("articles", postedArticles);
+		model.addAttribute("achieves", postedAchieves);
+		model.addAttribute("challenges", postedChallenges);
 		
 		model.addAttribute("arerecords", areRecords);
 		model.addAttribute("areaffirmations", areAffirmations);
 		model.addAttribute("areexercises", areExercises);
-		model.addAttribute("arearticles", areArticles
-				
-				
-				);
+		model.addAttribute("arearticles", areArticles);
+		model.addAttribute("areachieves", areAchieves);
+		model.addAttribute("arechallenges", areChallenges);
 		
 		
 		//check if profile user is a friend or has a friend request from session user
 		if (loggedUser != null) {
+			User user = (User)session.getAttribute("user");
+			
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+			
 			model.addAttribute("user", loggedUser);
 			isFriend = UserMethods.checkIfFriends(profileUser, loggedUser);
 			isRequested = UserMethods.checkIfRequested(profileUser, loggedUser);
@@ -664,12 +694,13 @@ public class UserController {
 					canComment = true;
 				}
 			}	
+			//Also check if the profile id equals the user id. If it does, let them comment.
+			if (loggedUser.getId() == profileUser.getId()) {
+				canComment = true;
+			}
 		}
 		
-		//Also check if the profile id equals the user id. If it does, let them comment.
-		if (loggedUser.getId() == profileUser.getId()) {
-			canComment = true;
-		}
+		
 		
 		List<ProfileComments> comments = new ArrayList<>();
 		try {
@@ -682,11 +713,10 @@ public class UserController {
 			areComments = true;
 		}
 		
-		//Are we including Achievements still in the Use Profile?
-		List<Achievements> achieve = achievementsRepo.findAchievementsByUserId(loggedUser.getId());
-		
+		if(loggedUser != null) {
+			
+		}
 	
-		model.addAttribute("achieve",achieve);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
@@ -884,8 +914,29 @@ public class UserController {
 		
 		User user = (User)session.getAttribute("user");
 		
+		//get a list of user's completed challenges
+		List<Challenge> completes = 
+				UserMethods.getCompleteChallenges(user, challengeRepo);
+		//boolean about if there are complete challenges
+		boolean areCompletes = true;
+		if (completes == null || completes.isEmpty()) {
+			areCompletes = false;
+		}
 		
+		//get a list of user's completed challenges
+		List<Achievements> achieves = 
+				achievementsRepo.findAchievementsByUserId(user.getId());
+		//boolean about if there are achievements
+		boolean areAchieves  = true;
+		if (achieves == null || achieves.isEmpty()) {
+			areAchieves = false;
+		}
 		
+		//add to model
+		model.addAttribute("achieves", achieves);
+		model.addAttribute("completes", completes);
+		model.addAttribute("areachieves", areAchieves);
+		model.addAttribute("arecompletes", areCompletes);
 		//Get list of their favorite Affirmations
 		List<FavAffirmation> affirmations =
 				affirmationRepo.findByUserId(user.getId());
@@ -987,6 +1038,24 @@ public class UserController {
 			//Now save it to database
 			articleRepo.save(article);
 			
+		} else if (type.equals("achieve")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Achievements> a = achievementsRepo.findById(id);
+			Achievements achieve = a.get();
+			//Change onProfile to 1 to represent yes
+			achieve.setOnProfile(1);
+			//Now save it to database
+			achievementsRepo.save(achieve);
+		} else if (type.equals("challenge")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Challenge> c = challengeRepo.findById(id);
+			Challenge challenge = c.get();
+			//Change onProfile to 1 to represent yes
+			challenge.setOnProfile(1);
+			//Now save it to database
+			challengeRepo.save(challenge);
 		}
 		
 		return "redirect:" + url;
@@ -1044,6 +1113,25 @@ public class UserController {
 			//Now save it to database
 			articleRepo.save(article);
 			
+		} else if (type.equals("achieve")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Achievements> a = achievementsRepo.findById(id);
+			Achievements achieve = a.get();
+			//Change onProfile to 0 to represent yes
+			achieve.setOnProfile(0);
+			//Now save it to database
+			achievementsRepo.save(achieve);
+			
+		} else if (type.equals("challenge")) {
+			
+			//If it's this type, locate it by its id
+			Optional<Challenge> c = challengeRepo.findById(id);
+			Challenge challenge = c.get();
+			//Change onProfile to 1 to represent yes
+			challenge.setOnProfile(0);
+			//Now save it to database
+			challengeRepo.save(challenge);
 		}
 			
 			return "redirect:" + url;
@@ -1485,6 +1573,11 @@ public class UserController {
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 		
+		if (loggedIn) {
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, user);
+		}
+		
 		String hiddenPass = "";
 
 		// redirect to login if not logged in
@@ -1550,11 +1643,21 @@ public class UserController {
 		
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
+		
+		
+		
 
 		List<User> users = userRepo.findAll();
 		User us = (User) session.getAttribute("user");
 		User user = userRepo.findByUsername(us.getUsername()); // unnecessary steps - fix
 		
+
+		if (loggedIn) {
+			//set unread
+			UserMethods.setUnreadMessages(userMessageRepo, userRepo, us);
+		}
+		
+
 		UserPreferences userPreferences = (UserPreferences)session.getAttribute("userPreferences");
 		for (User u : users) {
 			if (u.getUsername().equals(username) && u.getId() != user.getId()) {

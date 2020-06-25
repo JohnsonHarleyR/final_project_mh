@@ -1,5 +1,7 @@
 package co.grandcircus.final_project_mh.Gamification;
 
+import javax.persistence.Column;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -28,6 +30,9 @@ public class Challenge {
 	@ManyToOne
 	private User user;
 	private Date date;
+	@Column(name="on_profile")
+	private int onProfile;
+	
 	
 	public Challenge() {		
 	}
@@ -87,6 +92,14 @@ public class Challenge {
 		this.challengelistid = challengelistid;
 	}
 
+	public int getOnProfile() {
+		return onProfile;
+	}
+
+	public void setOnProfile(int onProfile) {
+		this.onProfile = onProfile;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -117,6 +130,13 @@ public class Challenge {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@Override
+	public String toString() {
+		return "Challenge [challengeid=" + challengeid + ", complete=" + complete + ", challengelistid="
+				+ challengelistid + ", points=" + points + ", user=" + user + ", date=" + date + ", onProfile="
+				+ onProfile + "]";
 	}
 	
 }

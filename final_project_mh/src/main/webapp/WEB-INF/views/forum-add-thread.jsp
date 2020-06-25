@@ -39,6 +39,17 @@
 			<br>
 			<label>What should the thread be called?</label><br>
 			<input type="text" class="postwidth" placeholder="Topic Title" name="threadTitle"/><br>
+			
+			
+			<c:if test="${user.status == 'admin' }">
+				<br>
+				<label>Post type:</label><br>
+				<select class="postwidth" name="type" id="posttype">
+				  <option value="regular">Regular</option>
+				  <option value="announcement">Announcement</option>
+				</select>
+				<br>
+			</c:if>
 			<br>
 			<label>What should the first post say?</label><br>
 			<textarea name="comment" rows="7" class="postwidth" maxlength="1000" 

@@ -61,7 +61,6 @@ a safe space for you to grow and we are glad you're here!</b>
 <p>
 <a href="/users">See Users</a><br>
 <a href="/messages">See Messages</a><br>
-<a href="/forum">See Forum</a>
 </p>
 </c:if>
 

@@ -41,7 +41,10 @@
 		<table class="table">
 		<tr>
 		<td width="100%" style="text-align:left;content:left;">
-
+		
+		<img style="float:left;margin-right:15px;width:100px;"
+		 src="${profileuser.avatar}">
+		
 		<h1 >${profileuser.username}'sProfile</h1>
 
 
@@ -87,32 +90,75 @@
 			</c:if>
 			<br>
 
-		</section>
-		</td>
-		</tr>
-		
-		<tr>
-		<td>
-		<section id="info" style="padding-top:15px;text-align:left;content:left;">
-
-
 			<!-- User info -->
+			
 			<b>Name: </b> ${profileuser.name} <br> <b>Points: </b>
-			${profileuser.points} <br><br>
-		</section>
-
-		<section>
-
-		<c:forEach items = "${achieve}" var = "achievement">
-
-			<div class="card" style="width: 100%;">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item"><b>${achievement.name}</b> : ${achievement.description} <small>${achievement.date}</small> </li>
-				</ul>
-			</div>
+			${profileuser.points} 
+			
+			<!-- Badges -->
+		<div style="margin-left:30%;">
+		<c:if test="${arechallenges || areachieves}">
+		<b>Badges: </b>
+		</c:if>
+		
+		<c:if test="${arechallenges}">
+		<c:set var="count" value="0"/>
+		
+		<c:forEach var="c" items="${challenges}">
+			<c:choose>
+				<c:when test="${count % 2 == 0 }">
+					<c:set var="type" value="badge-info"/>
+				</c:when>
+				<c:when test="${count % 5 == 0 }">
+					<br>
+					<c:set var="type" value="badge-success"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="type" value="badge-success"/>
+				</c:otherwise>
+			</c:choose>
+			
+			<span class="badge ${type}">${c.name}</span>
+			
+			<c:set var="count" value="${count + 1}"/>
 		</c:forEach>
+	</c:if>
+	
+	<br>
+	<c:if test="${areachieves}">
+		<c:set var="count" value="0"/>
+		
+		<c:forEach var="a" items="${achieves}">
+			<c:choose>
+				<c:when test="${count % 2 == 0 }">
+					<c:set var="type" value="badge-success"/>
+				</c:when>
+				<c:when test="${count % 5 == 0 }">
+					<br>
+					<c:set var="type" value="badge-info"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="type" value="badge-info"/>
+				</c:otherwise>
+			</c:choose>
+			
+			<span class="badge ${type}">${a.name}</span>
+			
+			<c:set var="count" value="${count + 1}"/>
+		</c:forEach>
+	</c:if>
+	
+		
+		</div>
+			
+			
 		</section>
+		
+		
 		</td>
+		
+		
+		
 		</tr>
 		</table>
 
@@ -236,11 +282,13 @@
 		
 		<!--Comment Section -->
 		
-		<section id="comment" style="text-align:left;content:left;padding-top:15px;">
+		
 			<c:if test="${canComment}">
+			
 			<tr style="text-align:left;content:left;padding-top:15px;">
 			
 			<td width="50%">
+			<section id="comment">
 			<br>
 			<br>
 		
@@ -266,9 +314,34 @@
 							<br>
 					</p>
 				</c:forEach>
+				</section>
 				</td>
+				
+				<td style="width: 50%;">
+				<section id="achievements">
+		<div class="card" >
+				<c:if test="${areachieves}">
+				<h2 style="text-align:center;">Achievement Details</h2>
+				</c:if>
+				<ul class="list-group list-group-flush">
+					
+		<c:forEach items = "${achieves}" var = "achievement">
+			
+			
+					<li class="list-group-item"><b>${achievement.name}</b><br>${achievement.description} 
+					<br><small>${achievement.date}</small> </li>
+				
+		</c:forEach>
+		</ul>
+			</div>
+		</section>
+				</td>
+				
 			
 			</tr>
+			
+			
+			
 			<tr>
 			
 			<td width="50%">
