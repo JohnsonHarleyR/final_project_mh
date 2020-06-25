@@ -694,12 +694,13 @@ public class UserController {
 					canComment = true;
 				}
 			}	
+			//Also check if the profile id equals the user id. If it does, let them comment.
+			if (loggedUser.getId() == profileUser.getId()) {
+				canComment = true;
+			}
 		}
 		
-		//Also check if the profile id equals the user id. If it does, let them comment.
-		if (loggedUser.getId() == profileUser.getId()) {
-			canComment = true;
-		}
+		
 		
 		List<ProfileComments> comments = new ArrayList<>();
 		try {
@@ -712,11 +713,10 @@ public class UserController {
 			areComments = true;
 		}
 		
-		//Are we including Achievements still in the Use Profile?
-		List<Achievements> achieve = achievementsRepo.findAchievementsByUserId(loggedUser.getId());
-		
+		if(loggedUser != null) {
+			
+		}
 	
-		model.addAttribute("achieve",achieve);
 		model.addAttribute("loggedin", loggedIn);
 		model.addAttribute("profileuser", profileUser);
 		model.addAttribute("isfriend", isFriend);	
@@ -934,8 +934,9 @@ public class UserController {
 		
 		//add to model
 		model.addAttribute("achieves", achieves);
+		model.addAttribute("completes", completes);
 		model.addAttribute("areachieves", areAchieves);
-		
+		model.addAttribute("arecompletes", areCompletes);
 		//Get list of their favorite Affirmations
 		List<FavAffirmation> affirmations =
 				affirmationRepo.findByUserId(user.getId());

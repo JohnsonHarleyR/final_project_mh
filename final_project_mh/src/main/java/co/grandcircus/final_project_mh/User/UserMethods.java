@@ -23,6 +23,11 @@ public class UserMethods {
 			if (c.isComplete()) {
 				completes.add(c);
 			}
+			System.out.println(c.getName()); //test
+		}
+		
+		for (Challenge c: completes) { //test
+			System.out.println(c.getName());
 		}
 		
 		return completes;

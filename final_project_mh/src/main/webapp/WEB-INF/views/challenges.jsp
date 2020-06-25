@@ -25,6 +25,7 @@
 	<main class="container">
 		<br>
 		<h1>Challenges</h1>
+		<a href="/user">Go back</a>
 		<p>Here you are able to accept positive challenges from your
 			friends and the larger community.</p>
 		<p>By accepting challenges you earn points that you can use to

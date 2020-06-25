@@ -132,13 +132,16 @@ public class GameController {
 			    User user;
 			    user=(User)session.getAttribute("user");
 			    Long user_id = user.getId(); 
+			    
+			    boolean loggedIn = Methods.checkLogin(session);
 			   
 			   // List<ChallengeList> challengeList = ChallengeListRepo.findChallengeListByUserId(user_id);
 			    List<Challenge> userChallengeList = ChallengeRepo.findChallengeByUserId(user_id);
 			    List<ChallengeList> challengeList = ChallengeListRepo.findAll();            
 			       
 			    //need to include user into the challenge as created by
-	
+			    
+			    model.addAttribute("loggedin",loggedIn);
 			    model.addAttribute("userChallengeList",userChallengeList);
 			    model.addAttribute("challengeList",challengeList);
 //			    String category = challengeList.getCategory();
