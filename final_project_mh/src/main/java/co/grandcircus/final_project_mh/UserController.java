@@ -514,7 +514,11 @@ public class UserController {
 					Optional<User> opt = userRepo.findById(num);
 					User temp = opt.get();
 					
-					friends.add(temp);
+					if (!friends.contains(temp)) {
+						friends.add(temp);
+					}
+					
+					
 				} catch (Exception e) {
 					
 				}
