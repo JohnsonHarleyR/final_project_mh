@@ -69,9 +69,9 @@ public class BodyController {
 			category = 10;
 		}
         
-		
-		if(loggedIn == true) {
 		List<Results> resultList = workoutService.getWorkout(category);
+		if(loggedIn == true) {
+		//List<Results> resultList = workoutService.getWorkout(category);
 		User user = (User) session.getAttribute("user");
 		String names = Methods.getRank(user, userRepo).getName();
 		double maxD = Methods.getRank(user, userRepo).getMaxBodyPoints();
@@ -93,8 +93,9 @@ public class BodyController {
 		model.addAttribute("max", max);
 		model.addAttribute("min", min);
 		model.addAttribute("names", names);
-		model.addAttribute("resultList", resultList);
+		//model.addAttribute("resultList", resultList);
 		}
+		model.addAttribute("resultList", resultList);
 		return "body-page";
 	}
 

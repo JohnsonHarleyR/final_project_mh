@@ -43,8 +43,9 @@ addPoints();
 <!-- MainBody -->
 <main class="container">
 
-<h1>Welcome,<br>you are not alone!</h1>
+<h1>Welcome to Cairn</h1>
 
+<br>
 <p>
 We all need help sometimes, there is no shame in that. No matter what life may bring, 
 you deserve to be happy and healthy. That is why we hope to provide you with more of 
@@ -56,7 +57,7 @@ Here, you will find resources, articles, and affirmations to help you stay healt
 also find social support from others who understand what you are going through. This is 
 a safe space for you to grow and we are glad you're here!</b>
 </p>
-
+ <img src="cairn-blue2.png" style="float:right" width="150" height="250" />
 <c:if test="${loggedin}">
 <p>
 <a href="/users">See Users</a><br>
@@ -70,8 +71,8 @@ a safe space for you to grow and we are glad you're here!</b>
 
 <h2 style="color: #FF0000">Need Help?</h2>
 <a href="/emergency">These services are available 24/7 and free!</a>
-
 </section>
+
 
 </main>
 
