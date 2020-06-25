@@ -13,7 +13,7 @@
 <link href="/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
-<title>*thread title* ${thread}</title>
+<title>${thread}</title>
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 
 	<div id="thread">
 		<a href="/forum/discussion?id=${discussion.id}">Back to <c:out value="${discussion.topic}" /></a>
-		<article class="card" id="posts" style="width: 60rem;">
+		<article class="card" id="posts" style="width: 50rem;">
 			<section class="card-header">
 			</section>
 			<section class="card-body">

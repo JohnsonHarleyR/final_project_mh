@@ -29,14 +29,17 @@
 
 	<a href="/forum">Back to Main Forum</a>
 	
-	<article class="card" id="threads" style="width: 65rem;">
+	<article class="card" id="threads" style="width: 50rem;">
 		
 		<section class="card-header">
 			<h1>${discussion.topic}</h1>
 			
 		</section>
 		<section class="card-body">
-		
+			
+			${discussion.description}
+			<br>
+			<br>
 			<!-- If logged in, let them create new thread -->
 			<c:choose>
 			<c:when test="${loggedin && discussion.postType == 'regular'}">
