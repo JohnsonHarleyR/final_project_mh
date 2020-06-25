@@ -132,7 +132,7 @@
 		</article>
 		
 		
-		<article id="post" class="card-header" style="width: 60rem;">
+		<article id="post" class="card-header" style="width: 50rem;">
 		<section class="card-header" style="display:flex;justify-content:center;">
 		
 		
