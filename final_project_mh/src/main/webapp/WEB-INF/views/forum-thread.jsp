@@ -26,6 +26,7 @@
 <main class="container">
 
 	<div id="thread">
+	
 		<a href="/forum/discussion?id=${discussion.id}">Back to <c:out value="${discussion.topic}" /></a>
 		<article class="card" id="posts" style="width: 50rem;">
 			<section class="card-header">
@@ -43,7 +44,16 @@
 					</th>
 					
 					<th style="text-align:left;">
-					<c:out value="${thread.threadTitle}" />
+					<c:choose>
+			      	<c:when test="${p.postType == 'announcement'}">
+			      	Announcement: 
+			      	<c:out value="${thread.threadTitle }"></c:out>
+			      	</c:when>
+			      	<c:otherwise>
+			      	<c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:otherwise>
+			      	</c:choose>
+					
 					</th>
 					</tr>
 					</thead>

@@ -27,7 +27,7 @@
 
 
 <div id="forum-main">
-<article class="card" id="welcome" style="width: 50rem;">
+<article class="card" id="welcome" style="width: 53rem;">
 	<section class="card-header">
 		<h1>Welcome to the Forum</h1>
 		
@@ -83,7 +83,17 @@
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
-		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
+		      	
+		      	<c:choose>
+			      	<c:when test="${discussion.postType == 'announcement'}">
+			      	
+		      	<sup><a href="/thread?id=${post.threadId}">
+		      	<b>Announcement: </b>${post.abridgedMsg}</a><br></sup>
+		      	</c:when>
+			      	<c:otherwise>
+			      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
+		      	</c:otherwise>
+			      	</c:choose>
 		      	 <sup>${post.datetime}</sup>
 		      	 <sup><a href="/profile?id=${post.user.id}">${post.username}</a><br></sup>
 		      	 </c:if>
@@ -112,7 +122,7 @@
 
 
 
-<article class="card" id="general" style="width: 50rem;">
+<article class="card" id="general" style="width: 53rem;">
 	<section class="card-header">
 		<h1>General</h1>
 	</section>
@@ -182,7 +192,7 @@
 
 
 
-<article class="card" id="mental-health" style="width: 50rem;">
+<article class="card" id="mental-health" style="width: 53rem;">
 	<section class="card-header">
 		<h1>Mental Health</h1>
 		

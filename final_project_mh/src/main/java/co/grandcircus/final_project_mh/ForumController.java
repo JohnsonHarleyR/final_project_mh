@@ -370,12 +370,6 @@ public class ForumController {
 		
 		try {
 			post.setPostType(postType);
-			
-			if (postType.equals("announcement")) {
-				thread.setThreadTitle("Announcement: " + thread.getThreadTitle());
-			}
-			
-			
 		} catch (Exception e) {
 			
 		}

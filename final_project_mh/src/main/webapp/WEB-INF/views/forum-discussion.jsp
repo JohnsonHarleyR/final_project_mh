@@ -67,7 +67,15 @@
 			  	<c:if test="${thread.discussionId == discussion.id }">
 			    <tr>
 			      <td width="35%">
+			      	<c:choose>
+			      	<c:when test="${discussion.postType == 'announcement'}">
+			      	<a href="/thread?id=${thread.id}"><b>Announcement: </b>
+			      	<c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:when>
+			      	<c:otherwise>
 			      	<a href="/thread?id=${thread.id}"><c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:otherwise>
+			      	</c:choose>
 			      </td>
 			      <td>${thread.numberOfPosts}</td>
 			      <td><a href="/profile?id=${thread.userId}"><c:out value="${thread.username }" /></a></td>

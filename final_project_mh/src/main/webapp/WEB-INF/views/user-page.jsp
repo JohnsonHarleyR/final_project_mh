@@ -31,7 +31,10 @@
 	/ 
 	<a href="/messages">See messages</a> 
 	/ 
-	<a href="/profile?id=${user.id}">See profile</a>
+	<a href="/profile?id=${user.id}">See profile</a> 
+	/ 
+	<a href="/users">See users</a>
+	<br>
 
 	<b>Points:</b> ${user.points}
 	<br>
