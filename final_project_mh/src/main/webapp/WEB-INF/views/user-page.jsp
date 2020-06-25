@@ -32,10 +32,13 @@
 	<a href="/messages">See messages</a> 
 	/ 
 	<a href="/profile?id=${user.id}">See profile</a>
-	<br>
-	
 
+	<b>Points:</b> ${user.points}
 	<br>
+
+	<b>Username:</b> ${user.username}
+	<br>
+		<br>
 	<p>
 	<b>Instructions:</b> Clicking "<u>Post</u>" next to a saved item will post it to your public profile. 
 	Once it is posted, clicking "<u>Remove</u>" will remove it from your profile.
@@ -43,26 +46,61 @@
 	<br>Click "<u>Delete</u>" to delete it from your user page altogether. 
 	To see this option, the item must not be on your profile.
 	</p>
-
-	<b>Points:</b> ${user.points}
+	
 	<br>
-
-	<b>Username:</b> ${user.username}
+	<section id="record-events">
+	<h1>Happy Reminders</h1>
+	<p>One way to stay positive is to record what makes you feel happy. This could be an event, 
+	a compliment from a stranger, or an uplifting saying.<br> 
+	Whatever it may be, record it here for when you need a 
+	pick-me-up!</p>
+	
+	<form  style="padding-top: 15px" action="record" method="post">
+	<textarea name="text" rows="5" cols="50" maxlength="500" 
+	placeholder="What made you smile?" required></textarea>
+	
 	<br>
-	<form action="/invest-points" method="post">
-	<button style="margin-bottom:3px;margin-top:10px;" 
-	class="btn btn-info" type="submit">Invest your Pts.</button>
+	<input type="hidden" name="list" value="no"/>
+	<button class="btn btn-info" type="submit">Add</button>
 	</form>
-			<form action="/challenges" method="post">
-	<button class="btn btn-info" type="submit">Accept new Challenges</button>
+	<br>
+	<br>
+	
+	<h3>More Positives</h3>
+	<c:forEach var="record" items="${records}" end="2">
+		
+		${record.text}
+		<br>
+
+		<i>${record.datetime}</i> 
+		<c:choose>
+			<c:when test="${record.onProfile == 0}">
+				<a href="/post?type=record&id=${record.id}&url=/user">Post</a> / 
+				<a href="/delete/record?id=${record.id}&url=/user">
+				Delete</a>
+				<br>
+			</c:when>
+			<c:otherwise>
+				<a href="/post/remove?type=record&id=${record.id}&url=/user">Remove</a>
+				<br>
+			</c:otherwise>
+		</c:choose>
+		<br>
+	</c:forEach>
+	
+		<!-- Form to pass list into "display more" page -->
+	<form action="/list/records" method="post">
+	<button class="btn btn-info" type="submit">See More</button>
 	</form>
 	<br>
 </section>
-
-<!-- put challenge badges here -->
-<section id="badges">
 	
 	
+	<h1>Achievements and Challenges</h1>
+	<br>
+	
+	<!-- put challenge badges here -->
+<section id="badges">	
 	<h2>Badges</h2>
 	<p>
 	Click on a badge to put it on your profile.<br>
@@ -153,58 +191,24 @@
 		<br><br>
 	</c:if>
 </section>
-	
-
-
-<section id="record-events">
-	<h2>Happy Reminders</h2>
-	<p>One way to stay positive is to record what makes you feel happy. This could be an event, 
-	a compliment from a stranger, or an uplifting saying.<br> 
-	Whatever it may be, record it here for when you need a 
-	pick-me-up!</p>
-	
-	<form  style="padding-top: 15px" action="record" method="post">
-	<textarea name="text" rows="5" cols="50" maxlength="500" 
-	placeholder="What made you smile?" required></textarea>
-	
-	<br>
-	<input type="hidden" name="list" value="no"/>
-	<button class="btn btn-info" type="submit">Add</button>
+	<h2>Use Your Points</h2>
+	<p> You can use your points to post achievements on your profile and create challenges for the community.</p>
+	<form action="/invest-points" method="post">
+	<button style="margin-bottom:3px;margin-top:10px;" 
+	class="btn btn-info" type="submit">Invest your Pts.</button>
 	</form>
 	<br>
-	<br>
-	<h3>More Positives</h3>
-	<c:forEach var="record" items="${records}" end="2">
-		
-		${record.text}
-		<br>
-
-		<i>${record.datetime}</i> 
-		<c:choose>
-			<c:when test="${record.onProfile == 0}">
-				<a href="/post?type=record&id=${record.id}&url=/user">Post</a> / 
-				<a href="/delete/record?id=${record.id}&url=/user">
-				Delete</a>
-				<br>
-			</c:when>
-			<c:otherwise>
-				<a href="/post/remove?type=record&id=${record.id}&url=/user">Remove</a>
-				<br>
-			</c:otherwise>
-		</c:choose>
-		
-
-		<br>
-	</c:forEach>
-	
-	<!-- Form to pass list into "display more" page -->
-	<form action="/list/records" method="post">
-	<button class="btn btn-info" type="submit">See More</button>
+	<h2>Challenges</h2>
+	<p>Accept community challenges and keep a saved list to complete for an award. Self honesty is self rewarding. 
+			<form action="/challenges" method="post">
+	<button class="btn btn-info" type="submit">Accept new Challenges</button>
 	</form>
 	<br>
 </section>
-
-<br>
+	<br>
+	<h1>Saved Archives</h1>
+	<p>Affirmations, Articles, and Exercises can be saved here for later reference. You an also add them to your profile page for others to see. 
+	<br>
 <section id="affirmations">
 	<h2>Favorite Affirmations</h2>
 	<c:forEach var="affirmation" items="${affirmations}" end="2">

@@ -32,7 +32,9 @@
 			enrich the lives of others.</p>
 
 		<h2>Active Challenges</h2>
-
+        <p>This is a list of challenges you have accepted and plan on completing. After completing the challenge you earn a reward. 
+           If things become to cluttered feel free to delete the challenges you no longer want to keep. 
+           </p>
 		<section>
 			<c:forEach items="${userChallengeList}" var="userchallenge">
 				<c:choose>
@@ -65,6 +67,8 @@
 
 
 		<h2>Community Challenges</h2>
+		<p> Community challenges are a wonderful way to create a positive uplifting community. 
+		    Save the challenges for future completion and connect with others through the forum.  
 		<section>
 
 			<c:forEach items="${challengeList}" var="challenge">
