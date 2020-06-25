@@ -29,12 +29,13 @@
 <p>
 <c:choose>
 <c:when test="${user.id == profile.id}">
-<a href="/user">Go to your page</a>
+<a href="/user">Go to your page </a>/
 </c:when>
 <c:otherwise>
-<a href="/profile?id=${profile.id}">Back to profile</a>
+<a href="/profile?id=${profile.id}">Back to profile </a>/  
 </c:otherwise>
 </c:choose>
+<a href="/users">See Users</a>
 </p>
 <c:choose>
 <c:when test="${friends}">

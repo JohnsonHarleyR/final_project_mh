@@ -36,12 +36,12 @@
 	<br>
 	<label for = "achivementName"> Achievement Name: </label>
 	<br>
-	<input type = "text" id = "achievementName" name = "achievementName" size ="50" maxlength="45" required>
+	<input type = "text" id = "achievementName" name = "achievementName" size ="50" maxlength="50" required>
 	<br>
 	<label for = "achievementDescription"> A Short Description: </label>
 	<br>
 	<input type = "text" id = "achievementDescription" name = "achievementDescription" 
-	               size ="50" maxlength="60" required>
+	               size ="50" maxlength="120" required>
 	<br>              
 	<label for = "achivementDate"> Date: </label>
 	<br>
@@ -57,7 +57,7 @@
 <h3>Challenge Others</h3>
  <p>Create a positive challenge for others in the community. Reward a fair amount of points based upon the difficulty.
  Come up with challenges that promote happiness, growth, and connection. Reward those who complete your challenge with 
- a custom image. 
+ a custom image. Add the image as a URL Link. 
  <br>
 
 <form action="/submit-challenge">
@@ -70,10 +70,10 @@
   <br>
   <label for="name">Challenge Title:</label>
   <br>
-  <input type="text" id="name" name="name" size ="50" maxlength="45" required>
+  <input type="text" id="name" name="name" size ="50" maxlength="50" required>
   <br>
   <label for="description">Description:</label><br>
-  <input type="text" id="description" name="description" size ="50" maxlength="45" required>
+  <input type="text" id="description" name="description" size ="50" maxlength="90" required>
   <br>
   <label for="prize_url">Prize Url:</label><br>
   <input type="text" id="prize_url" name="prize_url" size ="50" required>

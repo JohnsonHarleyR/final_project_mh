@@ -49,8 +49,8 @@ public class Posts {
 		this.discussionId = discussionId;
 		this.user = user;
 		
-		if (message.length() > 40) {
-			abridgedMsg = message.substring(0, 39);
+		if (message.length() > 25) {
+			abridgedMsg = message.substring(0, 24);
 		} else {
 			abridgedMsg = message;
 		}
@@ -130,6 +130,10 @@ public class Posts {
 	}
 
 	public String getAbridgedMsg() {
+		if (message.length() > 25) {
+			abridgedMsg = message.substring(0, 24);
+		}
+		
 		return abridgedMsg;
 	}
 

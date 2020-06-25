@@ -29,14 +29,17 @@
 
 	<a href="/forum">Back to Main Forum</a>
 	
-	<article class="card" id="threads" style="width: 65rem;">
+	<article class="card" id="threads" style="width: 50rem;">
 		
 		<section class="card-header">
 			<h1>${discussion.topic}</h1>
 			
 		</section>
 		<section class="card-body">
-		
+			
+			${discussion.description}
+			<br>
+			<br>
 			<!-- If logged in, let them create new thread -->
 			<c:choose>
 			<c:when test="${loggedin && discussion.postType == 'regular'}">
@@ -64,7 +67,15 @@
 			  	<c:if test="${thread.discussionId == discussion.id }">
 			    <tr>
 			      <td width="35%">
+			      	<c:choose>
+			      	<c:when test="${discussion.postType == 'announcement'}">
+			      	<a href="/thread?id=${thread.id}"><b>Announcement: </b>
+			      	<c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:when>
+			      	<c:otherwise>
 			      	<a href="/thread?id=${thread.id}"><c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:otherwise>
+			      	</c:choose>
 			      </td>
 			      <td>${thread.numberOfPosts}</td>
 			      <td><a href="/profile?id=${thread.userId}"><c:out value="${thread.username }" /></a></td>
@@ -73,7 +84,7 @@
 			      <c:if test="${post.id == thread.lastPostId}">
 			      <td>
 			      	<a href="thread?id=${thread.id}&d=${discussion.id}"></a>${post.abridgedMsg}<br>
-			      	 <sup><a href="/profile?"><c:out value="${post.username }" />
+			      	 <sup><a href="/profile?id=${thread.userId}"><c:out value="${post.username }" />
 			      	 </a></sup><br><sup>${post.datetime}</sup>
 			      </td>
 			      </c:if>

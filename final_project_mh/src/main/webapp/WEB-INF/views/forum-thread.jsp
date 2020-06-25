@@ -13,7 +13,7 @@
 <link href="/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
-<title>*thread title* ${thread}</title>
+<title>${thread}</title>
 </head>
 <body>
 
@@ -26,8 +26,9 @@
 <main class="container">
 
 	<div id="thread">
+	
 		<a href="/forum/discussion?id=${discussion.id}">Back to <c:out value="${discussion.topic}" /></a>
-		<article class="card" id="posts" style="width: 60rem;">
+		<article class="card" id="posts" style="width: 50rem;">
 			<section class="card-header">
 			</section>
 			<section class="card-body">
@@ -39,11 +40,20 @@
 					<tr>
 					<th width="20%">
 					<a href="#post">
-					<button class="btn btn-info">Add to Thread</button></a>
+					<button class="btn btn-info btn-sm">Add to Thread</button></a>
 					</th>
 					
 					<th style="text-align:left;">
-					<c:out value="${thread.threadTitle}" />
+					<c:choose>
+			      	<c:when test="${p.postType == 'announcement'}">
+			      	Announcement: 
+			      	<c:out value="${thread.threadTitle }"></c:out>
+			      	</c:when>
+			      	<c:otherwise>
+			      	<c:out value="${thread.threadTitle }"></c:out></a>
+			      	</c:otherwise>
+			      	</c:choose>
+					
 					</th>
 					</tr>
 					</thead>
@@ -132,7 +142,7 @@
 		</article>
 		
 		
-		<article id="post" class="card-header" style="width: 60rem;">
+		<article id="post" class="card-header" style="width: 50rem;">
 		<section class="card-header" style="display:flex;justify-content:center;">
 		
 		

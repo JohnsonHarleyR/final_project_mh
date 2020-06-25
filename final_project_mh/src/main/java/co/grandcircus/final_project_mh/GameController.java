@@ -98,6 +98,8 @@ public class GameController {
 			}
 			else {enoughPoints = false;}
 
+		  //need to include user into the challenge as created by
+		    model.addAttribute("loggedin",loggedIn);
 			model.addAttribute("enoughPoints", enoughPoints);
 		  
 		
@@ -113,6 +115,7 @@ public class GameController {
 				Model model) 
 		{
 
+			 boolean loggedIn = Methods.checkLogin(session);
 			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 			  try {
 		            Date date = formatter.parse(achievementDate);
@@ -136,6 +139,8 @@ public class GameController {
 			}
 			else {enoughPoints = false;}
 			
+			//need to include user into the challenge as created by
+		    model.addAttribute("loggedin",loggedIn);
 			model.addAttribute("enoughPoints", enoughPoints);
 			return "invest-points";
 		}	
@@ -216,6 +221,7 @@ public class GameController {
 				Model model) {
 			
 			User user;
+			boolean loggedIn = Methods.checkLogin(session);
 		    user=(User)session.getAttribute("user");
 		    Long user_id = user.getId();
 			

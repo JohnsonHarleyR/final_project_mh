@@ -59,10 +59,6 @@ a safe space for you to grow and we are glad you're here!</b>
 </p>
  <img src="cairn-blue2.png" style="float:right" width="150" height="250" />
 <c:if test="${loggedin}">
-<p>
-<a href="/users">See Users</a><br>
-<a href="/messages">See Messages</a><br>
-</p>
 </c:if>
 
 <br>
