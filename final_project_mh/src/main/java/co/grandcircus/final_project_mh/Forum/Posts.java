@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import co.grandcircus.final_project_mh.User.User;
 
 @Entity
 @Table(name="posts")
@@ -22,8 +25,10 @@ public class Posts {
 	private LocalDateTime datetime;
 	private String message;
 	private Long discussionId;
-	@Column(name="user_id")
-	private Long userId;
+	@ManyToOne
+	private User user;
+	@Column(name="post_type")
+	private String postType;
 	
 	
 	//This is extra for the sake of the forum
@@ -35,14 +40,14 @@ public class Posts {
 	
 	//a couple of these are left out of the constructor on purpose
 	public Posts( String username, Long threadId, LocalDateTime datetime, String message,
-			Long discussionId, Long userId) {
+			Long discussionId, User user) {
 		super();
 		this.username = username;
 		this.threadId = threadId;
 		this.datetime = datetime;
 		this.message = message;
 		this.discussionId = discussionId;
-		this.userId = userId;
+		this.user = user;
 		
 		if (message.length() > 40) {
 			abridgedMsg = message.substring(0, 39);
@@ -99,14 +104,6 @@ public class Posts {
 	}
 
 
-	public Long getUserId() {
-		return userId;
-	}
-
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
 
 
 	public void setMessage(String message) {
@@ -116,6 +113,22 @@ public class Posts {
 	
 	
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getPostType() {
+		return postType;
+	}
+
+	public void setPostType(String postType) {
+		this.postType = postType;
+	}
+
 	public String getAbridgedMsg() {
 		return abridgedMsg;
 	}
@@ -124,14 +137,15 @@ public class Posts {
 	public void setAbridgedMsg(String abridgedMsg) {
 		this.abridgedMsg = abridgedMsg;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "Posts [id=" + id + ", username=" + username + ", threadId=" + threadId + ", datetime=" + datetime
-				+ ", message=" + message + ", discussionId=" + discussionId + ", userId=" + userId + "]";
+				+ ", message=" + message + ", discussionId=" + discussionId + ", user=" + user + ", postType="
+				+ postType + ", abridgedMsg=" + abridgedMsg + "]";
 	}
+	
+
 	
 	
 	

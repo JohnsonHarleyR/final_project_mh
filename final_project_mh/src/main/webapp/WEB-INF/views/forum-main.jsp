@@ -49,19 +49,29 @@
 		  <c:if test="${discussion.tag == 'welcome' }">
 		    <tr>
 		      <td style='width:18%;'>
-		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
+		      	<c:choose>
+		      	<c:when test='${discussion.postType == "regular"}'>
+		      	<a href="/forum/discussion?id=${discussion.id}">
+		      		<c:out value="${discussion.topic}"></c:out></a>
+		      	</c:when>
+		      	<c:otherwise>
+		      		<a href="/forum/discussion?id=${discussion.id}"><b>
+		      	<c:out value="${discussion.topic}"></c:out></b></a>
+		      		
+		      	</c:otherwise>
+		      </c:choose>
 		      </td>
 		      <td style='width:50%;'><c:out value="${discussion.description}"></c:out></td>
 		      <td style='width:13%;'>${discussion.numberOfTopics }</td>
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads.
+		      	<sup>No threads.</sup>
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
-		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
 		      	 <sup>${post.datetime}</sup>
 		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br></sup>
 		      	 </c:if>
@@ -117,12 +127,12 @@
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads.
+		      	<sup>No threads.</sup>
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
-		      	<a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br>
+		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
 		      	<sup>${post.datetime}</sup>
 		      	<sup><a href="/profile?id=${post.userId}">${post.username}</a></sup><br>
 		      	 
@@ -173,14 +183,27 @@
 		  <c:if test="${discussion.tag == 'mental health' }">
 		  <tr>
 		      <td style='width:18%;'>
-		      	<a href="/forum/discussion?id=${discussion.id}"><c:out value="${discussion.topic}"></c:out></a>
+		      
+		      <c:choose>
+		      	<c:when test='${discussion.postType == "regular"}'>
+		      	<a href="/forum/discussion?id=${discussion.id}">
+		      		<c:out value="${discussion.topic}"></c:out></a>
+		      	</c:when>
+		      	<c:otherwise>
+		      		<a href="/forum/discussion?id=${discussion.id}"><b>
+		      	<c:out value="${discussion.topic}"></c:out></b></a>
+		      		
+		      	</c:otherwise>
+		      </c:choose>
+		      
+		      	
 		      </td>
 		      <td style='width:50%;'><c:out value="${discussion.description}"></c:out></td>
 		      <td style='width:13%;'>${discussion.numberOfTopics }</td>
 		      <td>
 		      	<c:choose>
 		      	<c:when test="${discussion.numberOfTopics == 0}">
-		      	No threads.
+		      	<sup>No threads.</sup>
 		      	</c:when>
 		      	<c:otherwise>
 		      	<c:forEach var="post" items="${posts}">

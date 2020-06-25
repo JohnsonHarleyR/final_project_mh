@@ -59,8 +59,8 @@
 						<tr>
 							<td>
 								
-								<img src="${user.avatar}" height="100px" width="100px"><br>
-								<a href="/profile?id=${post.userId}"><c:out value="${post.username}"/></a>
+								<img src="${post.user.avatar}" height="100px" width="100px"><br>
+								<a href="/profile?id=${post.user.id}"><c:out value="${post.username}"/></a>
 							</td>
 							
 							<td>

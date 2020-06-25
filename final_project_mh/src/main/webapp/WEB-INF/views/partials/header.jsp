@@ -46,6 +46,9 @@ display: flex;
 		<li class="nav-item">
 			<a class="nav-link" href="/soul">Soul</a>
 		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/forum">Forum</a>
+		</li>
 		
 	</ul>
 	
