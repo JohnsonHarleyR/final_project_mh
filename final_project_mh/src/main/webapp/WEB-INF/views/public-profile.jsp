@@ -45,7 +45,7 @@
 		<img style="float:left;margin-right:15px;width:100px;"
 		 src="${profileuser.avatar}">
 		
-		<h1 >${profileuser.username}'sProfile</h1>
+		<h1 >${profileuser.username}'s Profile</h1>
 
 
 		<section id="add-friend">
