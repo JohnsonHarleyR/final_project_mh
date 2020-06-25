@@ -65,7 +65,7 @@
 			</c:forEach>
 		</section>
 
-
+        <br>
 		<h2>Community Challenges</h2>
 		<p> Community challenges are a wonderful way to create a positive uplifting community. 
 		    Save the challenges for future completion and connect with others through the forum.  
@@ -84,11 +84,9 @@
 
 			</c:forEach>
 		</section>
-
-
-
-
-
+<br>
+<br>
+<br>
 
 
 
