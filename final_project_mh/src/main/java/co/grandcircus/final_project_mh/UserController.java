@@ -1569,7 +1569,7 @@ public class UserController {
 	public String userSettings(Model model) {
 
 		User user = (User) session.getAttribute("user");
-		UserPreferences userPreferences = (UserPreferences) session.getAttribute("userPreferences");
+		UserPreferences userPreferences = userPreferencesRepo.findUserPreferencesByUserId(user.getId());
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 		
@@ -1609,16 +1609,20 @@ public class UserController {
 	public String editUser(Model model) {
 
 		User user = (User) session.getAttribute("user");
-		UserPreferences userPreferences = (UserPreferences)session.getAttribute("userPreferences");
+		
+		
+		
 		//Check if user is logged in, set as variable
 		boolean loggedIn = Methods.checkLogin(session);
 
 		// redirect to login if not logged in
-		if (user == null) {
-			loggedIn = false;
+		if (!loggedIn) {
 			session.setAttribute("loggedIn", loggedIn);
 			return "redirect:/login";
 		} else {
+			
+			UserPreferences userPreferences = userPreferencesRepo.findUserPreferencesByUserId(user.getId());
+			
 			model.addAttribute("user", user);
 			model.addAttribute("loggedin", loggedIn);
 			model.addAttribute("message", editMessage);
@@ -1664,6 +1668,7 @@ public class UserController {
 		
 
 		UserPreferences userPreferences = userPreferencesRepo.findUserPreferencesByUserId(us.getId());
+		
 		for (User u : users) {
 			if (u.getUsername().equals(username) && u.getId() != us.getId()) {
 				editMessage = "New username is unavailable. Please choose another.";
