@@ -372,7 +372,7 @@ public class ForumController {
 			post.setPostType(postType);
 			
 			if (postType.equals("announcement")) {
-				thread.setThreadTitle("<b>Announcement: </b>" + thread.getThreadTitle());
+				thread.setThreadTitle("Announcement: " + thread.getThreadTitle());
 			}
 			
 			
@@ -524,7 +524,7 @@ public class ForumController {
 		public String deleteThread(@RequestParam("id") Long threadId,
 				@RequestParam("d") Long discussId) {
 			
-			threadRepo.deleteById(threadId);
+			
 			
 			//also delete all related posts from database
 			List<Posts>posts = postsRepo.findByThreadId(threadId);
@@ -572,6 +572,8 @@ public class ForumController {
 			discussion.setNumberOfTopics(numTopics);
 			//Save discussion
 			discussionRepo.save(discussion);
+			
+			threadRepo.deleteById(threadId);
 			
 			
 			

@@ -73,7 +73,7 @@
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
 		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
 		      	 <sup>${post.datetime}</sup>
-		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a><br></sup>
+		      	 <sup><a href="/profile?id=${post.user.id}">${post.username}</a><br></sup>
 		      	 </c:if>
 		      	 
 		      	 </c:forEach>
@@ -134,7 +134,7 @@
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
 		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a><br></sup>
 		      	<sup>${post.datetime}</sup>
-		      	<sup><a href="/profile?id=${post.userId}">${post.username}</a></sup><br>
+		      	<sup><a href="/profile?id=${post.user.id}">${post.username}</a></sup><br>
 		      	 
 		      	 </c:if>
 		      	 
@@ -210,7 +210,7 @@
 		      	<c:if test="${discussion.lastTopicPostId == post.id}">
 		      	<sup><a href="/thread?id=${post.threadId}">${post.abridgedMsg}</a></sup><br>
 		      	<sup>${post.datetime}</sup>
-		      	 <sup><a href="/profile?id=${post.userId}">${post.username}</a></sup><br>
+		      	 <sup><a href="/profile?id=${post.user.id}">${post.username}</a></sup><br>
 		      	 </c:if>
 		      	 
 		      	 </c:forEach>
