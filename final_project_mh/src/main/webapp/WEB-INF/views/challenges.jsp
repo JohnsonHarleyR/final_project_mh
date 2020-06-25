@@ -53,6 +53,7 @@
 									href="/challenge-complete?id=${userchallenge.challengeId}&complete=true">Change
 										to Completed</a><b> ${userchallenge.name}</b> :
 									${userchallenge.description} <small>${userchallenge.date}</small>
+									<a href = "/delete/acceptedchallenge?id=${userchallenge.challengeId}">Delete</a>
 								</li>
 							</ul>
 					</c:otherwise>

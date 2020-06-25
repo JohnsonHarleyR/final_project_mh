@@ -1,22 +1,22 @@
 package co.grandcircus.final_project_mh;
 
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sun.el.parser.ParseException;
 
 import co.grandcircus.final_project_mh.Gamification.Achievements;
 import co.grandcircus.final_project_mh.Gamification.AchievementsRepo;
@@ -27,7 +27,7 @@ import co.grandcircus.final_project_mh.Gamification.ChallengeListDao;
 import co.grandcircus.final_project_mh.User.User;
 import co.grandcircus.final_project_mh.User.UserDao;
 
-//test controller: made as a template to be implemented across app
+//This controller manages most the views involved with challenge implementation
 
 @Controller
 public class GameController {
@@ -58,7 +58,7 @@ public class GameController {
 		long points = 0;
 		for(int i =0; i < challenge.size(); i++)
 		{points = points + challenge.get(i).getPoints();
-		System.out.print(points);
+		//System.out.print(points);
 		}
 		}
 		
@@ -76,7 +76,7 @@ public class GameController {
 		    boolean loggedIn = Methods.checkLogin(session);
 		    User user=(User)session.getAttribute("user");
 		   // Long user_id = user.getId(); 
-		
+		  
 		    ChallengeList challengeList = new ChallengeList();
 		    
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -90,10 +90,18 @@ public class GameController {
 		    challengeList.setPrizeUrl(prize_url);
 		    challengeList.setUser(user);
 		    
-		    ChallengeListRepo.save(challengeList);
+		    boolean enoughPoints = true;
 		    
+		    if (user.getPoints() >= 15) {
+				Methods.addPoints(-15, user, userRepo);	
+				 ChallengeListRepo.save(challengeList);
+			}
+			else {enoughPoints = false;}
+
+			model.addAttribute("enoughPoints", enoughPoints);
+		  
 		
-		return "redirect:/invest-points";
+		return "invest-points";
 	}
 
 	//form for submitting achievements to be displayed
@@ -101,14 +109,22 @@ public class GameController {
 		@RequestMapping("/submit/achievement")
 		public String achievements(@RequestParam("achievementName") String achievementName,
 				@RequestParam("achievementDescription") String achievementDescription,
-				@RequestParam("achievementDate") Date achievementDate,
+				@RequestParam("achievementDate") String achievementDate,
 				Model model) 
 		{
+
+			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+			  try {
+		            Date date = formatter.parse(achievementDate);
+		        } catch (java.text.ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			
 			User user = (User)session.getAttribute("user");
 			Achievements achievements = new Achievements();
 			achievements.setUser(user);
-			achievements.setDate(achievementDate);
+		//	achievements.setDate(achievementDate);
 			achievements.setDescription(achievementDescription);
 			achievements.setName(achievementName);		
             
@@ -121,7 +137,7 @@ public class GameController {
 			else {enoughPoints = false;}
 			
 			model.addAttribute("enoughPoints", enoughPoints);
-			return "redirect:/invest-points";
+			return "invest-points";
 		}	
 		
 		
@@ -174,10 +190,6 @@ public class GameController {
 			  Integer soulPoints = user.getSoulpoints();
 			  Integer userPoints = user.getPoints();
 			  Integer points = (int) (long) userchallenge.getPoints();
-			  
-			  System.out.print(points);
-			  System.out.print(complete);
-			  System.out.print(userPoints);
 			  
 			  String body = "body";
 			  String mind = "mind";
@@ -238,6 +250,28 @@ public class GameController {
 		    
 			return "redirect:/challenges";
 		}
+		
+		//Delete Accepted Challenge
+		//pass in Challenge Id to param for deletion
+		
+		@RequestMapping("/delete/acceptedchallenge")
+		public String deleteAchievement(@RequestParam("id") Long id, 
+				Model model) { 
+		
+			boolean loggedIn = Methods.checkLogin(session);
+			User user = (User)session.getAttribute("user");
+			
+			ChallengeRepo.deleteById(id);
+			model.addAttribute("loggedin",loggedIn);
+			model.addAttribute("user",user);
+		//	if (user.getPoints() - 10 >0 ||user.getPoints() - 10 != 0) {				Methods.addPoints(-10, user, userRepo);
+		//	}
+		
+			return "redirect:/challenges";
+		}	
+		
+		
+		
 		
 		//Delete Achievement
 		//pass in Achievement Id to param for deletion
