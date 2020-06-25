@@ -58,7 +58,7 @@ function addPoints() {
   </label>
 </div>
 <div class="form-check">
-  <input class="form-check-input" name= "mentalHealth[]" type="checkbox" value="null" id="check4" >
+  <input class="form-check-input" name= "mentalHealth[]" type="checkbox" value="null" id="check4" checked>
   <label class="form-check-label" for="check4">
     Prefer Not To Answer
   </label>
@@ -82,7 +82,7 @@ function addPoints() {
   </label>
 </div>
 <div class="form-check">
-  <input class="form-check-input" name="musicPreferences[]" type="checkbox" value="Jazz" id="check7" >
+  <input class="form-check-input" name="musicPreferences[]" type="checkbox" value="Jazz" id="check7" checked>
   <label class="form-check-label" for="check7">
     Jazz
   </label>
